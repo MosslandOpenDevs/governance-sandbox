@@ -1,0 +1,10 @@
+proposal: Shift 20% of treasury budget from broad grants to targeted growth experiments.
+stakeholders:
+  - name: DAO council
+    preset: dao
+  - name: Governance delegates
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+  - name: Community members
+    preset: community

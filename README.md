@@ -133,6 +133,13 @@ Near-term additions:
 - conflict graph export
 - markdown/html report generation
 
+Current CLI additions now include:
+
+- `--scenario-file` for JSON/YAML proposal + stakeholder input
+- `--report-markdown` for a local decision memo report file
+- `--report-json` for writing the structured output artifact to disk
+- `run --list-presets` for built-in stakeholder trait groups (`dao`, `delegates`, `contributors`, `investors`, `community`)
+
 ---
 
 ## Repository structure
