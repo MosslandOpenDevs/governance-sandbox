@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#0b1020"/>
+  <text x="90" y="100" fill="#8ab4ff" font-size="34" font-family="Arial">Stakeholder Simulation</text>
+  <rect x="90" y="140" width="300" height="180" rx="18" fill="#18233f" stroke="#44568c"/>
+  <rect x="450" y="140" width="300" height="180" rx="18" fill="#18233f" stroke="#44568c"/>
+  <rect x="810" y="140" width="300" height="180" rx="18" fill="#18233f" stroke="#44568c"/>
+  <text x="120" y="190" fill="#ffffff" font-size="24" font-family="Arial">Core contributors</text>
+  <text x="120" y="235" fill="#ffd166" font-size="20" font-family="Arial">Mixed</text>
+  <text x="120" y="275" fill="#d7e3ff" font-size="18" font-family="Arial">Mission drift risk</text>
+  <text x="480" y="190" fill="#ffffff" font-size="24" font-family="Arial">Token holders</text>
+  <text x="480" y="235" fill="#8ce99a" font-size="20" font-family="Arial">Supportive</text>
+  <text x="480" y="275" fill="#d7e3ff" font-size="18" font-family="Arial">Needs budget limits</text>
+  <text x="840" y="190" fill="#ffffff" font-size="24" font-family="Arial">Delegates</text>
+  <text x="840" y="235" fill="#ffadad" font-size="20" font-family="Arial">Cautious</text>
+  <text x="840" y="275" fill="#d7e3ff" font-size="18" font-family="Arial">Wants rollback criteria</text>
+  <rect x="90" y="380" width="1020" height="220" rx="18" fill="#121a2f" stroke="#33406b"/>
+  <text x="120" y="440" fill="#ffffff" font-size="24" font-family="Arial">Emerging tension map</text>
+  <text x="120" y="490" fill="#d7e3ff" font-size="20" font-family="Arial">• Short-term growth vs long-term credibility</text>
+  <text x="120" y="530" fill="#d7e3ff" font-size="20" font-family="Arial">• Execution speed vs governance trust</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#0b1020"/>
+  <rect x="60" y="60" width="1080" height="580" rx="24" fill="#121a2f" stroke="#2f3b63"/>
+  <text x="100" y="130" fill="#8ab4ff" font-size="34" font-family="Arial">Scenario Input</text>
+  <text x="100" y="190" fill="#ffffff" font-size="26" font-family="Arial">Proposal: Shift treasury allocation toward short-term growth campaigns</text>
+  <text x="100" y="240" fill="#b8c1d9" font-size="22" font-family="Arial">Context: DAO budget reallocation / governance rehearsal</text>
+  <rect x="100" y="300" width="980" height="220" rx="18" fill="#0f1426" stroke="#33406b"/>
+  <text x="130" y="360" fill="#d7e3ff" font-size="24" font-family="Arial">Stakeholders:</text>
+  <text x="130" y="410" fill="#d7e3ff" font-size="22" font-family="Arial">• Core contributors</text>
+  <text x="130" y="450" fill="#d7e3ff" font-size="22" font-family="Arial">• Token holders</text>
+  <text x="130" y="490" fill="#d7e3ff" font-size="22" font-family="Arial">• External builders</text>
+  <text x="130" y="530" fill="#d7e3ff" font-size="22" font-family="Arial">• Governance delegates</text>
+</svg>

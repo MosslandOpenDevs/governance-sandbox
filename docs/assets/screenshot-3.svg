@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#0b1020"/>
+  <rect x="70" y="60" width="1060" height="580" rx="24" fill="#121a2f" stroke="#33406b"/>
+  <text x="110" y="120" fill="#8ab4ff" font-size="34" font-family="Arial">Decision Memo</text>
+  <text x="110" y="190" fill="#ffffff" font-size="24" font-family="Arial">Recommendation: Proceed with revision</text>
+  <text x="110" y="250" fill="#d7e3ff" font-size="22" font-family="Arial">Key risks:</text>
+  <text x="140" y="300" fill="#d7e3ff" font-size="20" font-family="Arial">• Stakeholder trust erosion if rationale is unclear</text>
+  <text x="140" y="340" fill="#d7e3ff" font-size="20" font-family="Arial">• Narrative backlash if growth spend appears opportunistic</text>
+  <text x="140" y="380" fill="#d7e3ff" font-size="20" font-family="Arial">• Execution drift if success metrics remain vague</text>
+  <text x="110" y="460" fill="#ffffff" font-size="22" font-family="Arial">Mitigation:</text>
+  <text x="140" y="510" fill="#d7e3ff" font-size="20" font-family="Arial">Publish guardrails, measurable targets, monthly reporting, and rollback rules.</text>
+</svg>
