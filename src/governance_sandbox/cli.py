@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -16,15 +17,24 @@ except ImportError:  # pragma: no cover
 
 def _load_scenario(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
-    text = path.read_text(encoding="utf-8")
-    if suffix == ".json":
-        loaded = json.loads(text)
-    elif suffix in {".yaml", ".yml"}:
-        if yaml is None:
-            raise SystemExit("YAML support requires PyYAML to be installed.")
-        loaded = yaml.safe_load(text)
+    if str(path) == "-":
+        text = sys.stdin.read()
+        try:
+            loaded = json.loads(text)
+        except json.JSONDecodeError:
+            if yaml is None:
+                raise SystemExit("Scenario stdin must be valid JSON unless PyYAML is installed for YAML support.")
+            loaded = yaml.safe_load(text)
     else:
-        raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
+        text = path.read_text(encoding="utf-8")
+        if suffix == ".json":
+            loaded = json.loads(text)
+        elif suffix in {".yaml", ".yml"}:
+            if yaml is None:
+                raise SystemExit("YAML support requires PyYAML to be installed.")
+            loaded = yaml.safe_load(text)
+        else:
+            raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
     return loaded if isinstance(loaded, dict) else {}
 
 
@@ -197,7 +207,11 @@ def main() -> None:
         }
         result["report"] = {
             "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-            "scenario_file": str(Path(args.scenario_file).resolve()) if args.scenario_file else None,
+            "scenario_file": (
+                "stdin"
+                if args.scenario_file == "-"
+                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
+            ),
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         report_dir = Path(args.report_dir) if args.report_dir else None
