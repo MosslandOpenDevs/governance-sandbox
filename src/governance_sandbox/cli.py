@@ -138,6 +138,7 @@ def main() -> None:
     run_cmd.add_argument("--report-markdown", help="Write a markdown report to this path")
     run_cmd.add_argument("--report-html", help="Write an HTML report to this path")
     run_cmd.add_argument("--report-json", help="Write the JSON result to this path")
+    run_cmd.add_argument("--report-dir", help="Write report.json, report.md, and report.html into this directory")
     run_cmd.add_argument("--list-presets", action="store_true", help="List built-in stakeholder presets")
 
     args = parser.parse_args()
@@ -165,16 +166,17 @@ def main() -> None:
             "context": scenario.get("context") or scenario.get("decision_context") or scenario.get("decision") or scenario.get("summary"),
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
-        if args.report_json:
-            report_json_path = Path(args.report_json)
+        report_dir = Path(args.report_dir) if args.report_dir else None
+        report_json_path = Path(args.report_json) if args.report_json else (report_dir / "report.json" if report_dir else None)
+        markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / "report.md" if report_dir else None)
+        html_path = Path(args.report_html) if args.report_html else (report_dir / "report.html" if report_dir else None)
+        if report_json_path:
             report_json_path.parent.mkdir(parents=True, exist_ok=True)
             report_json_path.write_text(rendered + "\n", encoding="utf-8")
-        if args.report_markdown:
-            markdown_path = Path(args.report_markdown)
+        if markdown_path:
             markdown_path.parent.mkdir(parents=True, exist_ok=True)
             markdown_path.write_text(_render_markdown_report(result), encoding="utf-8")
-        if args.report_html:
-            html_path = Path(args.report_html)
+        if html_path:
             html_path.parent.mkdir(parents=True, exist_ok=True)
             html_path.write_text(_render_html_report(result), encoding="utf-8")
         print(rendered)

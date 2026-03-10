@@ -218,6 +218,49 @@ stakeholders:
             self.assertEqual(payload["responses"][1]["preset"], "community")
             self.assertTrue(json_path.exists())
 
+    def test_run_report_dir_writes_default_report_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "artifacts" / "bundle"
+            scenario_path.write_text(
+                """title: Community assurance rehearsal
+summary: Dry run before publishing the treasury update.
+proposal: Add staged spending checkpoints to the growth budget.
+actors:
+  - stakeholder: Delegate bench
+    group: delegates
+  - name: Contributor pod
+    trait: contributors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Community assurance rehearsal")
+            self.assertTrue((report_dir / "report.json").exists())
+            self.assertTrue((report_dir / "report.md").exists())
+            self.assertTrue((report_dir / "report.html").exists())
+            self.assertIn("Delegate bench", (report_dir / "report.md").read_text(encoding="utf-8"))
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

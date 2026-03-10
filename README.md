@@ -66,6 +66,14 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
   --stakeholders "core contributors,token holders,external builders,governance delegates"
 ```
 
+Or generate the default report bundle in one step:
+
+```bash
+PYTHONPATH=src python3 -m governance_sandbox.cli run \
+  --scenario-file examples/scenario.yaml \
+  --report-dir artifacts/demo
+```
+
 ---
 
 ## Why this project exists
@@ -144,6 +152,7 @@ Current CLI additions now include:
 - `--report-markdown` for a local decision memo report file
 - `--report-html` for a lightweight visual report artifact
 - `--report-json` for writing the structured output artifact to disk
+- `--report-dir` for emitting a default `report.json` + `report.md` + `report.html` artifact bundle in one command
 - `run --list-presets` for built-in stakeholder trait groups (`dao`, `delegates`, `contributors`, `investors`, `community`)
 
 ---
