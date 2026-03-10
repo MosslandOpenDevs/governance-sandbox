@@ -75,6 +75,57 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn("Recommendation: Proceed with revision", html_report)
             self.assertIn("DAO council", html_report)
 
+    def test_run_supports_yaml_scenario_file_and_nested_report_paths(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "artifacts" / "reports" / "report.md"
+            html_path = tmp / "artifacts" / "reports" / "report.html"
+            json_path = tmp / "artifacts" / "reports" / "report.json"
+            scenario_path.write_text(
+                """name: Delegate sentiment rehearsal
+context: Pre-vote dry run for a treasury policy update.
+proposal: Add milestone-based reporting to treasury programs.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+  - name: Community stewards
+    preset: community
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                    "--report-html",
+                    str(html_path),
+                    "--report-json",
+                    str(json_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Delegate sentiment rehearsal")
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertTrue(markdown_path.exists())
+            self.assertTrue(html_path.exists())
+            self.assertTrue(json_path.exists())
+            self.assertIn("Community stewards", markdown_path.read_text(encoding="utf-8"))
+
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

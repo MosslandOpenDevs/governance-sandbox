@@ -166,11 +166,17 @@ def main() -> None:
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         if args.report_json:
-            Path(args.report_json).write_text(rendered + "\n", encoding="utf-8")
+            report_json_path = Path(args.report_json)
+            report_json_path.parent.mkdir(parents=True, exist_ok=True)
+            report_json_path.write_text(rendered + "\n", encoding="utf-8")
         if args.report_markdown:
-            Path(args.report_markdown).write_text(_render_markdown_report(result), encoding="utf-8")
+            markdown_path = Path(args.report_markdown)
+            markdown_path.parent.mkdir(parents=True, exist_ok=True)
+            markdown_path.write_text(_render_markdown_report(result), encoding="utf-8")
         if args.report_html:
-            Path(args.report_html).write_text(_render_html_report(result), encoding="utf-8")
+            html_path = Path(args.report_html)
+            html_path.parent.mkdir(parents=True, exist_ok=True)
+            html_path.write_text(_render_html_report(result), encoding="utf-8")
         print(rendered)
 
 
