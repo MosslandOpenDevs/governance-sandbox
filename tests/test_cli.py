@@ -126,6 +126,52 @@ stakeholders:
             self.assertIn("Community stewards", markdown_path.read_text(encoding="utf-8"))
 
 
+    def test_run_supports_title_decision_aliases_and_group_based_presets(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "title": "Delegate trust rehearsal",
+                        "decision": "Emergency checkpoint before the forum post.",
+                        "proposal": "Add quarterly treasury reporting checkpoints.",
+                        "stakeholders": [
+                            {"stakeholder": "Investor group", "group": "investors"},
+                            {"name": "Community circle", "trait": "community"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Delegate trust rehearsal")
+            self.assertEqual(payload["scenario"]["context"], "Emergency checkpoint before the forum post.")
+            self.assertEqual(payload["responses"][0]["name"], "Investor group")
+            self.assertEqual(payload["responses"][0]["preset"], "investors")
+            self.assertEqual(payload["responses"][1]["preset"], "community")
+            self.assertIn("## Context\nEmergency checkpoint before the forum post.", markdown_path.read_text(encoding="utf-8"))
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

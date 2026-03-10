@@ -161,8 +161,8 @@ def main() -> None:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
         result["scenario"] = {
-            "name": scenario.get("name") or scenario.get("scenario"),
-            "context": scenario.get("context") or scenario.get("decision_context"),
+            "name": scenario.get("name") or scenario.get("scenario") or scenario.get("title"),
+            "context": scenario.get("context") or scenario.get("decision_context") or scenario.get("decision") or scenario.get("summary"),
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         if args.report_json:
