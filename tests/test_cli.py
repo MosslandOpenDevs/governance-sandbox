@@ -266,6 +266,52 @@ actors:
             self.assertTrue((report_dir / "report.html").exists())
             self.assertIn("Delegate bench", (report_dir / "report.md").read_text(encoding="utf-8"))
 
+    def test_run_supports_nested_scenario_and_inputs_blocks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "artifacts"
+            scenario_path.write_text(
+                """scenario:
+  name: Treasury confidence rehearsal
+  decision_context: Pre-forum dry run for a budget reallocation memo.
+inputs:
+  prompt: Rebalance the treasury toward milestone-based ecosystem spending.
+  participants:
+    - stakeholder: Delegate table
+      group: delegates
+    - name: Investor circle
+      trait: investors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["proposal"], "Rebalance the treasury toward milestone-based ecosystem spending.")
+            self.assertEqual(payload["scenario"]["name"], "Treasury confidence rehearsal")
+            self.assertEqual(payload["scenario"]["context"], "Pre-forum dry run for a budget reallocation memo.")
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["responses"][1]["preset"], "investors")
+            self.assertTrue((report_dir / "report.md").exists())
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

@@ -18,13 +18,22 @@ def _load_scenario(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
     text = path.read_text(encoding="utf-8")
     if suffix == ".json":
-        return json.loads(text)
-    if suffix in {".yaml", ".yml"}:
+        loaded = json.loads(text)
+    elif suffix in {".yaml", ".yml"}:
         if yaml is None:
             raise SystemExit("YAML support requires PyYAML to be installed.")
         loaded = yaml.safe_load(text)
-        return loaded if isinstance(loaded, dict) else {}
-    raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
+    else:
+        raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
+    return loaded if isinstance(loaded, dict) else {}
+
+
+def _pick(mapping: dict[str, Any], *keys: str) -> Any:
+    for key in keys:
+        value = mapping.get(key)
+        if value is not None:
+            return value
+    return None
 
 
 def _render_markdown_report(result: dict[str, Any]) -> str:
@@ -169,20 +178,22 @@ def main() -> None:
         scenario: dict[str, Any] = {}
         if args.scenario_file:
             scenario = _load_scenario(Path(args.scenario_file))
-        proposal = args.proposal or scenario.get("proposal") or scenario.get("proposal_text") or scenario.get("prompt")
+        scenario_meta = scenario.get("scenario") if isinstance(scenario.get("scenario"), dict) else {}
+        inputs = scenario.get("inputs") if isinstance(scenario.get("inputs"), dict) else {}
+        proposal = args.proposal or _pick(scenario, "proposal", "proposal_text", "prompt") or _pick(inputs, "proposal", "proposal_text", "prompt")
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
         else:
-            stakeholders = scenario.get("stakeholders") or scenario.get("participants") or scenario.get("actors") or []
+            stakeholders = _pick(scenario, "stakeholders", "participants", "actors") or _pick(inputs, "stakeholders", "participants", "actors") or []
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
         if not stakeholders:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
         result["scenario"] = {
-            "name": scenario.get("name") or scenario.get("scenario") or scenario.get("title"),
-            "context": scenario.get("context") or scenario.get("decision_context") or scenario.get("decision") or scenario.get("summary"),
+            "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
+            "context": _pick(scenario, "context", "decision_context", "decision", "summary") or _pick(scenario_meta, "context", "decision_context", "decision", "summary"),
         }
         result["report"] = {
             "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
