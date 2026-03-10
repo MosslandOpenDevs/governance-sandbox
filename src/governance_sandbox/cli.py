@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -31,7 +32,15 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         "# Governance Sandbox Report",
         "",
     ]
+    meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
+    if meta.get("generated_at") or meta.get("scenario_file"):
+        lines.append("## Report metadata")
+        if meta.get("generated_at"):
+            lines.append(f"- Generated at: {meta['generated_at']}")
+        if meta.get("scenario_file"):
+            lines.append(f"- Scenario file: {meta['scenario_file']}")
+        lines.append("")
     if scenario.get("name"):
         lines.extend(["## Scenario", scenario["name"], ""])
     if scenario.get("context"):
@@ -63,6 +72,7 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
 
 def _render_html_report(result: dict[str, Any]) -> str:
     response_cards: list[str] = []
+    meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
     for response in result["responses"]:
         preset = f" <span class=\"preset\">{response['preset']}</span>" if response.get("preset") else ""
@@ -87,6 +97,14 @@ def _render_html_report(result: dict[str, Any]) -> str:
         if scenario.get("context"):
             scenario_bits.append(f'<p><strong>Context:</strong> {scenario["context"]}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
+    metadata_panel = ""
+    if meta.get("generated_at") or meta.get("scenario_file"):
+        metadata_bits: list[str] = []
+        if meta.get("generated_at"):
+            metadata_bits.append(f'<p><strong>Generated at:</strong> {meta["generated_at"]}</p>')
+        if meta.get("scenario_file"):
+            metadata_bits.append(f'<p><strong>Scenario file:</strong> {meta["scenario_file"]}</p>')
+        metadata_panel = '<section class="panel">' + ''.join(metadata_bits) + '</section>'
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -109,6 +127,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
     <h1>Governance Sandbox Report</h1>
     <p>{result['proposal']}</p>
   </section>
+  {metadata_panel}
   {scenario_panel}
   <section class="panel">
     <h2>Major risks</h2>
@@ -164,6 +183,10 @@ def main() -> None:
         result["scenario"] = {
             "name": scenario.get("name") or scenario.get("scenario") or scenario.get("title"),
             "context": scenario.get("context") or scenario.get("decision_context") or scenario.get("decision") or scenario.get("summary"),
+        }
+        result["report"] = {
+            "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+            "scenario_file": str(Path(args.scenario_file).resolve()) if args.scenario_file else None,
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         report_dir = Path(args.report_dir) if args.report_dir else None
