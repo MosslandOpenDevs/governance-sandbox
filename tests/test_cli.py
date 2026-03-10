@@ -172,6 +172,52 @@ stakeholders:
             self.assertEqual(payload["responses"][1]["preset"], "community")
             self.assertIn("## Context\nEmergency checkpoint before the forum post.", markdown_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_proposal_and_stakeholder_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            json_path = tmp / "report.json"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "title": "Alias-based import",
+                        "summary": "Forum dry run before posting the final proposal.",
+                        "proposal_text": "Introduce milestone-based reporting for grants.",
+                        "participants": [
+                            {"stakeholder": "DAO delegates", "group": "delegates"},
+                            {"name": "Community reviewers", "trait": "community"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-json",
+                    str(json_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["proposal"], "Introduce milestone-based reporting for grants.")
+            self.assertEqual(payload["scenario"]["name"], "Alias-based import")
+            self.assertEqual(payload["scenario"]["context"], "Forum dry run before posting the final proposal.")
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["responses"][1]["preset"], "community")
+            self.assertTrue(json_path.exists())
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

@@ -149,12 +149,12 @@ def main() -> None:
         scenario: dict[str, Any] = {}
         if args.scenario_file:
             scenario = _load_scenario(Path(args.scenario_file))
-        proposal = args.proposal or scenario.get("proposal")
+        proposal = args.proposal or scenario.get("proposal") or scenario.get("proposal_text") or scenario.get("prompt")
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
         else:
-            stakeholders = scenario.get("stakeholders", [])
+            stakeholders = scenario.get("stakeholders") or scenario.get("participants") or scenario.get("actors") or []
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
         if not stakeholders:
