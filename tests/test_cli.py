@@ -351,6 +351,64 @@ inputs:
             self.assertEqual(payload["responses"][1]["preset"], "investors")
             self.assertTrue((report_dir / "report.md").exists())
 
+    def test_run_supports_tags_and_outcome_snapshot_reports(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "bundle"
+            scenario_path.write_text(
+                """scenario:
+  name: Community alignment rehearsal
+  labels:
+    - treasury
+    - delegates
+inputs:
+  proposal: Add milestone-based budget checkpoints before new growth experiments.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+    - name: Community members
+      preset: community
+    - name: Investor pod
+      preset: investors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["tags"], ["treasury", "delegates"])
+            self.assertEqual(payload["summary"]["stakeholder_count"], 3)
+            self.assertEqual(payload["summary"]["supportive"], 1)
+            self.assertEqual(payload["summary"]["cautious"], 1)
+            self.assertEqual(payload["summary"]["skeptical"], 1)
+            markdown_report = (report_dir / "report.md").read_text(encoding="utf-8")
+            html_report = (report_dir / "report.html").read_text(encoding="utf-8")
+            self.assertIn("## Scenario tags\ntreasury, delegates", markdown_report)
+            self.assertIn("## Outcome snapshot", markdown_report)
+            self.assertIn("- Stakeholders: 3", markdown_report)
+            self.assertIn("- Recommendation: Proceed with revision", markdown_report)
+            self.assertIn("<h2>Scenario tags</h2><p>treasury, delegates</p>", html_report)
+            self.assertIn("<h2>Outcome snapshot</h2>", html_report)
+
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

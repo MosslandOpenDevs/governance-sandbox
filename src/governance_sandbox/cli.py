@@ -53,6 +53,7 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
     ]
     meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
+    summary = result.get("summary") or {}
     if meta.get("generated_at") or meta.get("scenario_file"):
         lines.append("## Report metadata")
         if meta.get("generated_at"):
@@ -64,6 +65,21 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Scenario", scenario["name"], ""])
     if scenario.get("context"):
         lines.extend(["## Context", scenario["context"], ""])
+    if scenario.get("tags"):
+        lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
+    if summary:
+        lines.extend(
+            [
+                "## Outcome snapshot",
+                f"- Stakeholders: {summary['stakeholder_count']}",
+                f"- Supportive: {summary['supportive']}",
+                f"- Cautious: {summary['cautious']}",
+                f"- Mixed: {summary['mixed']}",
+                f"- Skeptical: {summary['skeptical']}",
+                f"- Recommendation: {summary['recommendation_label']}",
+                "",
+            ]
+        )
     lines.extend([
         "## Proposal",
         result["proposal"],
@@ -93,6 +109,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
     response_cards: list[str] = []
     meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
+    summary = result.get("summary") or {}
     for response in result["responses"]:
         preset = f" <span class=\"preset\">{response['preset']}</span>" if response.get("preset") else ""
         response_cards.append(
@@ -124,6 +141,20 @@ def _render_html_report(result: dict[str, Any]) -> str:
         if meta.get("scenario_file"):
             metadata_bits.append(f'<p><strong>Scenario file:</strong> {meta["scenario_file"]}</p>')
         metadata_panel = '<section class="panel">' + ''.join(metadata_bits) + '</section>'
+    tag_panel = ""
+    if scenario.get("tags"):
+        tag_panel = '<section class="panel"><h2>Scenario tags</h2><p>' + ', '.join(scenario['tags']) + '</p></section>'
+    summary_panel = ""
+    if summary:
+        summary_panel = ''.join([
+            '<section class="panel"><h2>Outcome snapshot</h2><div class="grid">',
+            f'<section class="card"><h3>{summary["stakeholder_count"]}</h3><p>Stakeholders</p></section>',
+            f'<section class="card"><h3>{summary["supportive"]}</h3><p>Supportive</p></section>',
+            f'<section class="card"><h3>{summary["cautious"]}</h3><p>Cautious</p></section>',
+            f'<section class="card"><h3>{summary["mixed"]}</h3><p>Mixed</p></section>',
+            f'<section class="card"><h3>{summary["skeptical"]}</h3><p>Skeptical</p></section>',
+            '</div></section>',
+        ])
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -148,6 +179,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
   </section>
   {metadata_panel}
   {scenario_panel}
+  {tag_panel}
+  {summary_panel}
   <section class="panel">
     <h2>Major risks</h2>
     <ul>{risks}</ul>
@@ -204,6 +237,20 @@ def main() -> None:
         result["scenario"] = {
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
             "context": _pick(scenario, "context", "decision_context", "decision", "summary") or _pick(scenario_meta, "context", "decision_context", "decision", "summary"),
+            "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or [],
+        }
+        counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
+        for response in result["responses"]:
+            stance = response.get("stance")
+            if stance in counts:
+                counts[stance] += 1
+        result["summary"] = {
+            "stakeholder_count": len(result["responses"]),
+            "supportive": counts["supportive"],
+            "cautious": counts["cautious"],
+            "mixed": counts["mixed"],
+            "skeptical": counts["skeptical"],
+            "recommendation_label": result["recommendation"],
         }
         result["report"] = {
             "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
