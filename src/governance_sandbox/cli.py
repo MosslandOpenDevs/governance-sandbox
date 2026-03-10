@@ -54,6 +54,62 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _render_html_report(result: dict[str, Any]) -> str:
+    response_cards: list[str] = []
+    for response in result["responses"]:
+        preset = f" <span class=\"preset\">{response['preset']}</span>" if response.get("preset") else ""
+        response_cards.append(
+            "".join(
+                [
+                    '<section class="card">',
+                    f'<h3>{response["name"]}{preset}</h3>',
+                    f'<p><strong>Stance:</strong> {response["stance"]}</p>',
+                    f'<p><strong>Concern:</strong> {response["concern"]}</p>',
+                    f'<p><strong>Mitigation:</strong> {response["mitigation"]}</p>',
+                    "</section>",
+                ]
+            )
+        )
+    risks = "".join(f"<li>{risk}</li>" for risk in result["major_risks"])
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Governance Sandbox Report</title>
+  <style>
+    body {{ font-family: Arial, sans-serif; margin: 2rem auto; max-width: 960px; line-height: 1.6; color: #1f2937; background: #f8fafc; padding: 0 1rem; }}
+    .hero, .panel, .card {{ background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }}
+    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }}
+    .preset {{ font-size: 0.85rem; color: #4f46e5; }}
+    .badge {{ display: inline-block; padding: 0.25rem 0.6rem; border-radius: 999px; background: #e0e7ff; color: #3730a3; font-weight: 600; }}
+    h1, h2, h3 {{ margin-top: 0; }}
+    ul {{ padding-left: 1.25rem; }}
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <p class="badge">Recommendation: {result['recommendation']}</p>
+    <h1>Governance Sandbox Report</h1>
+    <p>{result['proposal']}</p>
+  </section>
+  <section class="panel">
+    <h2>Major risks</h2>
+    <ul>{risks}</ul>
+  </section>
+  <section class="panel">
+    <h2>Stakeholder responses</h2>
+    <div class="grid">{"".join(response_cards)}</div>
+  </section>
+  <section class="panel">
+    <h2>Decision memo</h2>
+    <p>{result['decision_memo']}</p>
+  </section>
+</body>
+</html>
+'''
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="gov-sandbox")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -63,6 +119,7 @@ def main() -> None:
     run_cmd.add_argument("--stakeholders", help="Comma-separated stakeholder list")
     run_cmd.add_argument("--scenario-file", help="Path to a JSON or YAML scenario file")
     run_cmd.add_argument("--report-markdown", help="Write a markdown report to this path")
+    run_cmd.add_argument("--report-html", help="Write an HTML report to this path")
     run_cmd.add_argument("--report-json", help="Write the JSON result to this path")
     run_cmd.add_argument("--list-presets", action="store_true", help="List built-in stakeholder presets")
 
@@ -91,6 +148,8 @@ def main() -> None:
             Path(args.report_json).write_text(rendered + "\n", encoding="utf-8")
         if args.report_markdown:
             Path(args.report_markdown).write_text(_render_markdown_report(result), encoding="utf-8")
+        if args.report_html:
+            Path(args.report_html).write_text(_render_html_report(result), encoding="utf-8")
         print(rendered)
 
 

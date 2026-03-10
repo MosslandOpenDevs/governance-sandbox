@@ -12,11 +12,12 @@ SRC = ROOT / "src"
 
 
 class GovernanceSandboxCliTests(unittest.TestCase):
-    def test_run_supports_json_scenario_file_and_markdown_report(self) -> None:
+    def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
             scenario_path = tmp / "scenario.json"
             markdown_path = tmp / "report.md"
+            html_path = tmp / "report.html"
             json_path = tmp / "report.json"
             scenario_path.write_text(
                 json.dumps(
@@ -41,6 +42,8 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(scenario_path),
                     "--report-markdown",
                     str(markdown_path),
+                    "--report-html",
+                    str(html_path),
                     "--report-json",
                     str(json_path),
                 ],
@@ -55,10 +58,15 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertEqual(payload["proposal"], "Shift part of the treasury budget to community growth experiments.")
             self.assertEqual(payload["responses"][0]["preset"], "dao")
             self.assertTrue(markdown_path.exists())
+            self.assertTrue(html_path.exists())
             self.assertTrue(json_path.exists())
-            report = markdown_path.read_text(encoding="utf-8")
-            self.assertIn("# Governance Sandbox Report", report)
-            self.assertIn("### DAO council (dao)", report)
+            markdown_report = markdown_path.read_text(encoding="utf-8")
+            html_report = html_path.read_text(encoding="utf-8")
+            self.assertIn("# Governance Sandbox Report", markdown_report)
+            self.assertIn("### DAO council (dao)", markdown_report)
+            self.assertIn("<title>Governance Sandbox Report</title>", html_report)
+            self.assertIn("Recommendation: Proceed with revision", html_report)
+            self.assertIn("DAO council", html_report)
 
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
