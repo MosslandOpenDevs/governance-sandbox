@@ -109,6 +109,7 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
 
     return {
         "proposal": proposal,
+        "scenario": {},
         "responses": [asdict(r) for r in responses],
         "major_risks": major_risks,
         "recommendation": recommendation,

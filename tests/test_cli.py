@@ -22,6 +22,8 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             scenario_path.write_text(
                 json.dumps(
                     {
+                        "name": "Treasury reallocation dry run",
+                        "context": "Emergency budget review before the next DAO vote.",
                         "proposal": "Shift part of the treasury budget to community growth experiments.",
                         "stakeholders": [
                             {"name": "DAO council", "preset": "dao"},
@@ -56,6 +58,8 @@ class GovernanceSandboxCliTests(unittest.TestCase):
 
             payload = json.loads(result.stdout)
             self.assertEqual(payload["proposal"], "Shift part of the treasury budget to community growth experiments.")
+            self.assertEqual(payload["scenario"]["name"], "Treasury reallocation dry run")
+            self.assertEqual(payload["scenario"]["context"], "Emergency budget review before the next DAO vote.")
             self.assertEqual(payload["responses"][0]["preset"], "dao")
             self.assertTrue(markdown_path.exists())
             self.assertTrue(html_path.exists())
@@ -63,8 +67,11 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             markdown_report = markdown_path.read_text(encoding="utf-8")
             html_report = html_path.read_text(encoding="utf-8")
             self.assertIn("# Governance Sandbox Report", markdown_report)
+            self.assertIn("## Scenario\nTreasury reallocation dry run", markdown_report)
+            self.assertIn("## Context\nEmergency budget review before the next DAO vote.", markdown_report)
             self.assertIn("### DAO council (dao)", markdown_report)
             self.assertIn("<title>Governance Sandbox Report</title>", html_report)
+            self.assertIn("<strong>Scenario:</strong> Treasury reallocation dry run", html_report)
             self.assertIn("Recommendation: Proceed with revision", html_report)
             self.assertIn("DAO council", html_report)
 

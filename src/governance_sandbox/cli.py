@@ -30,13 +30,20 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
     lines = [
         "# Governance Sandbox Report",
         "",
+    ]
+    scenario = result.get("scenario") or {}
+    if scenario.get("name"):
+        lines.extend(["## Scenario", scenario["name"], ""])
+    if scenario.get("context"):
+        lines.extend(["## Context", scenario["context"], ""])
+    lines.extend([
         "## Proposal",
         result["proposal"],
         "",
         f"## Recommendation\n{result['recommendation']}",
         "",
         "## Stakeholder responses",
-    ]
+    ])
     for response in result["responses"]:
         preset = f" ({response['preset']})" if response.get("preset") else ""
         lines.extend(
@@ -56,6 +63,7 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
 
 def _render_html_report(result: dict[str, Any]) -> str:
     response_cards: list[str] = []
+    scenario = result.get("scenario") or {}
     for response in result["responses"]:
         preset = f" <span class=\"preset\">{response['preset']}</span>" if response.get("preset") else ""
         response_cards.append(
@@ -71,6 +79,14 @@ def _render_html_report(result: dict[str, Any]) -> str:
             )
         )
     risks = "".join(f"<li>{risk}</li>" for risk in result["major_risks"])
+    scenario_panel = ""
+    if scenario.get("name") or scenario.get("context"):
+        scenario_bits: list[str] = []
+        if scenario.get("name"):
+            scenario_bits.append(f'<p><strong>Scenario:</strong> {scenario["name"]}</p>')
+        if scenario.get("context"):
+            scenario_bits.append(f'<p><strong>Context:</strong> {scenario["context"]}</p>')
+        scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -93,6 +109,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
     <h1>Governance Sandbox Report</h1>
     <p>{result['proposal']}</p>
   </section>
+  {scenario_panel}
   <section class="panel">
     <h2>Major risks</h2>
     <ul>{risks}</ul>
@@ -143,6 +160,10 @@ def main() -> None:
         if not stakeholders:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
+        result["scenario"] = {
+            "name": scenario.get("name") or scenario.get("scenario"),
+            "context": scenario.get("context") or scenario.get("decision_context"),
+        }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         if args.report_json:
             Path(args.report_json).write_text(rendered + "\n", encoding="utf-8")

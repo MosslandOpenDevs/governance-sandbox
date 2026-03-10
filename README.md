@@ -45,6 +45,9 @@ The system outputs a structured memo with risks, tensions, recommended mitigatio
 
 ## Sample scenario
 
+Scenario files can also include an optional scenario name and decision context that appear in markdown/html reports.
+
+
 **Scenario:**
 A DAO plans to change treasury allocation from long-term ecosystem grants to short-term growth campaigns. Stakeholders include core contributors, token holders, external builders, and governance delegates.
 
@@ -135,6 +138,7 @@ Near-term additions:
 
 Current CLI additions now include:
 
+- optional scenario metadata (`name`, `context` / `decision_context`) loaded from scenario files and surfaced in reports
 - `--scenario-file` for JSON/YAML proposal + stakeholder input
 - `--report-markdown` for a local decision memo report file
 - `--report-html` for a lightweight visual report artifact
