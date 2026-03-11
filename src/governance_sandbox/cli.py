@@ -232,7 +232,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{scenario.get("report_title") or "Governance Sandbox Report"}</title>
+  <title>{escape(scenario.get("report_title") or "Governance Sandbox Report")}</title>
   <style>
     body {{ font-family: Arial, sans-serif; margin: 2rem auto; max-width: 960px; line-height: 1.6; color: #1f2937; background: #f8fafc; padding: 0 1rem; }}
     .hero, .panel, .card {{ background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }}
