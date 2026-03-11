@@ -99,3 +99,50 @@ report:
             self.assertEqual(payload["scenario"]["report_audience"], "forum reviewers, treasury stewards")
             self.assertIn("## Report audience\nforum reviewers, treasury stewards", markdown_path.read_text(encoding="utf-8"))
             self.assertIn("<strong>Report audience:</strong> forum reviewers, treasury stewards", html_path.read_text(encoding="utf-8"))
+
+
+    def test_run_supports_nested_report_viewers_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            scenario_path = tmp_path / "scenario.yaml"
+            out_dir = tmp_path / "reports"
+            scenario_path.write_text(
+                """name: Viewer alias rehearsal
+proposal: Publish the delegate readiness dashboard before the treasury vote.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+report:
+  title: Viewer alias report
+  report_viewers:
+    - forum reviewers
+    - treasury stewards
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(out_dir),
+                    "--json",
+                ],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            payload = json.loads(result.stdout)
+            markdown_path = out_dir / "viewer-alias-report.md"
+            html_path = out_dir / "viewer-alias-report.html"
+
+            self.assertEqual(payload["scenario"]["report_audience"], "forum reviewers, treasury stewards")
+            self.assertIn("## Report audience\nforum reviewers, treasury stewards", markdown_path.read_text(encoding="utf-8"))
+            self.assertIn("<strong>Report audience:</strong> forum reviewers, treasury stewards", html_path.read_text(encoding="utf-8"))
