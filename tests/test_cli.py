@@ -1287,6 +1287,45 @@ if __name__ == "__main__":
             self.assertEqual(exit_code.returncode, 0, exit_code.stderr)
             self.assertIn("Short demo brief", markdown_out.read_text(encoding="utf-8"))
 
+    def test_report_summary_accepts_overview_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            scenario_path = Path(tmpdir) / "scenario.json"
+            markdown_out = Path(tmpdir) / "report.md"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "proposal": "Ship treasury dashboard pilot.",
+                        "stakeholders": [
+                            {"name": "Delegate", "traits": {"risk": "low", "speed": "medium", "decentralization": "high"}}
+                        ],
+                        "report": {"overview": "Overview alias for the report summary."},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_out),
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                cwd=ROOT,
+                env=_cli_env(),
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_summary"], "Overview alias for the report summary.")
+            self.assertIn("Overview alias for the report summary.", markdown_out.read_text(encoding="utf-8"))
+
     def test_list_presets_includes_governance_trait_groups(self) -> None:
         result = subprocess.run(
             [
