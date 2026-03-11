@@ -835,3 +835,60 @@ inputs:
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_scenario_file_accepts_persona_alias_for_trait_preset(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            scenario_path = tmp_path / "scenario.json"
+            scenario_path.write_text(
+                json.dumps({
+                    "proposal": "Create a treasury dashboard",
+                    "stakeholders": [{"name": "Delegate Council", "persona": "delegates"}],
+                }),
+                encoding="utf-8",
+            )
+
+            payload = cli._load_scenario_file(scenario_path)
+
+            self.assertEqual(payload["stakeholders"][0]["persona"], "delegates")
+            report = simulate_governance(payload["proposal"], payload["stakeholders"])
+            self.assertEqual(report["responses"][0]["preset"], "delegates")
+
+    def test_report_summary_accepts_brief_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            scenario_path = tmp_path / "scenario.json"
+            scenario_path.write_text(
+                json.dumps({
+                    "proposal": "Fund community grants",
+                    "brief": "Short demo brief",
+                    "stakeholders": ["community"],
+                }),
+                encoding="utf-8",
+            )
+            json_out = tmp_path / "report.json"
+            markdown_out = tmp_path / "report.md"
+
+            exit_code = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "simulate",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--json-out",
+                    str(json_out),
+                    "--report-file",
+                    str(markdown_out),
+                ],
+                cwd=ROOT,
+                check=False,
+                capture_output=True,
+                text=True,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+            )
+
+            self.assertEqual(exit_code.returncode, 0, exit_code.stderr)
+            self.assertIn("Short demo brief", markdown_out.read_text(encoding="utf-8"))
+

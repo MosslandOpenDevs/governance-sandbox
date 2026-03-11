@@ -87,7 +87,7 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
             response = _infer_response(stakeholder)
         else:
             name = (stakeholder.get("name") or stakeholder.get("stakeholder") or "").strip()
-            preset = _normalize_preset(stakeholder.get("preset") or stakeholder.get("group") or stakeholder.get("trait"))
+            preset = _normalize_preset(stakeholder.get("preset") or stakeholder.get("group") or stakeholder.get("trait") or stakeholder.get("persona"))
             if preset and preset in TRAIT_PRESETS:
                 trait = TRAIT_PRESETS[preset]
                 response = StakeholderResponse(name=name, preset=preset, **trait)
