@@ -103,6 +103,7 @@ If you want a compact snake_case basename fixture for scenario-file -> report-bu
 If you want the same scenario-file flow as a compact DAO-oriented JSON fixture, start with `examples/scenario-dao-report-bundle.json`.
 CLI-provided relative `--report-json`, `--report-markdown`, and `--report-html` paths now resolve from the scenario-file directory, so replayable fixtures can keep outputs beside the imported scenario without shell-specific path glue.
 If you need a machine-readable preset inventory for scenario generators or web-demo forms, run `PYTHONPATH=src python3 -m governance_sandbox.cli run --list-presets-json`.
+If you need the shortest UI handoff for turning that preset JSON into the first scenario form plus result card, open `docs/PRESET_JSON_FORM_CARD_START.md`.
 That preset-aware report flow now keeps a short preset summary beside each known preset in markdown/html stakeholder sections, so memo readers can see the trait meaning without reopening preset docs.
 If you want a tiny scenario-file fixture that demonstrates top-level `report_targets` + `report_tags` aliases, start with `examples/scenario-report-targets-alias.yaml`.
 That JSON inventory now includes a label and a short summary for each preset so scenario builders and UI forms can explain the trait choice without hard-coding copy.
