@@ -82,6 +82,8 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
   --report-dir artifacts/delegate-ready
 ```
 
+For the shortest replayable scenario-file -> report-bundle workflow, open `docs/SCENARIO_REPORT_QUICKSTART.md`.
+
 ---
 
 ## Why this project exists
