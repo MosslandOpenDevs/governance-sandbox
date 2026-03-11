@@ -1,0 +1,20 @@
+name: DAO treasury automation rehearsal
+context: Evaluate a phased treasury automation rollout with explicit safeguards and delegate oversight.
+proposal: Approve a 90-day pilot that automates low-risk treasury rebalancing with weekly reporting and a hard cap on transferred funds.
+stakeholders:
+  - name: Protocol delegate lead
+    preset: delegates
+  - name: Core contributor ops
+    preset: contributors
+  - name: Treasury steward
+    preset: dao
+  - name: Governance forum moderator
+    preset: community
+report:
+  title: DAO Treasury Automation Pilot Review
+  summary: Pilot-style memo for reviewing a guardrailed treasury automation rollout.
+  output_name: dao-treasury-automation-pilot
+  tags:
+    - treasury
+    - automation
+    - governance

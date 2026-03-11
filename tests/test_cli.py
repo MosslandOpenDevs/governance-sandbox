@@ -1107,6 +1107,12 @@ if __name__ == "__main__":
             report = simulate_governance(payload["proposal"], payload["stakeholders"])
             self.assertEqual(report["responses"][0]["preset"], "delegates")
 
+    def test_readme_mentions_dao_treasury_automation_example(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("examples/dao-treasury-automation.yaml", readme)
+        self.assertTrue((ROOT / "examples" / "dao-treasury-automation.yaml").exists())
+
     def test_report_summary_accepts_brief_alias(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
