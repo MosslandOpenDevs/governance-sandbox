@@ -1,0 +1,25 @@
+name: Cross-preset governance roundtable
+context: Rehearse a treasury communication update before sharing it with delegates and the wider community.
+proposal: Introduce a 90-day treasury checkpoint framework with monthly updates, rollback triggers, and contributor office hours.
+stakeholders:
+  - name: DAO stewards
+    preset: dao
+  - name: Delegate council
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+  - name: Treasury investors
+    preset: investors
+  - name: Community members
+    preset: community
+report:
+  title: Cross-preset treasury checkpoint memo
+  audience:
+    - delegates
+    - community reviewers
+  tags:
+    - treasury
+    - checkpoints
+    - communication
+    - presets
+  name: cross-preset-treasury-checkpoint

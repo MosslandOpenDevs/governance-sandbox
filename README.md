@@ -96,6 +96,7 @@ If you need a one-line maintainer update once that first result-card proof is be
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
 If you want a DAO-flavored treasury automation rehearsal with presets plus a named report bundle, start with `examples/dao-treasury-automation.yaml`.
 If you want a broader preset mix that highlights community-trust tradeoffs plus a named memo bundle, start with `examples/scenario-community-feedback.yaml`.
+If you want one reusable fixture that exercises all built-in stakeholder presets in a single report bundle, start with `examples/scenario-preset-roundtable.yaml`.
 If you want the same scenario-file flow as a compact DAO-oriented JSON fixture, start with `examples/scenario-dao-report-bundle.json`.
 If you need a machine-readable preset inventory for scenario generators or web-demo forms, run `PYTHONPATH=src python3 -m governance_sandbox.cli run --list-presets-json`.
 That preset-aware report flow now keeps a short preset summary beside each known preset in markdown/html stakeholder sections, so memo readers can see the trait meaning without reopening preset docs.
