@@ -9,6 +9,20 @@ from pathlib import Path
 import re
 from typing import Any
 
+
+def _preset_mix_summary(responses: list[dict[str, Any]]) -> list[str]:
+    counts: dict[str, int] = {}
+    for response in responses:
+        preset = response.get("preset")
+        if not preset:
+            continue
+        key = str(preset).strip()
+        if not key:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+    return [f"{preset}: {counts[preset]}" for preset in sorted(counts)]
+
+
 from .engine import PRESET_SUMMARIES, TRAIT_PRESETS, simulate_governance
 
 try:
@@ -158,9 +172,12 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
                 f"- Mixed: {summary['mixed']}",
                 f"- Skeptical: {summary['skeptical']}",
                 f"- Recommendation: {summary['recommendation_label']}",
-                "",
             ]
         )
+        preset_mix = _preset_mix_summary(result.get("responses") or [])
+        if preset_mix:
+            lines.append(f"- Preset mix: {', '.join(preset_mix)}")
+        lines.append("")
     lines.extend([
         "## Proposal",
         result["proposal"],
@@ -198,6 +215,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
     meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
     summary = result.get("summary") or {}
+    preset_mix = _preset_mix_summary(result.get("responses") or [])
     for response in result["responses"]:
         preset_key = response.get("preset")
         preset = f" <span class=\"preset\">{escape(preset_key)}</span>" if preset_key else ""
@@ -267,6 +285,13 @@ def _render_html_report(result: dict[str, Any]) -> str:
             f'<section class="card"><h3>{escape(str(summary["skeptical"]))}</h3><p>Skeptical</p></section>',
             '</div></section>',
         ])
+    preset_mix_panel = ""
+    if preset_mix:
+        preset_mix_panel = (
+            '<section class="panel"><h2>Preset mix</h2><p>'
+            + escape(', '.join(preset_mix))
+            + '</p></section>'
+        )
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -293,6 +318,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
   {scenario_panel}
   {tag_panel}
   {summary_panel}
+  {preset_mix_panel}
   <section class="panel">
     <h2>Major risks</h2>
     <ul>{risks}</ul>

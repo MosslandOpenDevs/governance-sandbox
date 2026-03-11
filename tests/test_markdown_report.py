@@ -36,6 +36,49 @@ class MarkdownReportTests(unittest.TestCase):
         self.assertIn("## Recommendation\n<Hold>", report)
         self.assertNotIn("&lt;Hold&gt;", report)
 
+    def test_markdown_report_includes_preset_mix_summary(self) -> None:
+        report = _render_markdown_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [
+                {
+                    "name": "Delegates",
+                    "preset": "delegates",
+                    "stance": "cautious",
+                    "concern": "Needs more data",
+                    "mitigation": "Add a rollback plan",
+                },
+                {
+                    "name": "Community",
+                    "preset": "community",
+                    "stance": "skeptical",
+                    "concern": "Needs more trust",
+                    "mitigation": "Add follow-up updates",
+                },
+                {
+                    "name": "More delegates",
+                    "preset": "delegates",
+                    "stance": "cautious",
+                    "concern": "Needs more metrics",
+                    "mitigation": "Add milestones",
+                },
+            ],
+            "major_risks": ["Low turnout"],
+            "decision_memo": "Pause until turnout assumptions are clearer.",
+            "scenario": {},
+            "summary": {
+                "stakeholder_count": 3,
+                "supportive": 0,
+                "cautious": 2,
+                "mixed": 0,
+                "skeptical": 1,
+                "recommendation_label": "Proceed with revision",
+            },
+            "report": {},
+        })
+
+        self.assertIn("- Preset mix: community: 1, delegates: 2", report)
+
 
 from governance_sandbox.cli import _render_html_report
 
@@ -70,6 +113,43 @@ class HtmlReportTests(unittest.TestCase):
 
         self.assertIn('<h1>&lt;DAO &amp; Delegates&gt;</h1>', report)
         self.assertNotIn('<h1><DAO & Delegates></h1>', report)
+
+    def test_html_report_includes_preset_mix_panel(self) -> None:
+        report = _render_html_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [
+                {
+                    "name": "Delegates",
+                    "preset": "delegates",
+                    "stance": "cautious",
+                    "concern": "Needs more data",
+                    "mitigation": "Add a rollback plan",
+                },
+                {
+                    "name": "Community",
+                    "preset": "community",
+                    "stance": "skeptical",
+                    "concern": "Needs more trust",
+                    "mitigation": "Add follow-up updates",
+                },
+            ],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {},
+            "summary": {
+                "stakeholder_count": 2,
+                "supportive": 0,
+                "cautious": 1,
+                "mixed": 0,
+                "skeptical": 1,
+                "recommendation_label": "Proceed with revision",
+            },
+            "report": {},
+        })
+
+        self.assertIn("<h2>Preset mix</h2>", report)
+        self.assertIn("community: 1, delegates: 1", report)
 
 
 if __name__ == "__main__":
