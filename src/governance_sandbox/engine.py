@@ -12,6 +12,14 @@ PRESET_SUMMARIES: dict[str, str] = {
 }
 
 
+PRESET_ALIASES: dict[str, str] = {
+    'delegate': 'delegates',
+    'contributor': 'contributors',
+    'investor': 'investors',
+    'member': 'community',
+}
+
+
 TRAIT_PRESETS: dict[str, dict[str, str]] = {
     "dao": {
         "stance": "cautious",
@@ -54,7 +62,9 @@ def _normalize_preset(raw: str | None) -> str | None:
     if raw is None:
         return None
     key = raw.strip().lower()
-    return key or None
+    if not key:
+        return None
+    return PRESET_ALIASES.get(key, key)
 
 
 def _infer_response(stakeholder: str) -> StakeholderResponse:
