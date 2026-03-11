@@ -425,3 +425,51 @@ inputs:
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_run_report_dir_writes_full_bundle_and_tagged_summary(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            report_dir = tmp / "artifacts" / "demo"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "title": "Tagged scenario bundle",
+                        "summary": "Pre-forum dry run with reusable labels.",
+                        "proposal_text": "Move part of the treasury budget into contributor growth experiments.",
+                        "labels": ["dao", "growth", "dry-run"],
+                        "participants": [
+                            {"stakeholder": "DAO delegates", "group": "delegates"},
+                            {"name": "Contributor circle", "trait": "contributors"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["tags"], ["dao", "growth", "dry-run"])
+            self.assertTrue((report_dir / "report.json").exists())
+            self.assertTrue((report_dir / "report.md").exists())
+            self.assertTrue((report_dir / "report.html").exists())
+            self.assertIn("## Scenario tags", (report_dir / "report.md").read_text(encoding="utf-8"))
+            self.assertIn("growth, dry-run", (report_dir / "report.html").read_text(encoding="utf-8"))
