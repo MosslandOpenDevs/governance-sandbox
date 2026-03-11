@@ -83,6 +83,8 @@ def _normalize_string_list(value: Any) -> list[str]:
 def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
     if value is None:
         return []
+    if isinstance(value, str):
+        return [item.strip() for item in re.split(r"[,\n]", value) if item.strip()]
     if isinstance(value, list):
         return value
     if isinstance(value, dict):
