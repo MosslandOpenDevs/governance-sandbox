@@ -83,6 +83,7 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
 ```
 
 For the shortest replayable scenario-file -> report-bundle workflow, open `docs/SCENARIO_REPORT_QUICKSTART.md`.
+If you want the same flow from stdin for shell pipelines or browser-demo handoffs, pass `--scenario-file -` and pipe JSON/YAML into the CLI.
 If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.
 
 ---

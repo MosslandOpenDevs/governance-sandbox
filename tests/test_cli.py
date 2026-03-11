@@ -213,6 +213,45 @@ stakeholders:
             self.assertEqual(payload["scenario"]["report_summary"], "Memo alias summary for delegate review.")
             self.assertIn("## Report summary\nMemo alias summary for delegate review.", markdown_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_yaml_stdin_scenario_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            markdown_path = Path(tmpdir) / "stdin-report.md"
+            scenario_text = """name: Stdin rehearsal
+proposal: Stage contributor review before the final treasury vote.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+  - name: Contributor guild
+    preset: contributors
+report:
+  description: Stdin-driven rehearsal for quick review.
+"""
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    "-",
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                input=scenario_text,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Stdin rehearsal")
+            self.assertEqual(payload["scenario"]["report_summary"], "Stdin-driven rehearsal for quick review.")
+            self.assertEqual(payload["report"]["scenario_file"], "stdin")
+            self.assertIn("## Scenario\nStdin rehearsal", markdown_path.read_text(encoding="utf-8"))
+
     def test_run_supports_yaml_scenario_file_and_nested_report_paths(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
