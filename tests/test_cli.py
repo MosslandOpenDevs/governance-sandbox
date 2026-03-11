@@ -663,6 +663,55 @@ stakeholders:
             self.assertTrue((report_dir / "delegate-memo-bundle.md").exists())
             self.assertTrue((report_dir / "delegate-memo-bundle.html").exists())
 
+    def test_run_supports_report_path_aliases_inside_scenario_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """scenario:
+  name: Scenario-path rehearsal
+report:
+  title: Scenario-path memo
+  json_path: artifacts/outputs/rehearsal.json
+  markdown_path: artifacts/outputs/rehearsal.md
+  html_path: artifacts/outputs/rehearsal.html
+inputs:
+  proposal: Add stage gates before treasury releases.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+    - name: Contributor pod
+      preset: contributors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            report_root = scenario_path.parent / "artifacts" / "outputs"
+            self.assertEqual(payload["scenario"]["report_title"], "Scenario-path memo")
+            self.assertEqual(payload["report"]["artifacts"]["json"], str((report_root / "rehearsal.json").resolve()))
+            self.assertEqual(payload["report"]["artifacts"]["markdown"], str((report_root / "rehearsal.md").resolve()))
+            self.assertEqual(payload["report"]["artifacts"]["html"], str((report_root / "rehearsal.html").resolve()))
+            self.assertTrue((report_root / "rehearsal.json").exists())
+            self.assertTrue((report_root / "rehearsal.md").exists())
+            self.assertTrue((report_root / "rehearsal.html").exists())
+
     def test_run_supports_yaml_stdin_scenario_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             markdown_path = Path(tmpdir) / "stdin-report.md"

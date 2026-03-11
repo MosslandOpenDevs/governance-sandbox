@@ -427,9 +427,21 @@ def main() -> None:
         else:
             report_dir = None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
-        report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
-        markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)
-        html_path = Path(args.report_html) if args.report_html else (report_dir / f"{report_basename}.html" if report_dir else None)
+        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json")
+        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path")
+        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html")
+
+        def _resolve_report_path(configured: Any) -> Path | None:
+            if configured is None:
+                return None
+            candidate = Path(str(configured))
+            if not candidate.is_absolute() and args.scenario_file and args.scenario_file != "-":
+                candidate = Path(args.scenario_file).resolve().parent / candidate
+            return candidate
+
+        report_json_path = Path(args.report_json) if args.report_json else (_resolve_report_path(configured_json_path) or (report_dir / f"{report_basename}.json" if report_dir else None))
+        markdown_path = Path(args.report_markdown) if args.report_markdown else (_resolve_report_path(configured_markdown_path) or (report_dir / f"{report_basename}.md" if report_dir else None))
+        html_path = Path(args.report_html) if args.report_html else (_resolve_report_path(configured_html_path) or (report_dir / f"{report_basename}.html" if report_dir else None))
         result["report"]["artifacts"] = {
             "json": str(report_json_path.resolve()) if report_json_path else None,
             "markdown": str(markdown_path.resolve()) if markdown_path else None,

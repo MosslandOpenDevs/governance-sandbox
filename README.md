@@ -188,6 +188,7 @@ Current CLI additions now include:
 - `--report-html` for a lightweight visual report artifact
 - `--report-json` for writing the structured output artifact to disk
 - `--report-dir` for emitting a default report artifact bundle in one command
+- scenario-file `report.json_path` / `report.markdown_path` / `report.html_path` aliases for fixture-driven output paths without repeating CLI flags
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
 - optional scenario `report_title` / `report_heading` metadata for cleaner markdown/html memo headings, page titles, and demo handoff bundles
 - nested `report.title` / `report.heading`, `report.tags`, and `report.description` blocks for report-first scenario fixtures and UI handoff payloads
