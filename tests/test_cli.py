@@ -943,3 +943,22 @@ if __name__ == "__main__":
             self.assertEqual(exit_code.returncode, 0, exit_code.stderr)
             self.assertIn("Short demo brief", markdown_out.read_text(encoding="utf-8"))
 
+    def test_list_presets_includes_governance_trait_groups(self) -> None:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "governance_sandbox.cli",
+                "run",
+                "--list-presets",
+            ],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+            env={**os.environ, "PYTHONPATH": str(SRC)},
+        )
+
+        payload = json.loads(result.stdout)
+        self.assertEqual(sorted(payload["presets"].keys()), ["community", "contributors", "dao", "delegates", "investors"])
+
