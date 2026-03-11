@@ -214,6 +214,7 @@ Current CLI additions now include:
 - top-level `report_json_path` / `report_markdown_path` / `report_html_path` aliases for scenario files that want output paths without nesting a `report` block
 - top-level `scenario_payload` / `scenario_data` / `scenario_bundle` wrappers for exported JSON/YAML fixtures that keep the reusable scenario under one extra envelope
 - `docs/README_SCENARIO_WRAPPER_ALIAS_NOTE.md` for the shortest wrapper-first authoring reminder before widening report or web-demo work
+- `docs/SCENARIO_INPUTS_WRAPPER_ALIAS_NOTE.md` for the matching plural-wrapper reminder when fixtures keep proposal, stakeholders, and report metadata under `scenario_inputs`
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
 - optional scenario `report_title` / `report_heading` metadata for cleaner markdown/html memo headings, page titles, and demo handoff bundles
 - nested `report.title` / `report.heading`, `report.tags`, and `report.description` blocks for report-first scenario fixtures and UI handoff payloads
