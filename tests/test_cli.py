@@ -213,6 +213,36 @@ stakeholders:
             self.assertEqual(payload["scenario"]["report_summary"], "Memo alias summary for delegate review.")
             self.assertIn("## Report summary\nMemo alias summary for delegate review.", markdown_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_report_output_basename_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report_dir = Path(tmpdir) / "bundle"
+            scenario_path = ROOT / "examples" / "scenario-report-basename.yaml"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_summary"], "Rehearsal bundle proving title plus explicit basename control.")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "delegate-memo-bundle")
+            self.assertTrue((report_dir / "delegate-memo-bundle.json").exists())
+            self.assertTrue((report_dir / "delegate-memo-bundle.md").exists())
+            self.assertTrue((report_dir / "delegate-memo-bundle.html").exists())
+
     def test_run_supports_yaml_stdin_scenario_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             markdown_path = Path(tmpdir) / "stdin-report.md"

@@ -1,0 +1,11 @@
+name: Delegate memo basename rehearsal
+proposal: Stage treasury automation with explicit rollback checkpoints before execution.
+report:
+  title: Delegate-ready treasury automation memo
+  output_basename: delegate-memo-bundle
+  description: Rehearsal bundle proving title plus explicit basename control.
+stakeholders:
+  - name: DAO council
+    preset: dao
+  - name: Delegate circle
+    preset: delegates
