@@ -73,12 +73,23 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         "",
     ]
     summary = result.get("summary") or {}
-    if meta.get("generated_at") or meta.get("scenario_file"):
+    artifacts = meta.get("artifacts") or {}
+    if meta.get("generated_at") or meta.get("scenario_file") or any(artifacts.values()):
         lines.append("## Report metadata")
         if meta.get("generated_at"):
             lines.append(f"- Generated at: {meta['generated_at']}")
         if meta.get("scenario_file"):
             lines.append(f"- Scenario file: {meta['scenario_file']}")
+        if artifacts.get("directory"):
+            lines.append(f"- Report directory: {artifacts['directory']}")
+        if artifacts.get("basename"):
+            lines.append(f"- Report basename: {artifacts['basename']}")
+        if artifacts.get("json"):
+            lines.append(f"- JSON artifact: {artifacts['json']}")
+        if artifacts.get("markdown"):
+            lines.append(f"- Markdown artifact: {artifacts['markdown']}")
+        if artifacts.get("html"):
+            lines.append(f"- HTML artifact: {artifacts['html']}")
         lines.append("")
     if scenario.get("name"):
         lines.extend(["## Scenario", scenario["name"], ""])
@@ -157,13 +168,24 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report title:</strong> {scenario["report_title"]}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
-    if meta.get("generated_at") or meta.get("scenario_file"):
+    artifacts = meta.get("artifacts") or {}
+    if meta.get("generated_at") or meta.get("scenario_file") or any(artifacts.values()):
         metadata_bits: list[str] = []
         if meta.get("generated_at"):
             metadata_bits.append(f'<p><strong>Generated at:</strong> {meta["generated_at"]}</p>')
         if meta.get("scenario_file"):
             metadata_bits.append(f'<p><strong>Scenario file:</strong> {meta["scenario_file"]}</p>')
-        metadata_panel = '<section class="panel">' + ''.join(metadata_bits) + '</section>'
+        if artifacts.get("directory"):
+            metadata_bits.append(f'<p><strong>Report directory:</strong> {artifacts["directory"]}</p>')
+        if artifacts.get("basename"):
+            metadata_bits.append(f'<p><strong>Report basename:</strong> {artifacts["basename"]}</p>')
+        if artifacts.get("json"):
+            metadata_bits.append(f'<p><strong>JSON artifact:</strong> {artifacts["json"]}</p>')
+        if artifacts.get("markdown"):
+            metadata_bits.append(f'<p><strong>Markdown artifact:</strong> {artifacts["markdown"]}</p>')
+        if artifacts.get("html"):
+            metadata_bits.append(f'<p><strong>HTML artifact:</strong> {artifacts["html"]}</p>')
+        metadata_panel = '<section class="panel"><h2>Report metadata</h2>' + ''.join(metadata_bits) + '</section>'
     tag_panel = ""
     if scenario.get("tags"):
         tag_panel = '<section class="panel"><h2>Scenario tags</h2><p>' + ', '.join(scenario['tags']) + '</p></section>'
