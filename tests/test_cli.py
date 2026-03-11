@@ -208,6 +208,51 @@ report:
             self.assertIn("## Report audience\ndelegates, contributors", markdown_report)
             self.assertIn("## Scenario tags\ngovernance, treasury, runway", markdown_report)
 
+    def test_run_supports_mapping_style_stakeholders_in_scenario_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_path = tmp / "report.md"
+            scenario_path.write_text(
+                """name: Mapping-style stakeholder import
+proposal: Publish a delegate-ready treasury checkpoint before voting.
+stakeholders:
+  DAO council: dao
+  Delegate cohort: delegates
+report:
+  title: Mapping-style stakeholder import memo
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(report_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Mapping-style stakeholder import")
+            self.assertEqual(payload["responses"][0]["name"], "DAO council")
+            self.assertEqual(payload["responses"][0]["preset"], "dao")
+            self.assertEqual(payload["responses"][1]["name"], "Delegate cohort")
+            self.assertEqual(payload["responses"][1]["preset"], "delegates")
+            markdown_report = report_path.read_text(encoding="utf-8")
+            self.assertIn("### DAO council (dao)", markdown_report)
+            self.assertIn("### Delegate cohort (delegates)", markdown_report)
+
     def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

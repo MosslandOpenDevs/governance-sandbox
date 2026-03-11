@@ -66,6 +66,25 @@ def _normalize_string_list(value: Any) -> list[str]:
     return [rendered] if rendered else []
 
 
+def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        normalized: list[dict[str, str]] = []
+        for name, preset in value.items():
+            rendered_name = str(name).strip()
+            if not rendered_name:
+                continue
+            stakeholder: dict[str, str] = {"name": rendered_name}
+            if preset is not None and str(preset).strip():
+                stakeholder["preset"] = str(preset).strip()
+            normalized.append(stakeholder)
+        return normalized
+    return []
+
+
 def _slugify_report_basename(raw: str | None) -> str:
     if not raw:
         return "report"
@@ -326,7 +345,10 @@ def main() -> None:
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
         else:
-            stakeholders = _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters") or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters") or []
+            stakeholders = _normalize_stakeholders(
+                _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters")
+                or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters")
+            )
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
         if not stakeholders:
