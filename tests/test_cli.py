@@ -994,6 +994,20 @@ inputs:
         self.assertIn("community", result.stdout)
         self.assertIn("delegates", result.stdout)
 
+    def test_list_presets_json_prints_supported_trait_groups(self) -> None:
+        result = subprocess.run(
+            [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets-json"],
+            cwd=ROOT,
+            env={**dict(), **{"PYTHONPATH": str(SRC)}},
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        payload = json.loads(result.stdout)
+        self.assertEqual(sorted(payload["presets"].keys()), ["community", "contributors", "dao", "delegates", "investors"])
+        self.assertEqual(payload["presets"]["delegates"]["stance"], "cautious")
+
     def test_run_supports_role_and_archetype_aliases_plus_report_brief(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

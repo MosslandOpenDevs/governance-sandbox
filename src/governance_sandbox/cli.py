@@ -260,10 +260,14 @@ def main() -> None:
     run_cmd.add_argument("--report-json", help="Write the JSON result to this path")
     run_cmd.add_argument("--report-dir", help="Write report.json, report.md, and report.html into this directory")
     run_cmd.add_argument("--list-presets", action="store_true", help="List built-in stakeholder presets")
+    run_cmd.add_argument("--list-presets-json", action="store_true", help="Print built-in stakeholder presets as JSON")
 
     args = parser.parse_args()
 
     if args.command == "run":
+        if args.list_presets_json:
+            print(json.dumps({"presets": TRAIT_PRESETS}, ensure_ascii=False, indent=2))
+            return
         if args.list_presets:
             print("\n".join(sorted(TRAIT_PRESETS)))
             return
