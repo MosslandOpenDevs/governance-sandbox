@@ -291,15 +291,25 @@ def main() -> None:
         report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
         markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)
         html_path = Path(args.report_html) if args.report_html else (report_dir / f"{report_basename}.html" if report_dir else None)
+        markdown_report = _render_markdown_report(result)
+        html_report = _render_html_report(result)
         if report_json_path:
             report_json_path.parent.mkdir(parents=True, exist_ok=True)
             report_json_path.write_text(rendered + "\n", encoding="utf-8")
         if markdown_path:
             markdown_path.parent.mkdir(parents=True, exist_ok=True)
-            markdown_path.write_text(_render_markdown_report(result), encoding="utf-8")
+            markdown_path.write_text(markdown_report, encoding="utf-8")
         if html_path:
             html_path.parent.mkdir(parents=True, exist_ok=True)
-            html_path.write_text(_render_html_report(result), encoding="utf-8")
+            html_path.write_text(html_report, encoding="utf-8")
+        if report_dir and report_basename != "report":
+            alias_json_path = report_dir / "report.json"
+            alias_markdown_path = report_dir / "report.md"
+            alias_html_path = report_dir / "report.html"
+            alias_json_path.parent.mkdir(parents=True, exist_ok=True)
+            alias_json_path.write_text(rendered + "\n", encoding="utf-8")
+            alias_markdown_path.write_text(markdown_report, encoding="utf-8")
+            alias_html_path.write_text(html_report, encoding="utf-8")
         print(rendered)
 
 

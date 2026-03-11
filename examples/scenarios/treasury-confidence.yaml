@@ -1,0 +1,17 @@
+scenario:
+  name: Treasury confidence rehearsal
+  decision_context: Pre-forum dry run for a budget reallocation memo.
+  report_title: Governance Sandbox Report
+  tags:
+    - treasury
+    - delegates
+    - dry-run
+inputs:
+  proposal: Rebalance the treasury toward milestone-based ecosystem spending.
+  stakeholders:
+    - stakeholder: Delegate table
+      group: delegates
+    - name: Investor circle
+      trait: investors
+    - name: Contributor pod
+      trait: contributors
