@@ -1,0 +1,18 @@
+name: Community feedback rehearsal
+context: Rehearse a governance proposal that adds a public feedback window before final delegate signoff.
+proposal: Add a seven-day community feedback window and publish a short response memo before the final vote.
+stakeholders:
+  - name: DAO operations
+    preset: dao
+  - name: Delegate cohort
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+  - name: Token-aligned investors
+    preset: investors
+  - name: Forum regulars
+    preset: community
+report:
+  title: Community feedback rehearsal memo
+  summary: Memo comparing governance clarity, delivery drag, investor signaling, and community trust.
+  name: community-feedback-memo

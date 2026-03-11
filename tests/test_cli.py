@@ -282,6 +282,18 @@ report:
             self.assertEqual(payload["report"]["scenario_file"], "stdin")
             self.assertIn("## Scenario\nStdin rehearsal", markdown_path.read_text(encoding="utf-8"))
 
+    def test_example_community_feedback_scenario_uses_all_trait_presets(self) -> None:
+        import yaml
+
+        scenario_path = ROOT / "examples" / "scenario-community-feedback.yaml"
+        payload = yaml.safe_load(scenario_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(payload["report"]["name"], "community-feedback-memo")
+        self.assertEqual(
+            [item["preset"] for item in payload["stakeholders"]],
+            ["dao", "delegates", "contributors", "investors", "community"],
+        )
+
     def test_run_supports_yaml_scenario_file_and_nested_report_paths(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
