@@ -159,6 +159,54 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.html").exists())
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.json").exists())
 
+    def test_run_resolves_relative_cli_report_paths_from_scenario_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_dir = tmp / "fixtures"
+            scenario_dir.mkdir()
+            scenario_path = scenario_dir / "scenario.yaml"
+            scenario_path.write_text(
+                """proposal: Publish a staged treasury automation memo before execution.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+  - name: Builder guild
+    preset: contributors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    "outputs/delegate-brief.md",
+                    "--report-html",
+                    "outputs/delegate-brief.html",
+                    "--report-json",
+                    "outputs/delegate-brief.json",
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            outputs_dir = scenario_dir / "outputs"
+            self.assertEqual(payload["report"]["artifacts"]["markdown"], str((outputs_dir / "delegate-brief.md").resolve()))
+            self.assertEqual(payload["report"]["artifacts"]["html"], str((outputs_dir / "delegate-brief.html").resolve()))
+            self.assertEqual(payload["report"]["artifacts"]["json"], str((outputs_dir / "delegate-brief.json").resolve()))
+            self.assertTrue((outputs_dir / "delegate-brief.md").exists())
+            self.assertTrue((outputs_dir / "delegate-brief.html").exists())
+            self.assertTrue((outputs_dir / "delegate-brief.json").exists())
+
     def test_run_supports_stakeholder_group_alias_and_report_reader_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

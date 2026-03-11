@@ -455,9 +455,9 @@ def main() -> None:
                 candidate = Path(args.scenario_file).resolve().parent / candidate
             return candidate
 
-        report_json_path = Path(args.report_json) if args.report_json else (_resolve_report_path(configured_json_path) or (report_dir / f"{report_basename}.json" if report_dir else None))
-        markdown_path = Path(args.report_markdown) if args.report_markdown else (_resolve_report_path(configured_markdown_path) or (report_dir / f"{report_basename}.md" if report_dir else None))
-        html_path = Path(args.report_html) if args.report_html else (_resolve_report_path(configured_html_path) or (report_dir / f"{report_basename}.html" if report_dir else None))
+        report_json_path = _resolve_report_path(args.report_json) if args.report_json else (_resolve_report_path(configured_json_path) or (report_dir / f"{report_basename}.json" if report_dir else None))
+        markdown_path = _resolve_report_path(args.report_markdown) if args.report_markdown else (_resolve_report_path(configured_markdown_path) or (report_dir / f"{report_basename}.md" if report_dir else None))
+        html_path = _resolve_report_path(args.report_html) if args.report_html else (_resolve_report_path(configured_html_path) or (report_dir / f"{report_basename}.html" if report_dir else None))
         result["report"]["artifacts"] = {
             "json": str(report_json_path.resolve()) if report_json_path else None,
             "markdown": str(markdown_path.resolve()) if markdown_path else None,
