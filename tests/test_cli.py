@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -44,7 +45,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(html_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -73,7 +74,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -111,7 +112,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -143,7 +144,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 check=True,
                 capture_output=True,
                 text=True,
@@ -157,6 +158,55 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.md").exists())
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.html").exists())
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.json").exists())
+
+    def test_run_supports_stakeholder_group_alias_and_report_reader_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                """name: Alias-rich rehearsal
+proposal: Stage a treasury runway checkpoint before execution.
+stakeholder_groups:
+  - name: DAO board
+    preset: dao
+  - name: Builder circle
+    preset: contributors
+report:
+  readers:
+    - delegates
+    - contributors
+  tags: governance, treasury, runway
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_audience"], "delegates, contributors")
+            self.assertEqual(payload["scenario"]["tags"], ["governance", "treasury", "runway"])
+            self.assertEqual(payload["responses"][0]["preset"], "dao")
+            self.assertEqual(payload["responses"][1]["preset"], "contributors")
+            markdown_report = markdown_path.read_text(encoding="utf-8")
+            self.assertIn("## Report audience\ndelegates, contributors", markdown_report)
+            self.assertIn("## Scenario tags\ngovernance, treasury, runway", markdown_report)
 
     def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -199,7 +249,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                     str(json_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -270,7 +320,7 @@ stakeholders:
                     str(scenario_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -317,7 +367,7 @@ report:
                     str(html_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -357,7 +407,7 @@ stakeholders:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -395,7 +445,7 @@ stakeholders:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -423,7 +473,7 @@ stakeholders:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -462,7 +512,7 @@ report:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 input=scenario_text,
                 capture_output=True,
                 text=True,
@@ -540,7 +590,7 @@ stakeholders:
                     str(json_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -587,7 +637,7 @@ stakeholders:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -629,7 +679,7 @@ stakeholders:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -669,7 +719,7 @@ stakeholders:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 input=scenario_payload,
                 capture_output=True,
                 text=True,
@@ -709,7 +759,7 @@ inputs:
                     str(html_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 input=scenario_payload,
                 capture_output=True,
                 text=True,
@@ -756,7 +806,7 @@ inputs:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -802,7 +852,7 @@ inputs:
                     str(json_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -846,7 +896,7 @@ actors:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -890,7 +940,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -931,7 +981,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -973,7 +1023,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1015,7 +1065,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1065,7 +1115,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1117,7 +1167,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1170,7 +1220,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1221,7 +1271,7 @@ inputs:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1300,7 +1350,7 @@ inputs:
                     str(scenario_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1337,7 +1387,7 @@ inputs:
                     str(scenario_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1374,7 +1424,7 @@ inputs:
                     str(scenario_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1416,7 +1466,7 @@ inputs:
                     str(markdown_path),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
@@ -1461,7 +1511,7 @@ inputs:
                     str(report_dir),
                 ],
                 cwd=ROOT,
-                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,

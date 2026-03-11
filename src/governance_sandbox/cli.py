@@ -48,6 +48,24 @@ def _pick(mapping: dict[str, Any], *keys: str) -> Any:
     return None
 
 
+def _normalize_string_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        return [item.strip() for item in value.split(',') if item.strip()]
+    if isinstance(value, list):
+        normalized: list[str] = []
+        for item in value:
+            if item is None:
+                continue
+            rendered = str(item).strip()
+            if rendered:
+                normalized.append(rendered)
+        return normalized
+    rendered = str(value).strip()
+    return [rendered] if rendered else []
+
+
 def _slugify_report_basename(raw: str | None) -> str:
     if not raw:
         return "report"
@@ -294,7 +312,7 @@ def main() -> None:
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
         else:
-            stakeholders = _pick(scenario, "stakeholders", "participants", "actors") or _pick(inputs, "stakeholders", "participants", "actors") or []
+            stakeholders = _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters") or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters") or []
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
         if not stakeholders:
@@ -306,8 +324,8 @@ def main() -> None:
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
             "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "memo_summary", "executive_summary", "overview") or _pick(scenario, "report_summary", "brief", "memo_summary", "overview") or _pick(scenario_meta, "report_summary", "description", "brief", "memo_summary", "overview"),
-            "report_audience": _pick(report_meta, "audience") or _pick(scenario, "report_audience") or _pick(scenario_meta, "report_audience"),
-            "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels") or [],
+            "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "readers", "targets") or _pick(scenario, "report_audience", "report_readers") or _pick(scenario_meta, "report_audience", "report_readers"))) or None,
+            "tags": _normalize_string_list(_pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels")),
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
         for response in result["responses"]:
