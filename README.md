@@ -161,7 +161,7 @@ Current CLI additions now include:
 - `--report-markdown` for a local decision memo report file
 - `--report-html` for a lightweight visual report artifact
 - `--report-json` for writing the structured output artifact to disk
-- `--report-dir` for emitting a default `report.json` + `report.md` + `report.html` artifact bundle in one command
+- `--report-dir` for emitting a default report artifact bundle in one command
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
 - optional scenario `report_title` / `report_heading` metadata for cleaner markdown/html memo headings, page titles, and demo handoff bundles
 - nested `report.title` / `report.heading` and `report.tags` blocks for report-first scenario fixtures and UI handoff payloads
@@ -238,3 +238,4 @@ inputs:
 ```
 
 Then run `gov-sandbox run --scenario-file scenario.yaml --report-dir artifacts/` to produce `delegate-ready-rehearsal.json`, `.md`, and `.html`.
+If `report.basename` is omitted, `report.title` becomes the default bundle basename before the CLI falls back to generic `report.*` filenames.
