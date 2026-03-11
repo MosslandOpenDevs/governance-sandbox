@@ -420,7 +420,7 @@ def main() -> None:
                 else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             ),
         }
-        configured_report_dir = _pick(report_meta, "dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory")
+        configured_report_dir = _pick(report_meta, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory", "report_output_dir", "bundle_dir")
         if args.report_dir:
             report_dir = Path(args.report_dir)
         elif configured_report_dir:
