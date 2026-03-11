@@ -53,7 +53,7 @@ def _load_scenario(path: Path) -> dict[str, Any]:
             raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
     if not isinstance(loaded, dict):
         return {}
-    for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_input", "scenario_inputs", "scenario_config"):
+    for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_document", "scenario_input", "scenario_inputs", "scenario_config"):
         wrapped = loaded.get(wrapper_key)
         if isinstance(wrapped, dict) and any(
             key in wrapped for key in ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
