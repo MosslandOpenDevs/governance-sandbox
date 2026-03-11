@@ -409,6 +409,50 @@ inputs:
             self.assertIn("<h2>Outcome snapshot</h2>", html_report)
 
 
+    def test_run_supports_report_title_metadata_in_markdown_and_html(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "bundle"
+            scenario_path.write_text(
+                """scenario:
+  name: Treasury signal rehearsal
+  report_title: Delegate-ready rehearsal memo
+inputs:
+  proposal: Add milestone checkpoints before treasury growth experiments.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_title"], "Delegate-ready rehearsal memo")
+            markdown_report = (report_dir / "report.md").read_text(encoding="utf-8")
+            html_report = (report_dir / "report.html").read_text(encoding="utf-8")
+            self.assertIn("## Report title\nDelegate-ready rehearsal memo", markdown_report)
+            self.assertIn("<strong>Report title:</strong> Delegate-ready rehearsal memo", html_report)
+
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

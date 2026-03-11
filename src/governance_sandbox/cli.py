@@ -65,6 +65,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Scenario", scenario["name"], ""])
     if scenario.get("context"):
         lines.extend(["## Context", scenario["context"], ""])
+    if scenario.get("report_title"):
+        lines.extend(["## Report title", scenario["report_title"], ""])
     if scenario.get("tags"):
         lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
     if summary:
@@ -132,6 +134,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Scenario:</strong> {scenario["name"]}</p>')
         if scenario.get("context"):
             scenario_bits.append(f'<p><strong>Context:</strong> {scenario["context"]}</p>')
+        if scenario.get("report_title"):
+            scenario_bits.append(f'<p><strong>Report title:</strong> {scenario["report_title"]}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
     if meta.get("generated_at") or meta.get("scenario_file"):
@@ -237,6 +241,7 @@ def main() -> None:
         result["scenario"] = {
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
             "context": _pick(scenario, "context", "decision_context", "decision", "summary") or _pick(scenario_meta, "context", "decision_context", "decision", "summary"),
+            "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading"),
             "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or [],
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
