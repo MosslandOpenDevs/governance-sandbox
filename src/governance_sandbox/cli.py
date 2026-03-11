@@ -139,7 +139,7 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         "## Proposal",
         result["proposal"],
         "",
-        f"## Recommendation\n{escape(result['recommendation'])}",
+        f"## Recommendation\n{result['recommendation']}",
         "",
         "## Stakeholder responses",
     ])
