@@ -375,7 +375,8 @@ def main() -> None:
             scenario = _load_scenario(Path(args.scenario_file))
         scenario_meta = scenario.get("scenario") if isinstance(scenario.get("scenario"), dict) else {}
         inputs = scenario.get("inputs") if isinstance(scenario.get("inputs"), dict) else {}
-        proposal = args.proposal or _pick(scenario, "proposal", "proposal_text", "prompt") or _pick(inputs, "proposal", "proposal_text", "prompt")
+        scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
+        proposal = args.proposal or _pick(scenario, "proposal", "proposal_text", "prompt") or _pick(inputs, "proposal", "proposal_text", "prompt") or _pick(scenario_inputs, "proposal", "proposal_text", "prompt")
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
@@ -383,6 +384,7 @@ def main() -> None:
             stakeholders = _normalize_stakeholders(
                 _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
                 or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
+                or _pick(scenario_inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
             )
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
