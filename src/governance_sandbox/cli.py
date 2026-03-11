@@ -389,9 +389,9 @@ def main() -> None:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
         else:
             stakeholders = _normalize_stakeholders(
-                _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
-                or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
-                or _pick(scenario_inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets")
+                _pick(scenario, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets", "preset_groups", "stakeholder_preset_map")
+                or _pick(inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets", "preset_groups", "stakeholder_preset_map")
+                or _pick(scenario_inputs, "stakeholders", "participants", "actors", "stakeholder_groups", "voters", "stakeholder_map", "stakeholder_presets", "preset_groups", "stakeholder_preset_map")
             )
         if not proposal:
             raise SystemExit("Proposal is required via --proposal or --scenario-file")
