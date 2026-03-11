@@ -836,6 +836,50 @@ inputs:
         self.assertIn("community", result.stdout)
         self.assertIn("delegates", result.stdout)
 
+    def test_run_supports_role_and_archetype_aliases_plus_report_brief(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                """scenario:
+  name: Alias rehearsal
+  brief: Compact delegate-ready summary.
+inputs:
+  proposal: Add milestone checkpoints before treasury growth experiments.
+  stakeholders:
+    - stakeholder: Delegate lane
+      role: delegates
+    - name: Investor lane
+      archetype: investors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["responses"][1]["preset"], "investors")
+            self.assertEqual(payload["scenario"]["report_summary"], "Compact delegate-ready summary.")
+            self.assertIn("## Report summary\nCompact delegate-ready summary.", markdown_path.read_text(encoding="utf-8"))
+
     def test_run_report_dir_writes_full_bundle_and_tagged_summary(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
