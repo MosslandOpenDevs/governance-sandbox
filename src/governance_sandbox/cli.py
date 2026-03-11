@@ -376,6 +376,8 @@ def main() -> None:
         scenario_meta = scenario.get("scenario") if isinstance(scenario.get("scenario"), dict) else {}
         inputs = scenario.get("inputs") if isinstance(scenario.get("inputs"), dict) else {}
         scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
+        inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
+        scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
         proposal = args.proposal or _pick(scenario, "proposal", "proposal_text", "prompt") or _pick(inputs, "proposal", "proposal_text", "prompt") or _pick(scenario_inputs, "proposal", "proposal_text", "prompt")
         stakeholder_input = args.stakeholders
         if stakeholder_input:
@@ -394,12 +396,12 @@ def main() -> None:
         report_meta = scenario.get("report") if isinstance(scenario.get("report"), dict) else {}
         result["scenario"] = {
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
-            "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
-            "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
-            "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario, "report_summary", "summary", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview") or _pick(scenario_meta, "report_summary", "summary", "description", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview"),
-            "report_basename": _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name"),
-            "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
-            "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels")),
+            "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "decision_context", "summary", "description"),
+            "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading") or _pick(inputs_report, "title", "heading") or _pick(scenario_inputs_report, "title", "heading"),
+            "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario_inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario, "report_summary", "summary", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview") or _pick(scenario_meta, "report_summary", "summary", "description", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview"),
+            "report_basename": _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(inputs_report, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario_inputs_report, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name"),
+            "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario_inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
+            "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
         for response in result["responses"]:
@@ -422,7 +424,7 @@ def main() -> None:
                 else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             ),
         }
-        configured_report_dir = _pick(report_meta, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory", "report_output_dir", "bundle_dir")
+        configured_report_dir = _pick(report_meta, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario_inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory", "report_output_dir", "bundle_dir")
         if args.report_dir:
             report_dir = Path(args.report_dir)
         elif configured_report_dir:
@@ -432,9 +434,9 @@ def main() -> None:
         else:
             report_dir = None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
-        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json")
-        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path")
-        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html")
+        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json")
+        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path")
+        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html")
 
         def _resolve_report_path(configured: Any) -> Path | None:
             if configured is None:
