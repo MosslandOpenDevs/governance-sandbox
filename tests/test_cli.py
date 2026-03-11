@@ -449,7 +449,10 @@ inputs:
             self.assertEqual(payload["scenario"]["report_title"], "Delegate-ready rehearsal memo")
             markdown_report = (report_dir / "report.md").read_text(encoding="utf-8")
             html_report = (report_dir / "report.html").read_text(encoding="utf-8")
+            self.assertIn("# Delegate-ready rehearsal memo", markdown_report)
             self.assertIn("## Report title\nDelegate-ready rehearsal memo", markdown_report)
+            self.assertIn("<title>Delegate-ready rehearsal memo</title>", html_report)
+            self.assertIn("<h1>Delegate-ready rehearsal memo</h1>", html_report)
             self.assertIn("<strong>Report title:</strong> Delegate-ready rehearsal memo", html_report)
 
 

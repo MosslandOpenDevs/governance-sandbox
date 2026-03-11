@@ -47,12 +47,12 @@ def _pick(mapping: dict[str, Any], *keys: str) -> Any:
 
 
 def _render_markdown_report(result: dict[str, Any]) -> str:
-    lines = [
-        "# Governance Sandbox Report",
-        "",
-    ]
     meta = result.get("report") or {}
     scenario = result.get("scenario") or {}
+    lines = [
+        f"# {scenario.get('report_title') or 'Governance Sandbox Report'}",
+        "",
+    ]
     summary = result.get("summary") or {}
     if meta.get("generated_at") or meta.get("scenario_file"):
         lines.append("## Report metadata")
@@ -164,7 +164,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Governance Sandbox Report</title>
+  <title>{scenario.get("report_title") or "Governance Sandbox Report"}</title>
   <style>
     body {{ font-family: Arial, sans-serif; margin: 2rem auto; max-width: 960px; line-height: 1.6; color: #1f2937; background: #f8fafc; padding: 0 1rem; }}
     .hero, .panel, .card {{ background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }}
@@ -178,7 +178,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
 <body>
   <section class="hero">
     <p class="badge">Recommendation: {result['recommendation']}</p>
-    <h1>Governance Sandbox Report</h1>
+    <h1>{scenario.get("report_title") or "Governance Sandbox Report"}</h1>
     <p>{result['proposal']}</p>
   </section>
   {metadata_panel}
