@@ -285,23 +285,31 @@ def main() -> None:
                 else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             ),
         }
-        rendered = json.dumps(result, ensure_ascii=False, indent=2)
         report_dir = Path(args.report_dir) if args.report_dir else None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
         report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
         markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)
         html_path = Path(args.report_html) if args.report_html else (report_dir / f"{report_basename}.html" if report_dir else None)
+        result["report"]["artifacts"] = {
+            "json": str(report_json_path.resolve()) if report_json_path else None,
+            "markdown": str(markdown_path.resolve()) if markdown_path else None,
+            "html": str(html_path.resolve()) if html_path else None,
+            "directory": str(report_dir.resolve()) if report_dir else None,
+            "basename": report_basename,
+        }
         markdown_report = _render_markdown_report(result)
         html_report = _render_html_report(result)
         if report_json_path:
             report_json_path.parent.mkdir(parents=True, exist_ok=True)
-            report_json_path.write_text(rendered + "\n", encoding="utf-8")
         if markdown_path:
             markdown_path.parent.mkdir(parents=True, exist_ok=True)
             markdown_path.write_text(markdown_report, encoding="utf-8")
         if html_path:
             html_path.parent.mkdir(parents=True, exist_ok=True)
             html_path.write_text(html_report, encoding="utf-8")
+        rendered = json.dumps(result, ensure_ascii=False, indent=2)
+        if report_json_path:
+            report_json_path.write_text(rendered + "\n", encoding="utf-8")
         if report_dir and report_basename != "report":
             alias_json_path = report_dir / "report.json"
             alias_markdown_path = report_dir / "report.md"
