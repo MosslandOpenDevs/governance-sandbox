@@ -378,6 +378,51 @@ report:
             self.assertIn("## Report audience\nDelegate forum reviewers", markdown_path.read_text(encoding="utf-8"))
             self.assertIn("<strong>Report audience:</strong> Delegate forum reviewers", html_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_report_audiences_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                """scenario:
+  name: Audience aliases rehearsal
+  report_audiences:
+    - delegates
+    - treasury stewards
+proposal: Add staged treasury checkpoints before execution.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+report:
+  audiences:
+    - forum reviewers
+    - ops stewards
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_audience"], "forum reviewers, ops stewards")
+            self.assertIn("## Report audience\nforum reviewers, ops stewards", markdown_path.read_text(encoding="utf-8"))
+
     def test_run_supports_report_targets_and_report_tags_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
