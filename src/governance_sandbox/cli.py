@@ -97,6 +97,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Context", scenario["context"], ""])
     if scenario.get("report_title"):
         lines.extend(["## Report title", scenario["report_title"], ""])
+    if scenario.get("report_summary"):
+        lines.extend(["## Report summary", scenario["report_summary"], ""])
     if scenario.get("tags"):
         lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
     if summary:
@@ -166,6 +168,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Context:</strong> {scenario["context"]}</p>')
         if scenario.get("report_title"):
             scenario_bits.append(f'<p><strong>Report title:</strong> {scenario["report_title"]}</p>')
+        if scenario.get("report_summary"):
+            scenario_bits.append(f'<p><strong>Report summary:</strong> {scenario["report_summary"]}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
     artifacts = meta.get("artifacts") or {}
@@ -284,6 +288,7 @@ def main() -> None:
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
+            "report_summary": _pick(report_meta, "summary", "description", "abstract") or _pick(scenario, "report_summary") or _pick(scenario_meta, "report_summary", "description"),
             "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels") or [],
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}

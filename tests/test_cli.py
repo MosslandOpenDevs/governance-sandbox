@@ -682,11 +682,14 @@ inputs:
             payload = json.loads(result.stdout)
             self.assertEqual(payload["scenario"]["context"], "Dry run before a forum memo goes live.")
             self.assertEqual(payload["scenario"]["report_title"], "Governance memo for delegates")
+            self.assertEqual(payload["scenario"]["report_summary"], "Dry run before a forum memo goes live.")
             self.assertEqual(payload["scenario"]["tags"], ["forum", "treasury"])
             markdown_report = (report_dir / "report.md").read_text(encoding="utf-8")
             html_report = (report_dir / "report.html").read_text(encoding="utf-8")
             self.assertIn("# Governance memo for delegates", markdown_report)
             self.assertIn("## Context\nDry run before a forum memo goes live.", markdown_report)
+            self.assertIn("## Report summary\nDry run before a forum memo goes live.", markdown_report)
+            self.assertIn("<strong>Report summary:</strong> Dry run before a forum memo goes live.", html_report)
             self.assertIn("forum, treasury", html_report)
 
     def test_run_supports_report_block_context_alias_without_scenario_description(self) -> None:
