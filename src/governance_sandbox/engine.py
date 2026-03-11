@@ -17,6 +17,8 @@ PRESET_ALIASES: dict[str, str] = {
     'contributor': 'contributors',
     'investor': 'investors',
     'member': 'community',
+    'members': 'community',
+    'communities': 'community',
 }
 
 
