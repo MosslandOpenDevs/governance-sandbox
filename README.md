@@ -122,6 +122,7 @@ If you need a compact reminder that scenario-file support and markdown/html repo
 If you need a one-line check that the imported scenario already produced the full report stack, open `docs/SCENARIO_REPORT_STACK_CHECK.md`.
 If you need the narrowest scenario-file -> result card -> report-download start note before widening the first web demo, open `docs/SCENARIO_REPORT_RESULT_CARD_START.md`.
 If you need a tiny download signoff note once that first web demo is already believable, open `docs/GOVERNANCE_SANDBOX_WEB_DEMO_DOWNLOAD_SIGNOFF.md`.
+If you need the shortest stdin-first replay from one imported scenario payload to one generated report bundle, open `docs/SCENARIO_STDIN_REPORT_BUNDLE_START.md`.
 
 ---
 
