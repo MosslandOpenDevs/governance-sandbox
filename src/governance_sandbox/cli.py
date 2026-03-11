@@ -292,7 +292,7 @@ def main() -> None:
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
-            "report_summary": _pick(report_meta, "summary", "description", "abstract", "brief", "memo_summary", "executive_summary", "overview") or _pick(scenario, "report_summary", "brief", "memo_summary", "overview") or _pick(scenario_meta, "report_summary", "description", "brief", "memo_summary", "overview"),
+            "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "memo_summary", "executive_summary", "overview") or _pick(scenario, "report_summary", "brief", "memo_summary", "overview") or _pick(scenario_meta, "report_summary", "description", "brief", "memo_summary", "overview"),
             "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels") or [],
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}

@@ -244,6 +244,45 @@ stakeholders:
             payload = json.loads(result.stdout)
             self.assertEqual(payload["scenario"]["report_summary"], "Memo alias summary for delegate review.")
             self.assertIn("## Report summary\nMemo alias summary for delegate review.", markdown_path.read_text(encoding="utf-8"))
+    def test_run_supports_nested_report_summary_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                """name: Nested report summary rehearsal
+proposal: Gate treasury experiments behind a delegate review window.
+report:
+  report_summary: Nested report summary alias for markdown/html memo output.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_summary"], "Nested report summary alias for markdown/html memo output.")
+            self.assertIn("## Report summary\nNested report summary alias for markdown/html memo output.", markdown_path.read_text(encoding="utf-8"))
+
 
     def test_run_supports_report_output_basename_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
