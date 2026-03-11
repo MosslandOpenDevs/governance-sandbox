@@ -21,3 +21,15 @@ def test_simulate_governance_accepts_label_alias_for_stakeholder_name() -> None:
     assert response["name"] == "Treasury delegates"
     assert response["preset"] == "delegates"
     assert response["stance"] == "cautious"
+
+
+def test_simulate_governance_accepts_string_preset_name() -> None:
+    result = simulate_governance(
+        "Adopt a staged treasury reporting pilot.",
+        ["delegates"],
+    )
+
+    response = result["responses"][0]
+    assert response["name"] == "delegates"
+    assert response["preset"] == "delegates"
+    assert response["stance"] == "cautious"

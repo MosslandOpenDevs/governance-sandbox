@@ -93,7 +93,11 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
 
     for stakeholder in stakeholders:
         if isinstance(stakeholder, str):
-            response = _infer_response(stakeholder)
+            preset = _normalize_preset(stakeholder)
+            if preset and preset in TRAIT_PRESETS:
+                response = StakeholderResponse(name=stakeholder.strip(), preset=preset, **TRAIT_PRESETS[preset])
+            else:
+                response = _infer_response(stakeholder)
         else:
             name = (
                 stakeholder.get("name")
