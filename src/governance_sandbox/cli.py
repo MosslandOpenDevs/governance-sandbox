@@ -239,7 +239,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
         )
     risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
-    if scenario.get("name") or scenario.get("context"):
+    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_summary", "report_audience", "tags")):
         scenario_bits: list[str] = []
         if scenario.get("name"):
             scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
@@ -251,6 +251,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report summary:</strong> {escape(scenario["report_summary"])}</p>')
         if scenario.get("report_audience"):
             scenario_bits.append(f'<p><strong>Report audience:</strong> {escape(scenario["report_audience"])}</p>')
+        if scenario.get("tags"):
+            scenario_bits.append(f'<p><strong>Scenario tags:</strong> {escape(", ".join(scenario["tags"]))}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
     artifacts = meta.get("artifacts") or {}
