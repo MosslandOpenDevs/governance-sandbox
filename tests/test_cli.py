@@ -378,6 +378,56 @@ report:
             self.assertIn("## Report audience\nDelegate forum reviewers", markdown_path.read_text(encoding="utf-8"))
             self.assertIn("<strong>Report audience:</strong> Delegate forum reviewers", html_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_report_targets_and_report_tags_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            html_path = tmp / "report.html"
+            scenario_path.write_text(
+                """scenario:
+  name: Target alias rehearsal
+  report_targets:
+    - delegate stewards
+    - treasury reviewers
+proposal: Add staged treasury release checkpoints.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+report_tags:
+  - treasury
+  - rollout
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                    "--report-html",
+                    str(html_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_audience"], "delegate stewards, treasury reviewers")
+            self.assertEqual(payload["scenario"]["tags"], ["treasury", "rollout"])
+            self.assertIn("## Report audience\ndelegate stewards, treasury reviewers", markdown_path.read_text(encoding="utf-8"))
+            self.assertIn("## Scenario tags\ntreasury, rollout", markdown_path.read_text(encoding="utf-8"))
+            self.assertIn("<strong>Report audience:</strong> delegate stewards, treasury reviewers", html_path.read_text(encoding="utf-8"))
+
     def test_run_supports_report_memo_summary_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

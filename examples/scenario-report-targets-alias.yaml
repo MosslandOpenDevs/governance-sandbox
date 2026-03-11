@@ -1,0 +1,12 @@
+scenario:
+  name: Report target alias rehearsal
+  report_targets:
+    - delegate stewards
+    - treasury reviewers
+proposal: Add staged treasury release checkpoints.
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
+report_tags:
+  - treasury
+  - rollout
