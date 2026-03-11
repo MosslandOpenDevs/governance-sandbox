@@ -5,6 +5,7 @@ import json
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+import re
 from typing import Any
 
 from .engine import TRAIT_PRESETS, simulate_governance
@@ -44,6 +45,21 @@ def _pick(mapping: dict[str, Any], *keys: str) -> Any:
         if value is not None:
             return value
     return None
+
+
+def _slugify_report_basename(raw: str | None) -> str:
+    if not raw:
+        return "report"
+    slug = re.sub(r"[^a-z0-9]+", "-", raw.strip().lower())
+    slug = slug.strip("-.")
+    return slug or "report"
+
+
+def _resolve_report_basename(report_meta: dict[str, Any], scenario: dict[str, Any]) -> str:
+    configured = _pick(report_meta, "basename", "file_basename", "slug")
+    if configured:
+        return _slugify_report_basename(str(configured))
+    return "report"
 
 
 def _render_markdown_report(result: dict[str, Any]) -> str:
@@ -268,7 +284,7 @@ def main() -> None:
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         report_dir = Path(args.report_dir) if args.report_dir else None
-        report_basename = _pick(report_meta, "basename", "file_basename", "slug") or "report"
+        report_basename = _resolve_report_basename(report_meta, result["scenario"])
         report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
         markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)
         html_path = Path(args.report_html) if args.report_html else (report_dir / f"{report_basename}.html" if report_dir else None)

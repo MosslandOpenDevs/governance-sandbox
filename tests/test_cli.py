@@ -391,6 +391,46 @@ inputs:
             self.assertTrue((report_dir / "delegate-packet.md").exists())
             self.assertTrue((report_dir / "delegate-packet.html").exists())
 
+    def test_run_report_dir_sanitizes_configured_report_basename(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "bundle"
+            scenario_path.write_text(
+                """report:
+  basename: ../Delegate Packet / Final
+inputs:
+  proposal: Add milestone checkpoints before treasury growth experiments.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            self.assertTrue((report_dir / "delegate-packet-final.json").exists())
+            self.assertTrue((report_dir / "delegate-packet-final.md").exists())
+            self.assertTrue((report_dir / "delegate-packet-final.html").exists())
+            self.assertFalse((tmp / "Delegate Packet " / " Final.json").exists())
+
     def test_run_supports_nested_scenario_and_inputs_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

@@ -214,6 +214,7 @@ MIT
 ## Scenario-driven report bundles
 
 Scenario files can now steer report bundle naming through `report.basename`, which is useful when you want stable markdown/html/json artifact names per rehearsal.
+Configured `report.basename` values are sanitized into a safe slug so punctuation or path-like separators do not leak into the generated bundle paths.
 
 ```yaml
 scenario:
