@@ -170,6 +170,7 @@ Current CLI additions now include:
 - nested `report.title` / `report.heading`, `report.tags`, and `report.description` blocks for report-first scenario fixtures and UI handoff payloads
 - `report.name` as a scenario-file alias for the default report bundle basename when `--report-dir` is used
 - `report.description` feeds the generated markdown/html report summary so one scenario file can carry reviewer-facing memo context into CLI and web-demo handoffs
+- `report.memo_summary` / `report.executive_summary` as summary aliases for scenario files that already carry memo-oriented report metadata
 - scenario `description` as a lightweight context alias for report-oriented fixtures
 - outcome snapshot summaries in JSON + markdown/html reports so stakeholder stance balance is visible at a glance
 - `run --list-presets` for built-in stakeholder trait groups (`dao`, `delegates`, `contributors`, `investors`, `community`)
