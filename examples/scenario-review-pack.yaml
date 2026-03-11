@@ -1,0 +1,27 @@
+name: Governance review pack
+context: Treasury automation checkpoint policy before launch
+proposal: >-
+  Require milestone sign-off plus an emergency pause review before automated
+  treasury disbursements can execute.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+  - name: Community stewards
+    preset: community
+report:
+  title: Review-pack governance memo
+  summary: >-
+    Review whether milestone sign-off and emergency pause safeguards add enough
+    accountability before launch without slowing trusted operators too much.
+  owner:
+    - Governance working group
+  audience:
+    - DAO delegates
+    - Ops reviewers
+  tags:
+    - treasury
+    - controls
+    - launch-readiness
+  basename: review-pack-governance-memo

@@ -99,6 +99,7 @@ If you need a one-line maintainer update once that first result-card proof is be
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
 If you want a DAO-flavored treasury automation rehearsal with presets plus a named report bundle, start with `examples/dao-treasury-automation.yaml`.
 If you want a broader preset mix that highlights community-trust tradeoffs plus a named memo bundle, start with `examples/scenario-community-feedback.yaml`.
+If you want one reviewer-ready YAML fixture that keeps scenario import, named markdown/html/json outputs, audience, and owner metadata together, start with `examples/scenario-review-pack.yaml`.
 If you want one reusable fixture that exercises all built-in stakeholder presets in a single report bundle, start with `examples/scenario-preset-roundtable.yaml`.
 If you want a compact snake_case basename fixture for scenario-file -> report-bundle replay, start with `examples/scenario-base-name-alias.yaml` or `examples/scenario-base-name-alias.json`.
 If you want the same scenario-file flow as a compact DAO-oriented JSON fixture, start with `examples/scenario-dao-report-bundle.json`.
