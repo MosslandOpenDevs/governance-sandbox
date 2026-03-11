@@ -1,0 +1,16 @@
+{
+  "name": "Delegate-ready treasury rehearsal",
+  "proposal": "Adopt a staged treasury automation policy with a two-week rollback checkpoint.",
+  "context": "A DAO wants faster execution without losing delegate oversight or community trust.",
+  "report": {
+    "title": "Delegate-ready treasury rehearsal",
+    "summary": "One JSON scenario file that proves proposal import plus JSON/Markdown/HTML report generation together.",
+    "audience": "Governance Working Group",
+    "owner": "Protocol Operations"
+  },
+  "stakeholders": [
+    {"name": "Core Delegates", "preset": "delegates"},
+    {"name": "Treasury Contributors", "preset": "contributors"},
+    {"name": "Long-term Community", "preset": "community"}
+  ]
+}
