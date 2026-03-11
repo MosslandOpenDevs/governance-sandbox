@@ -282,6 +282,12 @@ report:
             self.assertEqual(payload["report"]["scenario_file"], "stdin")
             self.assertIn("## Scenario\nStdin rehearsal", markdown_path.read_text(encoding="utf-8"))
 
+    def test_readme_mentions_web_demo_form_to_card_scope_doc(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("docs/WEB_DEMO_FORM_TO_CARD_SCOPE.md", readme)
+        self.assertTrue((ROOT / "docs" / "WEB_DEMO_FORM_TO_CARD_SCOPE.md").exists())
+
     def test_example_community_feedback_scenario_uses_all_trait_presets(self) -> None:
         import yaml
 
