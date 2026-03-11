@@ -116,12 +116,20 @@ def _slugify_report_basename(raw: str | None) -> str:
     return slug or "report"
 
 
-def _resolve_report_basename(report_meta: dict[str, Any], scenario: dict[str, Any]) -> str:
-    report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
-    configured = _pick(report_outputs, "basename", "base_name", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(report_meta, "basename", "base_name", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name")
+def _resolve_report_basename(*report_sections: dict[str, Any], scenario: dict[str, Any]) -> str:
+    for report_meta in report_sections:
+        report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
+        configured = _pick(report_outputs, "basename", "base_name", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(report_meta, "basename", "base_name", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name")
+        if configured:
+            return _slugify_report_basename(str(configured))
+    configured = _pick(scenario, "report_basename", "report_file_stem", "report_name")
     if configured:
         return _slugify_report_basename(str(configured))
-    titled = _pick(report_meta, "title", "heading") or _pick(scenario, "report_title")
+    titled = next((
+        _pick(report_meta, "title", "heading")
+        for report_meta in report_sections
+        if _pick(report_meta, "title", "heading")
+    ), None) or _pick(scenario, "report_title")
     if titled:
         return _slugify_report_basename(str(titled))
     return "report"
@@ -458,7 +466,12 @@ def main() -> None:
                 report_dir = Path(args.scenario_file).resolve().parent / report_dir
         else:
             report_dir = None
-        report_basename = _resolve_report_basename(report_meta, result["scenario"])
+        report_basename = _resolve_report_basename(
+            report_meta,
+            inputs_report,
+            scenario_inputs_report,
+            scenario=result["scenario"],
+        )
         configured_json_path = _pick(report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(inputs_report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(scenario_inputs_report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output", "json_output_file", "output_json_file") or _pick(scenario, "report_json_path", "report_json_file", "output_json_path", "json_output")
         configured_markdown_path = _pick(report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(inputs_report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(scenario_inputs_report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output", "markdown_output_file", "output_markdown_file") or _pick(scenario, "report_markdown_path", "report_markdown_file", "output_markdown_path", "report_md_path", "md_file", "markdown_output")
         configured_html_path = _pick(report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(inputs_report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(scenario_inputs_report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output", "html_output_file", "output_html_file") or _pick(scenario, "report_html_path", "report_html_file", "output_html_path", "html_output")
