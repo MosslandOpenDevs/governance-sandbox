@@ -295,3 +295,5 @@ Scenario maps can now use nested stakeholder objects with alias fields like `lab
 Scenario files may also use `report.bundle_dir`, nested `report.report_dir`, or top-level `report_output_dir` aliases when one scenario fixture should own the entire JSON/markdown/HTML bundle directory without repeating CLI flags.
 
 Scenario files may also use `report_author` or `report_authors` as report-owner aliases when the generated markdown/html memo should show the owning working group without renaming existing fixture fields.
+
+If you want a compact source-provenance reminder before handing off a generated scenario report bundle, open `docs/SCENARIO_REPORT_SOURCE_HANDOFF.md`.
