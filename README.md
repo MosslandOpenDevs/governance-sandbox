@@ -83,6 +83,7 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
 ```
 
 For the shortest replayable scenario-file -> report-bundle workflow, open `docs/SCENARIO_REPORT_QUICKSTART.md`.
+If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.
 
 ---
 
@@ -149,10 +150,10 @@ Current MVP includes:
 
 Near-term additions:
 
-- scenario files
-- richer stakeholder traits
+- richer stakeholder traits and scenario presets
 - conflict graph export
-- markdown/html report generation
+- lightweight web demo for replayable proposal input and result cards
+- demo GIF once the first web flow is stable
 
 Current CLI additions now include:
 

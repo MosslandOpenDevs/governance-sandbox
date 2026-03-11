@@ -1,0 +1,21 @@
+scenario:
+  name: Treasury confidence rehearsal
+  decision_context: Pre-forum dry run for a milestone-based treasury reallocation memo.
+  labels:
+    - treasury
+    - delegates
+report:
+  title: Treasury confidence rehearsal memo
+  basename: treasury-confidence-rehearsal
+  description: Demo-friendly scenario file for the first governance-sandbox web form and report bundle flow.
+inputs:
+  proposal: Rebalance part of the treasury toward milestone-based ecosystem experiments with monthly reporting checkpoints.
+  stakeholders:
+    - name: DAO delegates
+      preset: delegates
+    - name: Contributor pod
+      preset: contributors
+    - name: Investor circle
+      preset: investors
+    - name: Community stewards
+      preset: community
