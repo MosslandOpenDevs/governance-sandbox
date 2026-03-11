@@ -102,6 +102,7 @@ That JSON inventory now includes a label and a short summary for each preset so 
 Scenario files can also carry `report.audience` / `report.audiences` (or top-level `report_audience`, `report_audiences`, `report_readers`, `report_targets`, `audience`, or `audiences`) so markdown/html outputs state who the memo is for without duplicating handoff copy outside the fixture.
 If you need the fastest scenario-file -> rendered-audience proof before wider report-bundle or web-demo work, open `docs/SCENARIO_REPORT_AUDIENCE_START.md`.
 If you need the shortest metadata-first replay before widening scenario bundles or the first web demo, open `docs/SCENARIO_REPORT_METADATA_START.md`.
+If you need one scenario file to produce a title-ready report bundle for humans without reopening the JSON first, start with `examples/scenario-community-feedback.yaml`.
 If you need a compact start note for keeping one scenario replay tied to one reusable JSON/Markdown/HTML artifact bundle, open `docs/SCENARIO_REPORT_ARTIFACT_BUNDLE_START.md`.
 If you need the narrowest scenario-file -> result card -> report-download start note before widening the first web demo, open `docs/SCENARIO_REPORT_RESULT_CARD_START.md`.
 
