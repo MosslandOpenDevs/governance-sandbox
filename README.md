@@ -195,7 +195,7 @@ Current CLI additions now include:
 - `report.file_stem` as a scenario-file alias when the bundle should keep one reusable basename across JSON/Markdown/HTML artifacts
 - `report.output_basename`, `report.output_name`, and top-level `report_basename` / `report_name` aliases for reviewer-ready report bundle basenames
 - `report.description` feeds the generated markdown/html report summary so one scenario file can carry reviewer-facing memo context into CLI and web-demo handoffs
-- `report.memo_summary` / `report.executive_summary` / `report.overview` as summary aliases for scenario files that already carry memo-oriented report metadata
+- `report.memo_summary` / `report.executive_summary` / `report.overview` / `report.memo` as summary aliases for scenario files that already carry memo-oriented report metadata
 - `report.report_summary` as a nested scenario-file alias when UI/demo payloads already name the memo summary explicitly
 - scenario `description` as a lightweight context alias for report-oriented fixtures
 - outcome snapshot summaries in JSON + markdown/html reports so stakeholder stance balance is visible at a glance
