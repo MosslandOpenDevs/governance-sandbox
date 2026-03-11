@@ -1,0 +1,14 @@
+{
+  "name": "Delegate confidence replay",
+  "proposal": "Add milestone-based treasury releases for ecosystem growth experiments.",
+  "stakeholders": [
+    {"name": "DAO stewards", "preset": "dao"},
+    {"name": "Delegate circle", "preset": "delegates"}
+  ],
+  "report": {
+    "title": "Delegate confidence replay memo",
+    "base_name": "delegate-confidence-replay",
+    "audience": ["delegates", "governance operators"],
+    "owner": "governance working group"
+  }
+}
