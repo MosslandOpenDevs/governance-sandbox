@@ -115,7 +115,7 @@ def _slugify_report_basename(raw: str | None) -> str:
 
 
 def _resolve_report_basename(report_meta: dict[str, Any], scenario: dict[str, Any]) -> str:
-    configured = _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_name")
+    configured = _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name")
     if configured:
         return _slugify_report_basename(str(configured))
     titled = _pick(report_meta, "title", "heading") or _pick(scenario, "report_title")
@@ -395,6 +395,7 @@ def main() -> None:
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
             "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario, "report_summary", "summary", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview") or _pick(scenario_meta, "report_summary", "summary", "description", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview"),
+            "report_basename": _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name"),
             "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels")),
         }
