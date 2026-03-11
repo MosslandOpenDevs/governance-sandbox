@@ -66,7 +66,7 @@ def _normalize_string_list(value: Any) -> list[str]:
     if value is None:
         return []
     if isinstance(value, str):
-        return [item.strip() for item in value.split(',') if item.strip()]
+        return [item.strip() for item in re.split(r"[,\n]", value) if item.strip()]
     if isinstance(value, list):
         normalized: list[str] = []
         for item in value:
