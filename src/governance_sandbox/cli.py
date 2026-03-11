@@ -348,7 +348,15 @@ def main() -> None:
                 else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             ),
         }
-        report_dir = Path(args.report_dir) if args.report_dir else None
+        configured_report_dir = _pick(report_meta, "dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory")
+        if args.report_dir:
+            report_dir = Path(args.report_dir)
+        elif configured_report_dir:
+            report_dir = Path(str(configured_report_dir))
+            if not report_dir.is_absolute() and args.scenario_file and args.scenario_file != "-":
+                report_dir = Path(args.scenario_file).resolve().parent / report_dir
+        else:
+            report_dir = None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
         report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
         markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)

@@ -9,6 +9,9 @@ import unittest
 from pathlib import Path
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
 class ReportBasenameAliasTests(unittest.TestCase):
     def test_report_output_name_alias_drives_report_dir_bundle_names(self) -> None:
         root = Path(__file__).resolve().parents[1]
@@ -55,6 +58,53 @@ class ReportBasenameAliasTests(unittest.TestCase):
             self.assertTrue((report_dir / "delegate-ready-bundle.json").exists())
             self.assertTrue((report_dir / "delegate-ready-bundle.md").exists())
             self.assertTrue((report_dir / "delegate-ready-bundle.html").exists())
+            self.assertTrue((report_dir / "report.json").exists())
+            self.assertTrue((report_dir / "report.md").exists())
+            self.assertTrue((report_dir / "report.html").exists())
+
+
+class ReportDirAliasTests(unittest.TestCase):
+    def test_report_dir_supports_nested_output_dir_alias_from_scenario_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """
+proposal: Launch a delegate communications sprint.
+stakeholders:
+  - name: Delegate leads
+    preset: delegates
+report:
+  output_dir: nested/exports
+  output_name: delegate-demo-packet
+""".strip()
+                + "\n",
+                encoding="utf-8",
+            )
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+                env={**os.environ, "PYTHONPATH": str(ROOT / "src")},
+            )
+
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            payload = json.loads(completed.stdout)
+            report_dir = tmp / "nested" / "exports"
+            self.assertEqual(payload["report"]["artifacts"]["directory"], str(report_dir.resolve()))
+            self.assertTrue((report_dir / "delegate-demo-packet.json").exists())
+            self.assertTrue((report_dir / "delegate-demo-packet.md").exists())
+            self.assertTrue((report_dir / "delegate-demo-packet.html").exists())
             self.assertTrue((report_dir / "report.json").exists())
             self.assertTrue((report_dir / "report.md").exists())
             self.assertTrue((report_dir / "report.html").exists())
