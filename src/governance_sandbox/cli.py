@@ -51,7 +51,15 @@ def _load_scenario(path: Path) -> dict[str, Any]:
             loaded = yaml.safe_load(text)
         else:
             raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
-    return loaded if isinstance(loaded, dict) else {}
+    if not isinstance(loaded, dict):
+        return {}
+    for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle"):
+        wrapped = loaded.get(wrapper_key)
+        if isinstance(wrapped, dict) and any(
+            key in wrapped for key in ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
+        ):
+            return wrapped
+    return loaded
 
 
 def _pick(mapping: dict[str, Any], *keys: str) -> Any:
