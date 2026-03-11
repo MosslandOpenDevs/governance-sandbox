@@ -56,6 +56,21 @@ class HtmlReportTests(unittest.TestCase):
         self.assertIn('&lt;DAO &amp; Delegates&gt;', report)
         self.assertNotIn('<title><DAO & Delegates></title>', report)
 
+    def test_html_report_escapes_hero_heading_text(self) -> None:
+        report = _render_html_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {"report_title": '<DAO & Delegates>'},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn('<h1>&lt;DAO &amp; Delegates&gt;</h1>', report)
+        self.assertNotIn('<h1><DAO & Delegates></h1>', report)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -246,7 +246,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
 <body>
   <section class="hero">
     <p class="badge">Recommendation: {escape(result['recommendation'])}</p>
-    <h1>{scenario.get("report_title") or "Governance Sandbox Report"}</h1>
+    <h1>{escape(scenario.get("report_title") or "Governance Sandbox Report")}</h1>
     <p>{escape(result['proposal'])}</p>
   </section>
   {metadata_panel}
