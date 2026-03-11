@@ -1,0 +1,22 @@
+scenario:
+  name: Delegate confidence rehearsal
+  decision_context: Pre-forum dry run for a treasury reallocation proposal.
+  labels:
+    - treasury
+    - delegates
+report:
+  title: Delegate-ready treasury rehearsal memo
+  basename: delegate-ready-treasury-rehearsal
+inputs:
+  proposal: Shift part of the treasury budget from open-ended grants to milestone-based growth experiments.
+  stakeholders:
+    - name: DAO council
+      preset: dao
+    - name: Delegate cohort
+      preset: delegates
+    - name: Contributor pod
+      preset: contributors
+    - name: Investor circle
+      preset: investors
+    - name: Community stewards
+      preset: community

@@ -74,6 +74,14 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
   --report-dir artifacts/demo
 ```
 
+Use the richer scenario/report fixture when you want one YAML file to drive proposal input, stakeholder presets, report naming, and a reusable JSON/Markdown/HTML artifact bundle:
+
+```bash
+PYTHONPATH=src python3 -m governance_sandbox.cli run \
+  --scenario-file examples/scenario-report-bundle.yaml \
+  --report-dir artifacts/delegate-ready
+```
+
 ---
 
 ## Why this project exists
