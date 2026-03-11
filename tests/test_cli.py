@@ -456,6 +456,58 @@ inputs:
             self.assertIn("<strong>Report title:</strong> Delegate-ready rehearsal memo", html_report)
 
 
+
+    def test_run_supports_report_block_title_tags_and_description_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "bundle"
+            scenario_path.write_text(
+                """scenario:
+  name: Delegate report rehearsal
+  description: Dry run before a forum memo goes live.
+report:
+  title: Governance memo for delegates
+  tags:
+    - forum
+    - treasury
+inputs:
+  proposal: Add milestone checkpoints before treasury growth experiments.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["context"], "Dry run before a forum memo goes live.")
+            self.assertEqual(payload["scenario"]["report_title"], "Governance memo for delegates")
+            self.assertEqual(payload["scenario"]["tags"], ["forum", "treasury"])
+            markdown_report = (report_dir / "report.md").read_text(encoding="utf-8")
+            html_report = (report_dir / "report.html").read_text(encoding="utf-8")
+            self.assertIn("# Governance memo for delegates", markdown_report)
+            self.assertIn("## Context\nDry run before a forum memo goes live.", markdown_report)
+            self.assertIn("forum, treasury", html_report)
+
     def test_list_presets_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets"],

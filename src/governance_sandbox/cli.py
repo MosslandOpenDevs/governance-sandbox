@@ -238,11 +238,12 @@ def main() -> None:
         if not stakeholders:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
+        report_meta = scenario.get("report") if isinstance(scenario.get("report"), dict) else {}
         result["scenario"] = {
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
-            "context": _pick(scenario, "context", "decision_context", "decision", "summary") or _pick(scenario_meta, "context", "decision_context", "decision", "summary"),
-            "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading"),
-            "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or [],
+            "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description"),
+            "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
+            "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels") or [],
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
         for response in result["responses"]:

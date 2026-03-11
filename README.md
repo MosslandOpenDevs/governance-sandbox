@@ -156,6 +156,8 @@ Current CLI additions now include:
 - `--report-dir` for emitting a default `report.json` + `report.md` + `report.html` artifact bundle in one command
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
 - optional scenario `report_title` / `report_heading` metadata for cleaner markdown/html memo headings, page titles, and demo handoff bundles
+- nested `report.title` / `report.heading` and `report.tags` blocks for report-first scenario fixtures and UI handoff payloads
+- scenario `description` as a lightweight context alias for report-oriented fixtures
 - outcome snapshot summaries in JSON + markdown/html reports so stakeholder stance balance is visible at a glance
 - `run --list-presets` for built-in stakeholder trait groups (`dao`, `delegates`, `contributors`, `investors`, `community`)
 
