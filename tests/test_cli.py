@@ -170,6 +170,49 @@ stakeholders:
             self.assertEqual(payload["report"]["scenario_file"], "stdin")
             self.assertIn("- Scenario file: stdin", markdown_path.read_text(encoding="utf-8"))
 
+    def test_run_supports_yaml_stdin_scenario_with_nested_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            html_path = tmp / "report.html"
+            scenario_payload = """scenario:
+  name: YAML stdin rehearsal
+  decision_context: Replayable stdin import for governance dry runs.
+inputs:
+  proposal: Add milestone checkpoints before treasury disbursements.
+  stakeholders:
+    - stakeholder: DAO delegates
+      group: delegates
+    - name: Community pod
+      trait: community
+"""
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    "-",
+                    "--report-html",
+                    str(html_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                input=scenario_payload,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "YAML stdin rehearsal")
+            self.assertEqual(payload["scenario"]["context"], "Replayable stdin import for governance dry runs.")
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["responses"][1]["preset"], "community")
+            self.assertEqual(payload["report"]["scenario_file"], "stdin")
+            self.assertIn("<strong>Scenario:</strong> YAML stdin rehearsal", html_path.read_text(encoding="utf-8"))
+
     def test_run_supports_title_decision_aliases_and_group_based_presets(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
