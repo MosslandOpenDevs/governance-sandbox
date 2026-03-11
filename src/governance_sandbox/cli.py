@@ -115,7 +115,8 @@ def _slugify_report_basename(raw: str | None) -> str:
 
 
 def _resolve_report_basename(report_meta: dict[str, Any], scenario: dict[str, Any]) -> str:
-    configured = _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name")
+    report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
+    configured = _pick(report_outputs, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name")
     if configured:
         return _slugify_report_basename(str(configured))
     titled = _pick(report_meta, "title", "heading") or _pick(scenario, "report_title")
@@ -398,6 +399,9 @@ def main() -> None:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
         report_meta = scenario.get("report") if isinstance(scenario.get("report"), dict) else {}
+        report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
+        inputs_report_outputs = inputs_report.get("outputs") if isinstance(inputs_report.get("outputs"), dict) else {}
+        scenario_inputs_report_outputs = scenario_inputs_report.get("outputs") if isinstance(scenario_inputs_report.get("outputs"), dict) else {}
         result["scenario"] = {
             "name": _pick(scenario, "name", "title") or _pick(scenario_meta, "name", "title"),
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "decision_context", "summary", "description"),
@@ -429,7 +433,7 @@ def main() -> None:
                 else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             ),
         }
-        configured_report_dir = _pick(report_meta, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario_inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory", "report_output_dir", "bundle_dir")
+        configured_report_dir = _pick(report_outputs, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(inputs_report_outputs, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario_inputs_report_outputs, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(report_meta, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario_inputs_report, "dir", "bundle_dir", "report_dir", "output_dir", "directory", "output_directory") or _pick(scenario, "report_dir", "report_directory", "report_output_dir", "bundle_dir")
         if args.report_dir:
             report_dir = Path(args.report_dir)
         elif configured_report_dir:
@@ -439,9 +443,9 @@ def main() -> None:
         else:
             report_dir = None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
-        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(scenario, "report_json_path", "report_json_file", "output_json_path", "json_output")
-        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(scenario, "report_markdown_path", "report_markdown_file", "output_markdown_path", "report_md_path", "md_file", "markdown_output")
-        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(scenario, "report_html_path", "report_html_file", "output_html_path", "html_output")
+        configured_json_path = _pick(report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(inputs_report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(scenario_inputs_report_outputs, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json", "json_output") or _pick(scenario, "report_json_path", "report_json_file", "output_json_path", "json_output")
+        configured_markdown_path = _pick(report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(inputs_report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(scenario_inputs_report_outputs, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path", "md_file", "markdown_output") or _pick(scenario, "report_markdown_path", "report_markdown_file", "output_markdown_path", "report_md_path", "md_file", "markdown_output")
+        configured_html_path = _pick(report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(inputs_report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(scenario_inputs_report_outputs, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html", "html_output") or _pick(scenario, "report_html_path", "report_html_file", "output_html_path", "html_output")
 
         def _resolve_report_path(configured: Any) -> Path | None:
             if configured is None:
