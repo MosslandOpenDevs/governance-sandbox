@@ -434,9 +434,9 @@ def main() -> None:
         else:
             report_dir = None
         report_basename = _resolve_report_basename(report_meta, result["scenario"])
-        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json")
-        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path")
-        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html")
+        configured_json_path = _pick(report_meta, "json", "json_path", "json_file", "report_json", "output_json") or _pick(inputs_report, "json", "json_path", "json_file", "report_json", "output_json") or _pick(scenario_inputs_report, "json", "json_path", "json_file", "report_json", "output_json") or _pick(scenario, "report_json_path", "report_json_file", "output_json_path")
+        configured_markdown_path = _pick(report_meta, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(scenario_inputs_report, "markdown", "markdown_path", "markdown_file", "report_markdown", "output_markdown", "md", "md_path") or _pick(scenario, "report_markdown_path", "report_markdown_file", "output_markdown_path", "report_md_path")
+        configured_html_path = _pick(report_meta, "html", "html_path", "html_file", "report_html", "output_html") or _pick(inputs_report, "html", "html_path", "html_file", "report_html", "output_html") or _pick(scenario_inputs_report, "html", "html_path", "html_file", "report_html", "output_html") or _pick(scenario, "report_html_path", "report_html_file", "output_html_path")
 
         def _resolve_report_path(configured: Any) -> Path | None:
             if configured is None:
