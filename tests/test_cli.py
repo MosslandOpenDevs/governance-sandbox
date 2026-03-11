@@ -12,6 +12,50 @@ SRC = ROOT / "src"
 
 
 class GovernanceSandboxCliTests(unittest.TestCase):
+
+    def test_html_report_escapes_scenario_and_response_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            html_path = tmp / "report.html"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "name": "Treasury <review>",
+                        "context": "Budget <window> & delegate alignment",
+                        "proposal": "Ship <fast> & keep trust.",
+                        "stakeholders": [
+                            {"name": "Delegate <group>", "preset": "delegates"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-html",
+                    str(html_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            html_report = html_path.read_text(encoding="utf-8")
+            self.assertIn("Treasury &lt;review&gt;", html_report)
+            self.assertIn("Budget &lt;window&gt; &amp; delegate alignment", html_report)
+            self.assertIn("Ship &lt;fast&gt; &amp; keep trust.", html_report)
+            self.assertIn("Delegate &lt;group&gt;", html_report)
+            self.assertNotIn("<review>", html_report)
     def test_demo_fixture_drives_named_report_bundle_and_report_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             report_dir = Path(tmpdir) / "bundle"

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from html import escape
 from datetime import UTC, datetime
 from pathlib import Path
 import re
@@ -118,7 +119,7 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         "## Proposal",
         result["proposal"],
         "",
-        f"## Recommendation\n{result['recommendation']}",
+        f"## Recommendation\n{escape(result['recommendation'])}",
         "",
         "## Stakeholder responses",
     ])
@@ -145,63 +146,63 @@ def _render_html_report(result: dict[str, Any]) -> str:
     scenario = result.get("scenario") or {}
     summary = result.get("summary") or {}
     for response in result["responses"]:
-        preset = f" <span class=\"preset\">{response['preset']}</span>" if response.get("preset") else ""
+        preset = f" <span class=\"preset\">{escape(response['preset'])}</span>" if response.get("preset") else ""
         response_cards.append(
             "".join(
                 [
                     '<section class="card">',
-                    f'<h3>{response["name"]}{preset}</h3>',
-                    f'<p><strong>Stance:</strong> {response["stance"]}</p>',
-                    f'<p><strong>Concern:</strong> {response["concern"]}</p>',
-                    f'<p><strong>Mitigation:</strong> {response["mitigation"]}</p>',
+                    f'<h3>{escape(response["name"])}{preset}</h3>',
+                    f'<p><strong>Stance:</strong> {escape(response["stance"])}</p>',
+                    f'<p><strong>Concern:</strong> {escape(response["concern"])}</p>',
+                    f'<p><strong>Mitigation:</strong> {escape(response["mitigation"])}</p>',
                     "</section>",
                 ]
             )
         )
-    risks = "".join(f"<li>{risk}</li>" for risk in result["major_risks"])
+    risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
     if scenario.get("name") or scenario.get("context"):
         scenario_bits: list[str] = []
         if scenario.get("name"):
-            scenario_bits.append(f'<p><strong>Scenario:</strong> {scenario["name"]}</p>')
+            scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
         if scenario.get("context"):
-            scenario_bits.append(f'<p><strong>Context:</strong> {scenario["context"]}</p>')
+            scenario_bits.append(f'<p><strong>Context:</strong> {escape(scenario["context"])}</p>')
         if scenario.get("report_title"):
-            scenario_bits.append(f'<p><strong>Report title:</strong> {scenario["report_title"]}</p>')
+            scenario_bits.append(f'<p><strong>Report title:</strong> {escape(scenario["report_title"])}</p>')
         if scenario.get("report_summary"):
-            scenario_bits.append(f'<p><strong>Report summary:</strong> {scenario["report_summary"]}</p>')
+            scenario_bits.append(f'<p><strong>Report summary:</strong> {escape(scenario["report_summary"])}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
     artifacts = meta.get("artifacts") or {}
     if meta.get("generated_at") or meta.get("scenario_file") or any(artifacts.values()):
         metadata_bits: list[str] = []
         if meta.get("generated_at"):
-            metadata_bits.append(f'<p><strong>Generated at:</strong> {meta["generated_at"]}</p>')
+            metadata_bits.append(f'<p><strong>Generated at:</strong> {escape(meta["generated_at"])}</p>')
         if meta.get("scenario_file"):
-            metadata_bits.append(f'<p><strong>Scenario file:</strong> {meta["scenario_file"]}</p>')
+            metadata_bits.append(f'<p><strong>Scenario file:</strong> {escape(meta["scenario_file"])}</p>')
         if artifacts.get("directory"):
-            metadata_bits.append(f'<p><strong>Report directory:</strong> {artifacts["directory"]}</p>')
+            metadata_bits.append(f'<p><strong>Report directory:</strong> {escape(artifacts["directory"])}</p>')
         if artifacts.get("basename"):
-            metadata_bits.append(f'<p><strong>Report basename:</strong> {artifacts["basename"]}</p>')
+            metadata_bits.append(f'<p><strong>Report basename:</strong> {escape(artifacts["basename"])}</p>')
         if artifacts.get("json"):
-            metadata_bits.append(f'<p><strong>JSON artifact:</strong> {artifacts["json"]}</p>')
+            metadata_bits.append(f'<p><strong>JSON artifact:</strong> {escape(artifacts["json"])}</p>')
         if artifacts.get("markdown"):
-            metadata_bits.append(f'<p><strong>Markdown artifact:</strong> {artifacts["markdown"]}</p>')
+            metadata_bits.append(f'<p><strong>Markdown artifact:</strong> {escape(artifacts["markdown"])}</p>')
         if artifacts.get("html"):
-            metadata_bits.append(f'<p><strong>HTML artifact:</strong> {artifacts["html"]}</p>')
+            metadata_bits.append(f'<p><strong>HTML artifact:</strong> {escape(artifacts["html"])}</p>')
         metadata_panel = '<section class="panel"><h2>Report metadata</h2>' + ''.join(metadata_bits) + '</section>'
     tag_panel = ""
     if scenario.get("tags"):
-        tag_panel = '<section class="panel"><h2>Scenario tags</h2><p>' + ', '.join(scenario['tags']) + '</p></section>'
+        tag_panel = '<section class="panel"><h2>Scenario tags</h2><p>' + ', '.join(escape(tag) for tag in scenario['tags']) + '</p></section>'
     summary_panel = ""
     if summary:
         summary_panel = ''.join([
             '<section class="panel"><h2>Outcome snapshot</h2><div class="grid">',
-            f'<section class="card"><h3>{summary["stakeholder_count"]}</h3><p>Stakeholders</p></section>',
-            f'<section class="card"><h3>{summary["supportive"]}</h3><p>Supportive</p></section>',
-            f'<section class="card"><h3>{summary["cautious"]}</h3><p>Cautious</p></section>',
-            f'<section class="card"><h3>{summary["mixed"]}</h3><p>Mixed</p></section>',
-            f'<section class="card"><h3>{summary["skeptical"]}</h3><p>Skeptical</p></section>',
+            f'<section class="card"><h3>{escape(str(summary["stakeholder_count"]))}</h3><p>Stakeholders</p></section>',
+            f'<section class="card"><h3>{escape(str(summary["supportive"]))}</h3><p>Supportive</p></section>',
+            f'<section class="card"><h3>{escape(str(summary["cautious"]))}</h3><p>Cautious</p></section>',
+            f'<section class="card"><h3>{escape(str(summary["mixed"]))}</h3><p>Mixed</p></section>',
+            f'<section class="card"><h3>{escape(str(summary["skeptical"]))}</h3><p>Skeptical</p></section>',
             '</div></section>',
         ])
     return f'''<!doctype html>
@@ -222,9 +223,9 @@ def _render_html_report(result: dict[str, Any]) -> str:
 </head>
 <body>
   <section class="hero">
-    <p class="badge">Recommendation: {result['recommendation']}</p>
+    <p class="badge">Recommendation: {escape(result['recommendation'])}</p>
     <h1>{scenario.get("report_title") or "Governance Sandbox Report"}</h1>
-    <p>{result['proposal']}</p>
+    <p>{escape(result['proposal'])}</p>
   </section>
   {metadata_panel}
   {scenario_panel}
@@ -240,7 +241,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
   </section>
   <section class="panel">
     <h2>Decision memo</h2>
-    <p>{result['decision_memo']}</p>
+    <p>{escape(result['decision_memo'])}</p>
   </section>
 </body>
 </html>
