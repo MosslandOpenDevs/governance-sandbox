@@ -88,6 +88,7 @@ PYTHONPATH=src python3 -m governance_sandbox.cli run \
 For the shortest replayable scenario-file -> report-bundle workflow, open `docs/SCENARIO_REPORT_QUICKSTART.md`.
 If you want a one-screen start note for the same scenario-file + report-dir bundle, open `docs/SCENARIO_REPORT_START.md`.
 If you need a compact path check for one imported scenario file plus one generated report bundle, open `docs/SCENARIO_REPORT_PATHS_NOTE.md`.
+If you need a compact note for keeping the markdown report paired with the matching JSON artifact, open `docs/SCENARIO_REPORT_MARKDOWN_BUNDLE_NOTE.md`.
 If you want the same bundle flow with a ready-made JSON fixture, start with `examples/scenario-report-bundle.json`.
 If you want the same flow from stdin for shell pipelines or browser-demo handoffs, pass `--scenario-file -` and pipe JSON/YAML into the CLI.
 Scenario files can also keep `stakeholders` as one comma-separated or newline-separated string when a fixture is easier to author that way.
