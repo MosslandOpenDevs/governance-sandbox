@@ -122,6 +122,7 @@ If you need the shortest scenario-file -> generated report bundle replay before 
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a compact reviewer-share note once one imported scenario already generates the full markdown/html/json bundle, open `docs/SCENARIO_REPORT_REVIEWER_SHARE_NOTE.md`.
 If you need the shortest scenario-file -> markdown memo proof before widening JSON/HTML output work, open `docs/SCENARIO_FILE_MARKDOWN_REPORT_NOTE.md`.
+If you need a compact replay card for keeping one imported scenario tied to one generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_FILE_REPORT_REPLAY_CARD.md`.
 
 If you need a one-line check that the imported scenario already produced the full report stack, open `docs/SCENARIO_REPORT_STACK_CHECK.md`.
 If you need the narrowest scenario-file -> result card -> report-download start note before widening the first web demo, open `docs/SCENARIO_REPORT_RESULT_CARD_START.md`.
