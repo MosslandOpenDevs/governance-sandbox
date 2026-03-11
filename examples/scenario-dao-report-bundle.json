@@ -1,0 +1,15 @@
+{
+  "name": "DAO report bundle replay",
+  "context": "Replayable JSON fixture for scenario import plus markdown/html/json bundle generation.",
+  "proposal": "Stage treasury execution behind one delegate review checkpoint and one community recap.",
+  "report": {
+    "title": "DAO report bundle replay memo",
+    "name": "dao-report-bundle-replay",
+    "description": "Compact JSON fixture proving scenario-file import and named report bundle output for reviewer-ready rehearsal flows."
+  },
+  "stakeholders": [
+    {"name": "DAO council", "preset": "dao"},
+    {"name": "Delegate cohort", "preset": "delegates"},
+    {"name": "Contributor pod", "preset": "contributors"}
+  ]
+}

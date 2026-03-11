@@ -415,6 +415,15 @@ report:
             ["dao", "delegates", "contributors", "investors", "community"],
         )
 
+    def test_example_dao_report_bundle_json_fixture_is_named_and_readme_visible(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        scenario_path = ROOT / "examples" / "scenario-dao-report-bundle.json"
+        payload = json.loads(scenario_path.read_text(encoding="utf-8"))
+
+        self.assertIn("examples/scenario-dao-report-bundle.json", readme)
+        self.assertEqual(payload["report"]["name"], "dao-report-bundle-replay")
+        self.assertEqual([item["preset"] for item in payload["stakeholders"]], ["dao", "delegates", "contributors"])
+
     def test_run_supports_yaml_scenario_file_and_nested_report_paths(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
