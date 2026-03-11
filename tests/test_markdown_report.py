@@ -93,6 +93,20 @@ class MarkdownReportTests(unittest.TestCase):
 
         self.assertIn("## Report owner\nGovernance Working Group", report)
 
+    def test_markdown_report_includes_scenario_source(self) -> None:
+        report = _render_markdown_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {"scenario_file": "stdin"},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn("## Scenario source\nstdin", report)
+
 
 from governance_sandbox.cli import _render_html_report
 
@@ -178,6 +192,20 @@ class HtmlReportTests(unittest.TestCase):
         })
 
         self.assertIn("<strong>Report owner:</strong> Governance Working Group", report)
+
+    def test_html_report_includes_scenario_source(self) -> None:
+        report = _render_html_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {"scenario_file": "stdin"},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn("<strong>Scenario source:</strong> stdin", report)
 
 
 if __name__ == "__main__":
