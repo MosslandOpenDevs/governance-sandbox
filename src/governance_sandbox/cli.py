@@ -160,6 +160,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Report summary", scenario["report_summary"], ""])
     if scenario.get("report_audience"):
         lines.extend(["## Report audience", scenario["report_audience"], ""])
+    if scenario.get("report_owner"):
+        lines.extend(["## Report owner", scenario["report_owner"], ""])
     if scenario.get("tags"):
         lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
     if summary:
@@ -239,7 +241,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
         )
     risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
-    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_summary", "report_audience", "tags")):
+    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_summary", "report_audience", "report_owner", "tags")):
         scenario_bits: list[str] = []
         if scenario.get("name"):
             scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
@@ -251,6 +253,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report summary:</strong> {escape(scenario["report_summary"])}</p>')
         if scenario.get("report_audience"):
             scenario_bits.append(f'<p><strong>Report audience:</strong> {escape(scenario["report_audience"])}</p>')
+        if scenario.get("report_owner"):
+            scenario_bits.append(f'<p><strong>Report owner:</strong> {escape(scenario["report_owner"])}</p>')
         if scenario.get("tags"):
             scenario_bits.append(f'<p><strong>Scenario tags:</strong> {escape(", ".join(scenario["tags"]))}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
@@ -401,6 +405,7 @@ def main() -> None:
             "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario_inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario, "report_summary", "summary", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview") or _pick(scenario_meta, "report_summary", "summary", "description", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview"),
             "report_basename": _pick(report_meta, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(inputs_report, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario_inputs_report, "basename", "file_basename", "file_stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_name"),
             "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario_inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
+            "report_owner": ", ".join(_normalize_string_list(_pick(report_meta, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners") or _pick(inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners") or _pick(scenario_inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners") or _pick(scenario, "report_owner", "report_owners", "owner", "owners", "maintainer", "maintainers", "author", "authors") or _pick(scenario_meta, "report_owner", "report_owners", "owner", "owners", "maintainer", "maintainers", "author", "authors"))) or None,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}

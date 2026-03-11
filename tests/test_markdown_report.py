@@ -79,6 +79,20 @@ class MarkdownReportTests(unittest.TestCase):
 
         self.assertIn("- Preset mix: community: 1, delegates: 2", report)
 
+    def test_markdown_report_includes_report_owner(self) -> None:
+        report = _render_markdown_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {"report_owner": "Governance Working Group"},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn("## Report owner\nGovernance Working Group", report)
+
 
 from governance_sandbox.cli import _render_html_report
 
@@ -150,6 +164,20 @@ class HtmlReportTests(unittest.TestCase):
 
         self.assertIn("<h2>Preset mix</h2>", report)
         self.assertIn("community: 1, delegates: 1", report)
+
+    def test_html_report_includes_report_owner(self) -> None:
+        report = _render_html_report({
+            "proposal": "Ship a staged governance change.",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Keep the memo short.",
+            "scenario": {"report_owner": "Governance Working Group"},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn("<strong>Report owner:</strong> Governance Working Group", report)
 
 
 if __name__ == "__main__":
