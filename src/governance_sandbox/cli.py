@@ -144,10 +144,17 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         "## Stakeholder responses",
     ])
     for response in result["responses"]:
-        preset = f" ({response['preset']})" if response.get("preset") else ""
+        preset_key = response.get("preset")
+        preset = f" ({preset_key})" if preset_key else ""
         lines.extend(
             [
                 f"### {response['name']}{preset}",
+            ]
+        )
+        if preset_key and preset_key in PRESET_SUMMARIES:
+            lines.append(f"- Preset summary: {PRESET_SUMMARIES[preset_key]}")
+        lines.extend(
+            [
                 f"- Stance: {response['stance']}",
                 f"- Concern: {response['concern']}",
                 f"- Mitigation: {response['mitigation']}",
@@ -166,12 +173,19 @@ def _render_html_report(result: dict[str, Any]) -> str:
     scenario = result.get("scenario") or {}
     summary = result.get("summary") or {}
     for response in result["responses"]:
-        preset = f" <span class=\"preset\">{escape(response['preset'])}</span>" if response.get("preset") else ""
+        preset_key = response.get("preset")
+        preset = f" <span class=\"preset\">{escape(preset_key)}</span>" if preset_key else ""
+        preset_summary = (
+            f'<p><strong>Preset summary:</strong> {escape(PRESET_SUMMARIES[preset_key])}</p>'
+            if preset_key in PRESET_SUMMARIES
+            else ""
+        )
         response_cards.append(
             "".join(
                 [
                     '<section class="card">',
                     f'<h3>{escape(response["name"])}{preset}</h3>',
+                    preset_summary,
                     f'<p><strong>Stance:</strong> {escape(response["stance"])}</p>',
                     f'<p><strong>Concern:</strong> {escape(response["concern"])}</p>',
                     f'<p><strong>Mitigation:</strong> {escape(response["mitigation"])}</p>',
