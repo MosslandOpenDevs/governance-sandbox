@@ -209,3 +209,23 @@ governance-sandbox/
 ## License
 
 MIT
+
+
+## Scenario-driven report bundles
+
+Scenario files can now steer report bundle naming through `report.basename`, which is useful when you want stable markdown/html/json artifact names per rehearsal.
+
+```yaml
+scenario:
+  name: Treasury signal rehearsal
+report:
+  title: Delegate-ready rehearsal memo
+  basename: delegate-ready-rehearsal
+inputs:
+  proposal: Add milestone checkpoints before treasury growth experiments.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+```
+
+Then run `gov-sandbox run --scenario-file scenario.yaml --report-dir artifacts/` to produce `delegate-ready-rehearsal.json`, `.md`, and `.html`.

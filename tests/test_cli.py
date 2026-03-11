@@ -305,6 +305,49 @@ actors:
             self.assertTrue((report_dir / "report.html").exists())
             self.assertIn("Delegate bench", (report_dir / "report.md").read_text(encoding="utf-8"))
 
+    def test_run_report_dir_supports_report_basename_from_scenario_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "artifacts" / "bundle"
+            scenario_path.write_text(
+                """scenario:
+  name: Delegate packet rehearsal
+report:
+  basename: delegate-packet
+inputs:
+  proposal: Add milestone-based reporting to the ecosystem budget.
+  stakeholders:
+    - name: Delegate bench
+      preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Delegate packet rehearsal")
+            self.assertTrue((report_dir / "delegate-packet.json").exists())
+            self.assertTrue((report_dir / "delegate-packet.md").exists())
+            self.assertTrue((report_dir / "delegate-packet.html").exists())
+
     def test_run_supports_nested_scenario_and_inputs_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

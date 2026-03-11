@@ -268,9 +268,10 @@ def main() -> None:
         }
         rendered = json.dumps(result, ensure_ascii=False, indent=2)
         report_dir = Path(args.report_dir) if args.report_dir else None
-        report_json_path = Path(args.report_json) if args.report_json else (report_dir / "report.json" if report_dir else None)
-        markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / "report.md" if report_dir else None)
-        html_path = Path(args.report_html) if args.report_html else (report_dir / "report.html" if report_dir else None)
+        report_basename = _pick(report_meta, "basename", "file_basename", "slug") or "report"
+        report_json_path = Path(args.report_json) if args.report_json else (report_dir / f"{report_basename}.json" if report_dir else None)
+        markdown_path = Path(args.report_markdown) if args.report_markdown else (report_dir / f"{report_basename}.md" if report_dir else None)
+        html_path = Path(args.report_html) if args.report_html else (report_dir / f"{report_basename}.html" if report_dir else None)
         if report_json_path:
             report_json_path.parent.mkdir(parents=True, exist_ok=True)
             report_json_path.write_text(rendered + "\n", encoding="utf-8")
