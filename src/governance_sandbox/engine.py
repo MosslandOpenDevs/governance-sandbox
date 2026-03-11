@@ -98,6 +98,8 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
             name = (stakeholder.get("name") or stakeholder.get("stakeholder") or "").strip()
             preset = _normalize_preset(
                 stakeholder.get("preset")
+                or stakeholder.get("preset_name")
+                or stakeholder.get("preset_key")
                 or stakeholder.get("group")
                 or stakeholder.get("trait")
                 or stakeholder.get("persona")

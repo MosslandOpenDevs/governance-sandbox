@@ -1216,6 +1216,43 @@ inputs:
             self.assertEqual(payload["responses"][0]["preset"], "delegates")
             self.assertEqual(payload["responses"][1]["preset"], "community")
 
+    def test_run_supports_preset_name_and_preset_key_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "proposal": "Stage a delegate check before treasury execution.",
+                        "stakeholders": [
+                            {"name": "Delegate council", "preset_name": "delegates"},
+                            {"name": "Investor pod", "preset_key": "investors"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["responses"][1]["preset"], "investors")
+
     def test_run_supports_role_and_archetype_aliases_plus_report_brief(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

@@ -167,7 +167,7 @@ Current CLI additions now include:
 - optional scenario metadata (`name`, `context` / `decision_context`) loaded from scenario files and surfaced in reports
 - `--scenario-file` for JSON/YAML proposal + stakeholder input
 - nested scenario blocks (`scenario.name`, `scenario.context`, `inputs.proposal`, `inputs.stakeholders`) for reusable demo fixtures and UI handoff payloads
-- scenario-file aliases for lightweight imports (`title` → scenario name, `decision`/`summary` → report context, `proposal_text`/`prompt` → proposal, `participants`/`actors` → stakeholders, stakeholder `group`/`trait`/`segment`/`cohort`/`role` → preset)
+- scenario-file aliases for lightweight imports (`title` → scenario name, `decision`/`summary` → report context, `proposal_text`/`prompt` → proposal, `participants`/`actors` → stakeholders, stakeholder `preset_name`/`preset_key`/`group`/`trait`/`segment`/`cohort`/`role` → preset)
 - `--report-markdown` for a local decision memo report file
 - `--report-html` for a lightweight visual report artifact
 - `--report-json` for writing the structured output artifact to disk
