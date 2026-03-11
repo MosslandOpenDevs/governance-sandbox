@@ -282,6 +282,52 @@ stakeholders:
             self.assertEqual(payload["responses"][1]["preset"], "investors")
             self.assertEqual(payload["responses"][1]["stance"], "supportive")
 
+    def test_run_supports_report_audience_metadata_in_markdown_and_html(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            html_path = tmp / "report.html"
+            scenario_path.write_text(
+                """scenario:
+  name: Audience rehearsal
+report_audience: Community delegates preparing a treasury vote.
+inputs:
+  proposal: Add milestone checkpoints before treasury disbursements.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+report:
+  audience: Delegate forum reviewers
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                    "--report-html",
+                    str(html_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_audience"], "Delegate forum reviewers")
+            self.assertIn("## Report audience\nDelegate forum reviewers", markdown_path.read_text(encoding="utf-8"))
+            self.assertIn("<strong>Report audience:</strong> Delegate forum reviewers", html_path.read_text(encoding="utf-8"))
+
     def test_run_supports_report_memo_summary_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

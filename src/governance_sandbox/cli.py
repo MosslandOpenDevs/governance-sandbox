@@ -100,6 +100,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Report title", scenario["report_title"], ""])
     if scenario.get("report_summary"):
         lines.extend(["## Report summary", scenario["report_summary"], ""])
+    if scenario.get("report_audience"):
+        lines.extend(["## Report audience", scenario["report_audience"], ""])
     if scenario.get("tags"):
         lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
     if summary:
@@ -171,6 +173,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report title:</strong> {escape(scenario["report_title"])}</p>')
         if scenario.get("report_summary"):
             scenario_bits.append(f'<p><strong>Report summary:</strong> {escape(scenario["report_summary"])}</p>')
+        if scenario.get("report_audience"):
+            scenario_bits.append(f'<p><strong>Report audience:</strong> {escape(scenario["report_audience"])}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
     metadata_panel = ""
     artifacts = meta.get("artifacts") or {}
@@ -302,6 +306,7 @@ def main() -> None:
             "context": _pick(scenario, "context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading"),
             "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "memo_summary", "executive_summary", "overview") or _pick(scenario, "report_summary", "brief", "memo_summary", "overview") or _pick(scenario_meta, "report_summary", "description", "brief", "memo_summary", "overview"),
+            "report_audience": _pick(report_meta, "audience") or _pick(scenario, "report_audience") or _pick(scenario_meta, "report_audience"),
             "tags": _pick(scenario, "tags", "labels") or _pick(scenario_meta, "tags", "labels") or _pick(report_meta, "tags", "labels") or [],
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
