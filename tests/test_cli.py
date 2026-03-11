@@ -208,6 +208,43 @@ report:
             self.assertIn("## Report audience\ndelegates, contributors", markdown_report)
             self.assertIn("## Scenario tags\ngovernance, treasury, runway", markdown_report)
 
+    def test_run_supports_mapping_style_stakeholders_with_archetype_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """proposal: Publish a delegate-ready treasury checkpoint before voting.
+stakeholders:
+  DAO council:
+    archetype: dao
+  Investor guild:
+    cohort: investors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["responses"][0]["name"], "DAO council")
+            self.assertEqual(payload["responses"][0]["preset"], "dao")
+            self.assertEqual(payload["responses"][1]["name"], "Investor guild")
+            self.assertEqual(payload["responses"][1]["preset"], "investors")
+
     def test_run_supports_mapping_style_stakeholders_in_scenario_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
