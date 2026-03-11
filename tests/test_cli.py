@@ -136,6 +136,44 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn("Recommendation: Proceed with revision", html_report)
             self.assertIn("DAO council", html_report)
 
+    def test_run_supports_stakeholder_segment_and_cohort_preset_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """name: Segment alias rehearsal
+proposal: Stage delegate review before treasury execution.
+stakeholders:
+  - name: Community circle
+    segment: community
+  - name: Investor guild
+    cohort: investors
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["responses"][0]["preset"], "community")
+            self.assertEqual(payload["responses"][0]["stance"], "skeptical")
+            self.assertEqual(payload["responses"][1]["preset"], "investors")
+            self.assertEqual(payload["responses"][1]["stance"], "supportive")
+
     def test_run_supports_report_memo_summary_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

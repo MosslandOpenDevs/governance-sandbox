@@ -94,6 +94,8 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
                 or stakeholder.get("persona")
                 or stakeholder.get("role")
                 or stakeholder.get("archetype")
+                or stakeholder.get("segment")
+                or stakeholder.get("cohort")
             )
             if preset and preset in TRAIT_PRESETS:
                 trait = TRAIT_PRESETS[preset]
