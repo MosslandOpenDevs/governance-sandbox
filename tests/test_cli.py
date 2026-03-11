@@ -126,6 +126,38 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertTrue((report_dir / "json-treasury-confidence.md").exists())
             self.assertTrue((report_dir / "json-treasury-confidence.html").exists())
 
+    def test_example_preset_bundle_fixture_runs_with_report_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report_dir = Path(tmpdir) / "bundle"
+            scenario_path = ROOT / "examples" / "scenario-preset-bundle.yaml"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Delegate confidence rehearsal")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "delegate-confidence-rehearsal")
+            self.assertEqual(payload["responses"][0]["preset"], "dao")
+            self.assertEqual(payload["responses"][1]["preset"], "delegates")
+            self.assertTrue((report_dir / "delegate-confidence-rehearsal.md").exists())
+            self.assertTrue((report_dir / "delegate-confidence-rehearsal.html").exists())
+            self.assertTrue((report_dir / "delegate-confidence-rehearsal.json").exists())
+
     def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

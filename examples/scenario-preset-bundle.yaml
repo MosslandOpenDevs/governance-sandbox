@@ -1,0 +1,14 @@
+name: Delegate confidence rehearsal
+context: Dry run a treasury communications proposal before the next governance call.
+proposal: Publish a weekly treasury memo with explicit rollback triggers for campaign spend.
+stakeholders:
+  - name: DAO stewards
+    preset: dao
+  - name: Delegate council
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+report:
+  title: Delegate confidence rehearsal memo
+  summary: Scenario fixture for preset-driven stakeholders plus markdown/html/json report bundles.
+  basename: delegate-confidence-rehearsal
