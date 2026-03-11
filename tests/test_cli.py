@@ -1575,6 +1575,36 @@ inputs:
             self.assertIn("## Scenario tags", (report_dir / "report.md").read_text(encoding="utf-8"))
             self.assertIn("growth, dry-run", (report_dir / "report.html").read_text(encoding="utf-8"))
 
+    def test_report_dir_supports_report_file_stem_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report_dir = Path(tmpdir) / "bundle"
+            scenario_path = ROOT / "examples" / "scenario-report-file-stem.yaml"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_title"], "Delegate review packet")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "delegate-review-packet")
+            self.assertTrue((report_dir / "delegate-review-packet.json").exists())
+            self.assertTrue((report_dir / "delegate-review-packet.md").exists())
+            self.assertTrue((report_dir / "delegate-review-packet.html").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

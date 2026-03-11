@@ -1,0 +1,8 @@
+name: File-stem bundle rehearsal
+proposal: Publish a staged delegate review before treasury execution.
+report:
+  title: Delegate review packet
+  file_stem: delegate-review-packet
+stakeholders:
+  - name: Delegate circle
+    preset: delegates
