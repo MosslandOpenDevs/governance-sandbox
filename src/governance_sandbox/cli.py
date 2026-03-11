@@ -56,7 +56,7 @@ def _slugify_report_basename(raw: str | None) -> str:
 
 
 def _resolve_report_basename(report_meta: dict[str, Any], scenario: dict[str, Any]) -> str:
-    configured = _pick(report_meta, "basename", "file_basename", "slug")
+    configured = _pick(report_meta, "basename", "file_basename", "slug", "name")
     if configured:
         return _slugify_report_basename(str(configured))
     titled = _pick(report_meta, "title", "heading") or _pick(scenario, "report_title")

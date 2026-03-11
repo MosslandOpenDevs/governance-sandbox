@@ -168,6 +168,7 @@ Current CLI additions now include:
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
 - optional scenario `report_title` / `report_heading` metadata for cleaner markdown/html memo headings, page titles, and demo handoff bundles
 - nested `report.title` / `report.heading`, `report.tags`, and `report.description` blocks for report-first scenario fixtures and UI handoff payloads
+- `report.name` as a scenario-file alias for the default report bundle basename when `--report-dir` is used
 - `report.description` feeds the generated markdown/html report summary so one scenario file can carry reviewer-facing memo context into CLI and web-demo handoffs
 - scenario `description` as a lightweight context alias for report-oriented fixtures
 - outcome snapshot summaries in JSON + markdown/html reports so stakeholder stance balance is visible at a glance

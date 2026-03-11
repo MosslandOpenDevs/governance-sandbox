@@ -147,6 +147,8 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                 """name: Delegate sentiment rehearsal
 context: Pre-vote dry run for a treasury policy update.
 proposal: Add milestone-based reporting to treasury programs.
+report:
+  name: delegate-dry-run
 stakeholders:
   - name: Delegate circle
     preset: delegates
@@ -182,11 +184,54 @@ stakeholders:
             self.assertEqual(payload["scenario"]["name"], "Delegate sentiment rehearsal")
             self.assertEqual(payload["responses"][0]["preset"], "delegates")
             self.assertIsNone(payload["report"]["artifacts"]["directory"])
-            self.assertEqual(payload["report"]["artifacts"]["basename"], "report")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "delegate-dry-run")
             self.assertTrue(markdown_path.exists())
             self.assertTrue(html_path.exists())
             self.assertTrue(json_path.exists())
             self.assertIn("Community stewards", markdown_path.read_text(encoding="utf-8"))
+
+    def test_report_dir_uses_report_name_alias_for_default_bundle_basename(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "bundle"
+            scenario_path.write_text(
+                """name: Investors call dry run
+proposal: Publish a staged treasury transparency dashboard update.
+report:
+  name: investor-review-bundle
+stakeholders:
+  - name: Investor cohort
+    preset: investors
+  - name: Delegate leads
+    preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "investor-review-bundle")
+            self.assertTrue((report_dir / "investor-review-bundle.json").exists())
+            self.assertTrue((report_dir / "investor-review-bundle.md").exists())
+            self.assertTrue((report_dir / "investor-review-bundle.html").exists())
 
     def test_run_supports_stdin_scenario_file_and_labels_report_source(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
