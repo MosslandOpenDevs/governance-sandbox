@@ -97,6 +97,7 @@ If you need a machine-readable preset inventory for scenario generators or web-d
 If you want a tiny scenario-file fixture that demonstrates top-level `report_targets` + `report_tags` aliases, start with `examples/scenario-report-targets-alias.yaml`.
 That JSON inventory now includes a label and a short summary for each preset so scenario builders and UI forms can explain the trait choice without hard-coding copy.
 Scenario files can also carry `report.audience` (or top-level `report_audience`, `report_readers`, or `audience`) so markdown/html outputs state who the memo is for without duplicating handoff copy outside the fixture.
+If you need the fastest scenario-file -> rendered-audience proof before wider report-bundle or web-demo work, open `docs/SCENARIO_REPORT_AUDIENCE_START.md`.
 
 ---
 
