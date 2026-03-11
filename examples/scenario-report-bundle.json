@@ -1,0 +1,17 @@
+{
+  "name": "JSON treasury confidence rehearsal",
+  "context": "Delegate-ready dry run for a treasury growth proposal.",
+  "proposal": "Shift 15% of the treasury from grants to short-term growth campaigns with rollback checkpoints.",
+  "report": {
+    "title": "JSON treasury confidence memo",
+    "description": "JSON fixture proving scenario-file input plus markdown/html/json report bundle output.",
+    "name": "json-treasury-confidence"
+  },
+  "stakeholders": [
+    {"name": "DAO council", "preset": "dao"},
+    {"name": "Delegate cohort", "preset": "delegates"},
+    {"name": "Contributor guild", "preset": "contributors"},
+    {"name": "Investor circle", "preset": "investors"},
+    {"name": "Community members", "preset": "community"}
+  ]
+}

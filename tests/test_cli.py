@@ -50,6 +50,38 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn("## Outcome snapshot", (report_dir / f"{basename}.md").read_text(encoding="utf-8"))
             self.assertIn("Treasury confidence rehearsal memo", (report_dir / f"{basename}.html").read_text(encoding="utf-8"))
 
+    def test_report_bundle_supports_json_fixture_example(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report_dir = Path(tmpdir) / "bundle"
+            scenario_path = ROOT / "examples" / "scenario-report-bundle.json"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "JSON treasury confidence rehearsal")
+            self.assertEqual(payload["scenario"]["report_title"], "JSON treasury confidence memo")
+            self.assertEqual(payload["scenario"]["report_summary"], "JSON fixture proving scenario-file input plus markdown/html/json report bundle output.")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "json-treasury-confidence")
+            self.assertTrue((report_dir / "json-treasury-confidence.json").exists())
+            self.assertTrue((report_dir / "json-treasury-confidence.md").exists())
+            self.assertTrue((report_dir / "json-treasury-confidence.html").exists())
+
     def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
