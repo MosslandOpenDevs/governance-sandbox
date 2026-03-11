@@ -422,11 +422,6 @@ inputs:
         self.assertIn("community", result.stdout)
         self.assertIn("delegates", result.stdout)
 
-
-if __name__ == "__main__":
-    unittest.main()
-
-
     def test_run_report_dir_writes_full_bundle_and_tagged_summary(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
@@ -473,3 +468,7 @@ if __name__ == "__main__":
             self.assertTrue((report_dir / "report.html").exists())
             self.assertIn("## Scenario tags", (report_dir / "report.md").read_text(encoding="utf-8"))
             self.assertIn("growth, dry-run", (report_dir / "report.html").read_text(encoding="utf-8"))
+
+
+if __name__ == "__main__":
+    unittest.main()
