@@ -78,7 +78,14 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
             if not rendered_name:
                 continue
             stakeholder: dict[str, str] = {"name": rendered_name}
-            if preset is not None and str(preset).strip():
+            if isinstance(preset, dict):
+                alias_name = _pick(preset, "name", "label", "title")
+                if alias_name is not None and str(alias_name).strip():
+                    stakeholder["name"] = str(alias_name).strip()
+                preset_name = _pick(preset, "preset", "trait_preset", "group", "role")
+                if preset_name is not None and str(preset_name).strip():
+                    stakeholder["preset"] = str(preset_name).strip()
+            elif preset is not None and str(preset).strip():
                 stakeholder["preset"] = str(preset).strip()
             normalized.append(stakeholder)
         return normalized

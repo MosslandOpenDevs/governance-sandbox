@@ -269,3 +269,5 @@ inputs:
 
 Then run `gov-sandbox run --scenario-file scenario.yaml --report-dir artifacts/` to produce `delegate-ready-rehearsal.json`, `.md`, and `.html`.
 If `report.basename` is omitted, `report.title` becomes the default bundle basename before the CLI falls back to generic `report.*` filenames.
+
+Scenario maps can now use nested stakeholder objects with alias fields like `label`/`title` plus `trait_preset`, which keeps JSON/YAML scenario files readable while still producing the same preset-backed report outputs.
