@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 from typing import Any
 
-from .engine import TRAIT_PRESETS, simulate_governance
+from .engine import PRESET_SUMMARIES, TRAIT_PRESETS, simulate_governance
 
 try:
     import yaml
@@ -266,7 +266,15 @@ def main() -> None:
 
     if args.command == "run":
         if args.list_presets_json:
-            print(json.dumps({"presets": TRAIT_PRESETS}, ensure_ascii=False, indent=2))
+            catalog = {
+                preset: {
+                    "label": preset.replace("-", " ").title(),
+                    "summary": PRESET_SUMMARIES.get(preset),
+                    **details,
+                }
+                for preset, details in TRAIT_PRESETS.items()
+            }
+            print(json.dumps({"presets": catalog}, ensure_ascii=False, indent=2))
             return
         if args.list_presets:
             print("\n".join(sorted(TRAIT_PRESETS)))

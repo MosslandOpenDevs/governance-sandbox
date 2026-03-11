@@ -1113,6 +1113,21 @@ inputs:
         self.assertIn("community", result.stdout)
         self.assertIn("delegates", result.stdout)
 
+    def test_list_presets_json_includes_labels_and_summaries(self) -> None:
+        result = subprocess.run(
+            [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets-json"],
+            cwd=ROOT,
+            env={**dict(), **{"PYTHONPATH": str(SRC)}},
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["presets"]["dao"]["label"], "Dao")
+        self.assertIn("mandate clarity", payload["presets"]["dao"]["summary"])
+        self.assertEqual(payload["presets"]["community"]["stance"], "skeptical")
+
     def test_list_presets_json_prints_supported_trait_groups(self) -> None:
         result = subprocess.run(
             [sys.executable, "-m", "governance_sandbox.cli", "run", "--list-presets-json"],

@@ -3,6 +3,15 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 
 
+PRESET_SUMMARIES: dict[str, str] = {
+    "dao": "Protocol and governance-process guardians focused on mandate clarity and accountability.",
+    "delegates": "Decision-makers who want clear metrics, downside limits, and rollback conditions.",
+    "contributors": "Operators and builders who balance delivery capacity against new governance demands.",
+    "investors": "Capital-focused stakeholders who favor disciplined growth and visible efficiency signals.",
+    "community": "Members who care about trust, inclusion, and whether the proposal still feels fair.",
+}
+
+
 TRAIT_PRESETS: dict[str, dict[str, str]] = {
     "dao": {
         "stance": "cautious",
