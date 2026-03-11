@@ -63,6 +63,9 @@ class GovernanceSandboxCliTests(unittest.TestCase):
                         "name": "Treasury reallocation dry run",
                         "context": "Emergency budget review before the next DAO vote.",
                         "proposal": "Shift part of the treasury budget to community growth experiments.",
+                        "report": {
+                            "description": "Memo for delegates comparing treasury discipline, growth urgency, and stakeholder trust.",
+                        },
                         "stakeholders": [
                             {"name": "DAO council", "preset": "dao"},
                             {"name": "Delegate cohort", "preset": "delegates"},
@@ -98,6 +101,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertEqual(payload["proposal"], "Shift part of the treasury budget to community growth experiments.")
             self.assertEqual(payload["scenario"]["name"], "Treasury reallocation dry run")
             self.assertEqual(payload["scenario"]["context"], "Emergency budget review before the next DAO vote.")
+            self.assertEqual(payload["scenario"]["report_summary"], "Memo for delegates comparing treasury discipline, growth urgency, and stakeholder trust.")
             self.assertEqual(payload["responses"][0]["preset"], "dao")
             self.assertEqual(payload["report"]["scenario_file"], str(scenario_path.resolve()))
             self.assertRegex(payload["report"]["generated_at"], r"Z$")
@@ -119,6 +123,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn(f"- HTML artifact: {html_path.resolve()}", markdown_report)
             self.assertIn("## Scenario\nTreasury reallocation dry run", markdown_report)
             self.assertIn("## Context\nEmergency budget review before the next DAO vote.", markdown_report)
+            self.assertIn("## Report summary\nMemo for delegates comparing treasury discipline, growth urgency, and stakeholder trust.", markdown_report)
             self.assertIn("### DAO council (dao)", markdown_report)
             self.assertIn("<title>Governance Sandbox Report</title>", html_report)
             self.assertIn("<h2>Report metadata</h2>", html_report)
@@ -127,6 +132,7 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn(f"<strong>Markdown artifact:</strong> {markdown_path.resolve()}", html_report)
             self.assertIn(f"<strong>HTML artifact:</strong> {html_path.resolve()}", html_report)
             self.assertIn("<strong>Scenario:</strong> Treasury reallocation dry run", html_report)
+            self.assertIn("<strong>Report summary:</strong> Memo for delegates comparing treasury discipline, growth urgency, and stakeholder trust.", html_report)
             self.assertIn("Recommendation: Proceed with revision", html_report)
             self.assertIn("DAO council", html_report)
 
