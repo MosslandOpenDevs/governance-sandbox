@@ -310,6 +310,48 @@ stakeholders:
             self.assertTrue((report_dir / "investor-review-bundle.md").exists())
             self.assertTrue((report_dir / "investor-review-bundle.html").exists())
 
+    def test_report_dir_supports_output_name_alias_and_top_level_report_name(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            report_dir = tmp / "bundle"
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """name: Output alias rehearsal
+proposal: Publish a staged delegate feedback window before execution.
+report_name: top-level-fallback
+report:
+  output_name: reviewer-ready-memo
+stakeholders:
+  - name: Delegate pod
+    preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**dict(), **{"PYTHONPATH": str(SRC)}},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "reviewer-ready-memo")
+            self.assertTrue((report_dir / "reviewer-ready-memo.json").exists())
+            self.assertTrue((report_dir / "reviewer-ready-memo.md").exists())
+            self.assertTrue((report_dir / "reviewer-ready-memo.html").exists())
+
     def test_run_supports_stdin_scenario_file_and_labels_report_source(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
