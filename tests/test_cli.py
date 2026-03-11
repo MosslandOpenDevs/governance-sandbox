@@ -207,6 +207,49 @@ stakeholders:
             self.assertTrue((outputs_dir / "delegate-brief.html").exists())
             self.assertTrue((outputs_dir / "delegate-brief.json").exists())
 
+    def test_run_supports_scenario_name_and_context_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                """scenario_name: Treasury runway checkpoint
+scenario_context: Stress-test the rollout narrative before the vote.
+proposal: Publish a staged treasury automation memo before execution.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+report:
+  title: Treasury runway checkpoint memo
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["name"], "Treasury runway checkpoint")
+            self.assertEqual(payload["scenario"]["context"], "Stress-test the rollout narrative before the vote.")
+            markdown_report = markdown_path.read_text(encoding="utf-8")
+            self.assertIn("## Scenario\nTreasury runway checkpoint", markdown_report)
+            self.assertIn("## Context\nStress-test the rollout narrative before the vote.", markdown_report)
+
     def test_run_supports_stakeholder_group_alias_and_report_reader_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
