@@ -213,8 +213,8 @@ Current CLI additions now include:
 - nested `report.title` / `report.heading`, `report.tags`, and `report.description` blocks for report-first scenario fixtures and UI handoff payloads
 - `report.name` as a scenario-file alias for the default report bundle basename when `--report-dir` is used
 - `report.base_name` as a scenario-file alias when existing fixtures already use snake_case basename fields
-- `report.file_stem` as a scenario-file alias when the bundle should keep one reusable basename across JSON/Markdown/HTML artifacts
-- `report.output_basename`, `report.output_name`, and top-level `report_basename` / `report_name` aliases for reviewer-ready report bundle basenames
+- `report.file_stem` / `report.stem` as scenario-file aliases when the bundle should keep one reusable basename across JSON/Markdown/HTML artifacts
+- `report.output_basename`, `report.output_name`, and top-level `report_basename` / `report_file_stem` / `report_stem` / `report_name` aliases for reviewer-ready report bundle basenames
 - `report.description` feeds the generated markdown/html report summary so one scenario file can carry reviewer-facing memo context into CLI and web-demo handoffs
 - `report.memo_summary` / `report.executive_summary` / `report.overview` / `report.memo` as summary aliases for scenario files that already carry memo-oriented report metadata
 - `report.report_summary` as a nested scenario-file alias when UI/demo payloads already name the memo summary explicitly
