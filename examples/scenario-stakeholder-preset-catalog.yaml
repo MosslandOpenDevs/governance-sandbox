@@ -1,0 +1,19 @@
+name: Stakeholder preset catalog walkthrough
+context: Quick fixture for replaying every built-in governance stakeholder preset in one report bundle.
+proposal: Publish a staged treasury policy update with explicit review gates and rollback checkpoints.
+stakeholders:
+  - name: DAO ops council
+    preset: dao
+  - name: Delegate cluster
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+  - name: Long-term investors
+    preset: investors
+  - name: Community stewards
+    preset: community
+report:
+  title: Stakeholder preset catalog report
+  summary: Demonstrates all built-in presets in one scenario import for markdown/html/json output review.
+  outputs:
+    basename: stakeholder-preset-catalog
