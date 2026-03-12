@@ -115,6 +115,7 @@ If you want one nested `inputs.report.outputs` fixture that keeps proposal input
 
 That JSON inventory now includes a label and a short summary for each preset so scenario builders and UI forms can explain the trait choice without hard-coding copy.
 Scenario files can also carry `report.audience` / `report.audiences` (or top-level `report_audience`, `report_audiences`, `report_readers`, `report_targets`, `audience`, or `audiences`) so markdown/html outputs state who the memo is for without duplicating handoff copy outside the fixture.
+Scenario files can also carry `report.subtitle` / `report.subheading` (or top-level `report_subtitle`) so markdown/html outputs can keep one reviewer-facing subtitle under the main memo title.
 Scenario files can now also carry `report.owner` / `report.owners` (or top-level `report_owner`, `report_owners`, `owner`, or `owners`) so markdown/html outputs keep the maintainer handoff visible beside the audience metadata.
 If you need the fastest scenario-file -> rendered-audience proof before wider report-bundle or web-demo work, open `docs/SCENARIO_REPORT_AUDIENCE_START.md`.
 If you need a compact reminder that scenario tags should stay visible in the generated report panel as well as the source fixture, open `docs/SCENARIO_REPORT_TAGS_NOTE.md`.

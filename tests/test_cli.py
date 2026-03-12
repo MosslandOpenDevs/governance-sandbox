@@ -1493,6 +1493,54 @@ inputs:
             self.assertIn("<h2>Outcome snapshot</h2>", html_report)
 
 
+    def test_run_supports_report_subtitle_metadata_in_markdown_and_html(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            markdown_path = tmp / "report.md"
+            html_path = tmp / "report.html"
+            scenario_path.write_text(
+                """scenario:
+  name: Subtitle rehearsal
+report:
+  title: Delegate-ready memo
+  subtitle: One-screen replay proving subtitle metadata in markdown and html.
+inputs:
+  proposal: Add milestone checkpoints before treasury automation.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                    "--report-html",
+                    str(html_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["scenario"]["report_subtitle"], "One-screen replay proving subtitle metadata in markdown and html.")
+            self.assertIn("## Report subtitle\nOne-screen replay proving subtitle metadata in markdown and html.", markdown_path.read_text(encoding="utf-8"))
+            html_report = html_path.read_text(encoding="utf-8")
+            self.assertIn("<strong>One-screen replay proving subtitle metadata in markdown and html.</strong>", html_report)
+            self.assertIn("<strong>Report subtitle:</strong> One-screen replay proving subtitle metadata in markdown and html.", html_report)
+
     def test_run_supports_report_title_metadata_in_markdown_and_html(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

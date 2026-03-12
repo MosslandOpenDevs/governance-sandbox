@@ -189,6 +189,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Context", scenario["context"], ""])
     if scenario.get("report_title"):
         lines.extend(["## Report title", scenario["report_title"], ""])
+    if scenario.get("report_subtitle"):
+        lines.extend(["## Report subtitle", scenario["report_subtitle"], ""])
     if scenario.get("report_summary"):
         lines.extend(["## Report summary", scenario["report_summary"], ""])
     if scenario.get("report_audience"):
@@ -278,7 +280,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
         )
     risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
-    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_summary", "report_audience", "report_owner", "report_subject", "scenario_file", "tags")):
+    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_subtitle", "report_summary", "report_audience", "report_owner", "report_subject", "scenario_file", "tags")):
         scenario_bits: list[str] = []
         if scenario.get("name"):
             scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
@@ -286,6 +288,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Context:</strong> {escape(scenario["context"])}</p>')
         if scenario.get("report_title"):
             scenario_bits.append(f'<p><strong>Report title:</strong> {escape(scenario["report_title"])}</p>')
+        if scenario.get("report_subtitle"):
+            scenario_bits.append(f'<p><strong>Report subtitle:</strong> {escape(scenario["report_subtitle"])}</p>')
         if scenario.get("report_summary"):
             scenario_bits.append(f'<p><strong>Report summary:</strong> {escape(scenario["report_summary"])}</p>')
         if scenario.get("report_audience"):
@@ -359,6 +363,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
   <section class="hero">
     <p class="badge">Recommendation: {escape(result['recommendation'])}</p>
     <h1>{escape(scenario.get("report_title") or "Governance Sandbox Report")}</h1>
+    {f"<p><strong>{escape(scenario['report_subtitle'])}</strong></p>" if scenario.get("report_subtitle") else ""}
     <p>{escape(result['proposal'])}</p>
   </section>
   {metadata_panel}
@@ -447,6 +452,7 @@ def main() -> None:
             "name": _pick(scenario, "name", "title", "scenario_name", "scenario_title") or _pick(scenario_meta, "name", "title", "scenario_name", "scenario_title"),
             "context": _pick(scenario, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "scenario_context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "scenario_context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "scenario_context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading") or _pick(scenario_meta, "report_title", "report_heading") or _pick(report_meta, "title", "heading") or _pick(inputs_report, "title", "heading") or _pick(scenario_inputs_report, "title", "heading"),
+            "report_subtitle": _pick(scenario, "report_subtitle", "report_subheading") or _pick(scenario_meta, "report_subtitle", "report_subheading") or _pick(report_meta, "subtitle", "subheading") or _pick(inputs_report, "subtitle", "subheading") or _pick(scenario_inputs_report, "subtitle", "subheading"),
             "report_summary": _pick(report_meta, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario_inputs_report, "report_summary", "summary", "description", "abstract", "brief", "synopsis", "memo", "memo_summary", "executive_summary", "overview", "report_overview") or _pick(scenario, "report_summary", "summary", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview") or _pick(scenario_meta, "report_summary", "summary", "description", "brief", "synopsis", "memo", "memo_summary", "overview", "report_overview"),
             "report_basename": _pick(report_outputs, "basename", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "slug", "name") or _pick(top_level_report_outputs, "basename", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "slug", "name") or _pick(report_meta, "basename", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "slug", "name") or _pick(inputs_report, "basename", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "slug", "name") or _pick(scenario_inputs_report, "basename", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "slug", "name") or _pick(scenario, "report_basename", "report_file_stem", "report_stem", "report_name"),
             "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario_inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
