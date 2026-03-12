@@ -118,6 +118,7 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
                 or stakeholder.get("actor")
                 or stakeholder.get("label")
                 or stakeholder.get("title")
+                or stakeholder.get("faction")
                 or ""
             ).strip()
             preset = _normalize_preset(
@@ -134,6 +135,7 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
                 or stakeholder.get("archetype")
                 or stakeholder.get("segment")
                 or stakeholder.get("cohort")
+                or stakeholder.get("bloc")
             )
             if preset and preset in TRAIT_PRESETS:
                 trait = TRAIT_PRESETS[preset]

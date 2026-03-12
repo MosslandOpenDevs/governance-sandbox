@@ -126,10 +126,10 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
                     if preset_name is not None and str(preset_name).strip():
                         stakeholder["preset"] = str(preset_name).strip()
                 else:
-                    alias_name = _pick(preset, "name", "label", "title", "stakeholder", "participant", "actor")
+                    alias_name = _pick(preset, "name", "label", "title", "stakeholder", "participant", "actor", "faction")
                     if alias_name is not None and str(alias_name).strip():
                         stakeholder["name"] = str(alias_name).strip()
-                    preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key", "profile", "profile_name", "persona_preset")
+                    preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key", "profile", "profile_name", "persona_preset", "bloc")
                     if preset_name is not None and str(preset_name).strip():
                         stakeholder["preset"] = str(preset_name).strip()
             elif preset is not None and str(preset).strip():
@@ -532,7 +532,7 @@ def main() -> None:
         top_level_output_report_output_files = top_level_output_report_outputs.get("files") if isinstance(top_level_output_report_outputs.get("files"), dict) else {}
         inputs_report_output_files = inputs_report_outputs.get("files") if isinstance(inputs_report_outputs.get("files"), dict) else {}
         scenario_inputs_report_output_files = scenario_inputs_report_outputs.get("files") if isinstance(scenario_inputs_report_outputs.get("files"), dict) else {}
-        scenario_source_alias = _pick(
+        direct_scenario_source_alias = _pick(
             scenario,
             "scenario_file",
             "scenario_source",
@@ -558,7 +558,8 @@ def main() -> None:
             "source_uri",
             "scenario_path",
             "source_path",
-        ) or _pick(
+        )
+        nested_scenario_source_alias = _pick(
             inputs,
             "scenario_file",
             "scenario_source",
@@ -586,12 +587,16 @@ def main() -> None:
             "source_path",
         )
         scenario_source = (
-            scenario_source_alias
-            if scenario_source_alias
+            direct_scenario_source_alias
+            if direct_scenario_source_alias
             else (
-                "stdin"
-                if args.scenario_file == "-"
-                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
+                nested_scenario_source_alias
+                if args.scenario_file == "-" and nested_scenario_source_alias
+                else (
+                    "stdin"
+                    if args.scenario_file == "-"
+                    else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
+                )
             )
         )
         result["scenario"] = {
