@@ -512,6 +512,7 @@ def main() -> None:
         if args.list_presets_json:
             catalog = {
                 preset: {
+                    "key": preset,
                     "label": preset.replace("-", " ").title(),
                     "summary": PRESET_SUMMARIES.get(preset),
                     **details,
