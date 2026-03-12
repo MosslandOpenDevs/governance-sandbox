@@ -75,6 +75,7 @@ If you need a compact audience note that keeps one imported scenario tied to the
 If you want one source-first note that keeps the imported scenario file tied to its shared report bundle, open `docs/GOVERNANCE_SANDBOX_SCENARIO_SOURCE_BUNDLE_NOTE.md`.
 If you need the matching wrapper note for workshop exports that arrive as `scenario_storyboard`, open `docs/SCENARIO_STORYBOARD_NOTE.md`.
 If your workshop export nests the same payload under `scenario_workshop` or `scenario_workshop_bundle`, the scenario-file import path still resolves and can generate the same report bundle without reshaping the file first.
+If your workbench export nests the same payload under `scenario_workbench` or `scenario_workbench_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 
 ## Quickstart
 
