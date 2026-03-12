@@ -6,6 +6,7 @@ If you need a stdin-first replay note for piping one JSON or YAML scenario direc
 If you want a ready-to-run JSON scenario file that exercises proposal import plus report generation together, open `examples/delegate-ready-rehearsal.json`.
 If you need a compact note for the `report.reviewers` alias while keeping the same markdown/html/json report audience output, open `docs/GOVERNANCE_SANDBOX_REPORT_REVIEWERS_ALIAS_NOTE.md`.
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
+If you want the smallest scenario-file-first workflow, open `docs/SCENARIO_FILE_REPORT_BUNDLE_START.md` to generate markdown/html/json outputs from one JSON or YAML input bundle.
 
 > Rehearse governance decisions in a simulated stakeholder environment before you ship them to reality.
 
