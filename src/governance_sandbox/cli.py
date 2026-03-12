@@ -145,6 +145,10 @@ def _normalize_proposal(value: Any) -> str | None:
             for item in (title, summary, body)
             if item is not None and str(item).strip()
         ]
+        bullet_values = _pick(value, "bullets", "points", "checklist", "items")
+        bullet_lines = [f"- {item}" for item in _normalize_string_list(bullet_values)]
+        if bullet_lines:
+            parts.append("Key points:\n" + "\n".join(bullet_lines))
         if parts:
             return "\n\n".join(parts)
     normalized = str(value).strip()
