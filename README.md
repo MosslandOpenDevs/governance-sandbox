@@ -142,6 +142,7 @@ If you need a compact reminder to keep JSON/YAML scenario import coupled to the 
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a compact rule for keeping scenario-file examples tied to a named report basename before widening web-demo scope, open `docs/SCENARIO_FILE_REPORT_BASENAME_RULE.md`.
 If you need a compact note for scenario fixtures wrapped under `scenario_plan` or `scenario_manifest`, open `docs/SCENARIO_MANIFEST_WRAPPER_NOTE.md`.
+If you need the same wrapper flow under `scenario_packet`, open `docs/SCENARIO_PACKET_WRAPPER_NOTE.md`.
 If you need a wrapper-based scenario fixture that still drives markdown/html/json report generation cleanly, start with `examples/scenario-rehearsal-wrapper.yaml`.
 If you need the matching note for a plain top-level `scenario` wrapper before widening fixture reuse, open `docs/SCENARIO_TOP_LEVEL_WRAPPER_NOTE.md`.
 If you need the matching note for `scenario_plan` wrappers before widening fixture reuse, open `docs/GOVERNANCE_SANDBOX_SCENARIO_PLAN_WRAPPER_NOTE.md`.
