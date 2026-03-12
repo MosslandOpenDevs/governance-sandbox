@@ -536,42 +536,58 @@ def main() -> None:
             scenario,
             "scenario_file",
             "scenario_source",
+            "scenario_url",
+            "scenario_uri",
             "source",
             "source_file",
+            "source_url",
+            "source_uri",
             "scenario_path",
             "source_path",
         ) or _pick(
             scenario_meta,
             "scenario_file",
             "scenario_source",
+            "scenario_url",
+            "scenario_uri",
             "source",
             "source_file",
+            "source_url",
+            "source_uri",
             "scenario_path",
             "source_path",
         ) or _pick(
             inputs,
             "scenario_file",
             "scenario_source",
+            "scenario_url",
+            "scenario_uri",
             "source",
             "source_file",
+            "source_url",
+            "source_uri",
             "scenario_path",
             "source_path",
         ) or _pick(
             scenario_inputs,
             "scenario_file",
             "scenario_source",
+            "scenario_url",
+            "scenario_uri",
             "source",
             "source_file",
+            "source_url",
+            "source_uri",
             "scenario_path",
             "source_path",
         )
         scenario_source = (
             scenario_source_alias
-            if args.scenario_file == "-" and scenario_source_alias
+            if scenario_source_alias
             else (
                 "stdin"
                 if args.scenario_file == "-"
-                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else scenario_source_alias)
+                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
             )
         )
         result["scenario"] = {
