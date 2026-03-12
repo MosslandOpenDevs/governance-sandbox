@@ -117,12 +117,21 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
                 continue
             stakeholder: dict[str, str] = {"name": rendered_name}
             if isinstance(preset, dict):
-                alias_name = _pick(preset, "name", "label", "title", "stakeholder", "participant", "actor")
-                if alias_name is not None and str(alias_name).strip():
-                    stakeholder["name"] = str(alias_name).strip()
-                preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key")
-                if preset_name is not None and str(preset_name).strip():
-                    stakeholder["preset"] = str(preset_name).strip()
+                nested_actor = _pick(preset, "stakeholder", "participant", "actor")
+                if isinstance(nested_actor, dict):
+                    alias_name = _pick(nested_actor, "name", "label", "title", "stakeholder", "participant", "actor")
+                    if alias_name is not None and str(alias_name).strip():
+                        stakeholder["name"] = str(alias_name).strip()
+                    preset_name = _pick(nested_actor, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key")
+                    if preset_name is not None and str(preset_name).strip():
+                        stakeholder["preset"] = str(preset_name).strip()
+                else:
+                    alias_name = _pick(preset, "name", "label", "title", "stakeholder", "participant", "actor")
+                    if alias_name is not None and str(alias_name).strip():
+                        stakeholder["name"] = str(alias_name).strip()
+                    preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key")
+                    if preset_name is not None and str(preset_name).strip():
+                        stakeholder["preset"] = str(preset_name).strip()
             elif preset is not None and str(preset).strip():
                 stakeholder["preset"] = str(preset).strip()
             normalized.append(stakeholder)
