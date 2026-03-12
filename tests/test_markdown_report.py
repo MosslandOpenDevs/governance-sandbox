@@ -207,6 +207,21 @@ class HtmlReportTests(unittest.TestCase):
 
         self.assertIn("<strong>Scenario source:</strong> stdin", report)
 
+    def test_html_report_preserves_multiline_proposal_and_decision_memo(self) -> None:
+        report = _render_html_report({
+            "proposal": "Line one\nLine two\n\nLine three",
+            "recommendation": "Proceed with revision",
+            "responses": [],
+            "major_risks": [],
+            "decision_memo": "Memo first line\nMemo second line\n\nMemo third line",
+            "scenario": {},
+            "summary": {},
+            "report": {},
+        })
+
+        self.assertIn("<p>Line one<br />Line two</p><p>Line three</p>", report)
+        self.assertIn("<p>Memo first line<br />Memo second line</p><p>Memo third line</p>", report)
+
 
 if __name__ == "__main__":
     unittest.main()

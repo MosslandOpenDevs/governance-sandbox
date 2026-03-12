@@ -341,6 +341,13 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _render_html_paragraphs(text: str) -> str:
+    chunks = [chunk.strip() for chunk in text.replace("\r\n", "\n").split("\n\n") if chunk.strip()]
+    if not chunks:
+        return "<p></p>"
+    return "".join(f"<p>{escape(chunk).replace(chr(10), '<br />')}</p>" for chunk in chunks)
+
+
 def _render_html_report(result: dict[str, Any]) -> str:
     response_cards: list[str] = []
     meta = result.get("report") or {}
@@ -460,7 +467,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
     <p class="badge">Recommendation: {escape(result['recommendation'])}</p>
     <h1>{escape(scenario.get("report_title") or "Governance Sandbox Report")}</h1>
     {f"<p><strong>{escape(scenario['report_subtitle'])}</strong></p>" if scenario.get("report_subtitle") else ""}
-    <p>{escape(result['proposal'])}</p>
+    {_render_html_paragraphs(result['proposal'])}
   </section>
   {metadata_panel}
   {scenario_panel}
@@ -477,7 +484,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
   </section>
   <section class="panel">
     <h2>Decision memo</h2>
-    <p>{escape(result['decision_memo'])}</p>
+    {_render_html_paragraphs(result['decision_memo'])}
   </section>
 </body>
 </html>
