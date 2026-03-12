@@ -1,0 +1,15 @@
+scenario_blueprint:
+  name: Blueprint rehearsal
+  proposal:
+    title: Treasury checkpoint refresh
+    summary: Repackage weekly treasury checkpoint updates.
+    body: Keep one owner-visible markdown/html/json rehearsal bundle.
+  stakeholders:
+    - name: Delegate council
+      preset: delegates
+    - name: Community stewards
+      preset: community
+  report:
+    title: Blueprint rehearsal memo
+    outputs:
+      basename: blueprint-rehearsal
