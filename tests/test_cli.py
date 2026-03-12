@@ -14,6 +14,46 @@ SRC = ROOT / "src"
 
 class GovernanceSandboxCliTests(unittest.TestCase):
 
+    def test_run_accepts_proposal_markdown_and_stakeholder_roster_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """proposal_markdown: |
+  Ship a staged treasury messaging update.
+stakeholder_roster:
+  - name: Delegate council
+    preset: delegates
+  - name: Community stewards
+    preset: community
+report:
+  outputs:
+    bundle_name: staged-treasury-update
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["proposal"], "Ship a staged treasury messaging update.")
+            self.assertEqual([item["preset"] for item in payload["responses"]], ["delegates", "community"])
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "staged-treasury-update")
+
     def test_html_report_escapes_scenario_and_response_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
