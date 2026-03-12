@@ -13,12 +13,19 @@ PRESET_SUMMARIES: dict[str, str] = {
 
 
 PRESET_ALIASES: dict[str, str] = {
+    'daos': 'dao',
+    'dao-core': 'dao',
     'delegate': 'delegates',
+    'delegation': 'delegates',
+    'delegate-group': 'delegates',
     'contributor': 'contributors',
+    'contributors-core': 'contributors',
     'investor': 'investors',
+    'investor-relations': 'investors',
     'member': 'community',
     'members': 'community',
     'communities': 'community',
+    'community-members': 'community',
 }
 
 
