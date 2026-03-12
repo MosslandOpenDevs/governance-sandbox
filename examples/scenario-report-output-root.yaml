@@ -1,0 +1,11 @@
+proposal: |
+  Launch a delegated grant council for ecosystem micro-grants.
+stakeholders:
+  - name: Core DAO
+    preset: dao
+  - name: Active delegates
+    preset: delegates
+report:
+  outputs:
+    output_root: reports/demo-bundle
+    basename: council-round
