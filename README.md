@@ -176,6 +176,7 @@ If you want one reusable scenario fixture that keeps stakeholder presets and rep
 If you need a compact rule for keeping scenario-file examples tied to a named report basename before widening web-demo scope, open `docs/SCENARIO_FILE_REPORT_BASENAME_RULE.md`.
 If you need a compact note for scenario fixtures wrapped under `scenario_plan` or `scenario_manifest`, open `docs/SCENARIO_MANIFEST_WRAPPER_NOTE.md`.
 If you need the matching archive-style replay note for `scenario_archive`, open `docs/SCENARIO_ARCHIVE_WRAPPER_NOTE.md`.
+If you want the same wrapper flow under `scenario_lab_bundle`, keep the imported scenario envelope and regenerate the same markdown/html/json report bundle.
 If you need the same wrapper flow under `scenario_packet`, open `docs/SCENARIO_PACKET_WRAPPER_NOTE.md`.
 If you need a wrapper-based scenario fixture that still drives markdown/html/json report generation cleanly, start with `examples/scenario-rehearsal-wrapper.yaml`.
 If you need the matching note for a plain top-level `scenario` wrapper before widening fixture reuse, open `docs/SCENARIO_TOP_LEVEL_WRAPPER_NOTE.md`.
