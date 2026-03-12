@@ -122,14 +122,14 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
                     alias_name = _pick(nested_actor, "name", "label", "title", "stakeholder", "participant", "actor")
                     if alias_name is not None and str(alias_name).strip():
                         stakeholder["name"] = str(alias_name).strip()
-                    preset_name = _pick(nested_actor, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key")
+                    preset_name = _pick(nested_actor, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key", "profile", "profile_name", "persona_preset")
                     if preset_name is not None and str(preset_name).strip():
                         stakeholder["preset"] = str(preset_name).strip()
                 else:
                     alias_name = _pick(preset, "name", "label", "title", "stakeholder", "participant", "actor")
                     if alias_name is not None and str(alias_name).strip():
                         stakeholder["name"] = str(alias_name).strip()
-                    preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key")
+                    preset_name = _pick(preset, "preset", "trait_preset", "trait", "persona", "group", "role", "segment", "cohort", "archetype", "preset_name", "preset_key", "profile", "profile_name", "persona_preset")
                     if preset_name is not None and str(preset_name).strip():
                         stakeholder["preset"] = str(preset_name).strip()
             elif preset is not None and str(preset).strip():
