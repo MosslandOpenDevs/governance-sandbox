@@ -159,6 +159,7 @@ If you need a compact start note for keeping one scenario replay tied to one reu
 If you need the shortest scenario-file -> generated report bundle replay before widening scope, open `docs/SCENARIO_FILE_REPORT_START.md`.
 If you need a compact reminder to keep JSON/YAML scenario import coupled to the generated report trio, open `docs/SCENARIO_FILE_JSON_YAML_REPORT_START.md`.
 If you need a compact stack note for keeping one imported scenario tied to JSON, Markdown, and HTML outputs together, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_HTML_STACK.md`.
+If you need a compact reminder that top-level `report_markdown_output` can point straight at the generated memo file, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_OUTPUT_ALIAS_NOTE.md`.
 If you need a compact reminder for carrying one scenario-file `report.description` into the generated markdown/html memo bundle, open `docs/SCENARIO_FILE_REPORT_DESCRIPTION_NOTE.md`.
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a one-line status cue for the current phase-one slice, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_STATUS.md`.
