@@ -1,0 +1,12 @@
+scenario_session_bundle:
+  scenario_source: workshop/session-bundle.yaml
+  proposal:
+    title: Delegate office-hours rotation
+    summary: Pilot a rotating delegate office-hours schedule to improve proposal review coverage.
+  stakeholders:
+    - delegates
+    - community
+  report:
+    title: Session bundle memo
+    owner: Governance ops
+    output_slug: session-bundle-memo
