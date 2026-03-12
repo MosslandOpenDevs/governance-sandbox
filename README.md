@@ -121,6 +121,7 @@ Scenario files can also carry `report.subtitle` / `report.subheading` (or top-le
 Scenario files can also carry `report.subject` / `report.subjects` (or top-level `report_subject`, `report_subjects`, `subject`, `subjects`, `topic`, or `topics`) so generated report bundles keep one explicit memo subject beside the title and audience metadata.
 Scenario files can now also carry `report.owner` / `report.owners` (or top-level `report_owner`, `report_owners`, `owner`, or `owners`) so markdown/html outputs keep the maintainer handoff visible beside the audience metadata.
 If you need a compact reminder for keeping one report subject visible across scenario-file, markdown, and HTML outputs, open `docs/SCENARIO_REPORT_SUBJECT_NOTE.md`.
+If you need a compact reminder for scenario files that keep report subject, owner, and audience bundled across JSON, Markdown, and HTML outputs, open `docs/SCENARIO_REPORT_TRIAGE_NOTE.md`.
 If you need the fastest scenario-file -> rendered-audience proof before wider report-bundle or web-demo work, open `docs/SCENARIO_REPORT_AUDIENCE_START.md`.
 If you need a compact reminder that scenario tags should stay visible in the generated report panel as well as the source fixture, open `docs/SCENARIO_REPORT_TAGS_NOTE.md`.
 If you need a compact handoff note for keeping scenario-file audience and owner metadata visible together in one generated report bundle, open `docs/SCENARIO_REPORT_OWNER_AUDIENCE_HANDOFF.md`.
