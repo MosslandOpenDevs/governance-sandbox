@@ -1,0 +1,22 @@
+{
+  "scenario": {
+    "name": "Delegate report outputs mapping demo",
+    "context": "Validate one scenario-file-first JSON fixture that owns proposal input and explicit report output files.",
+    "proposal": "Require milestone checkpoints before treasury-funded growth campaigns expand beyond the pilot cohort.",
+    "stakeholders": [
+      {"name": "Delegate circle", "preset": "delegates"},
+      {"name": "Core contributors", "preset": "contributors"},
+      {"name": "Community members", "preset": "community"}
+    ]
+  },
+  "report": {
+    "title": "Delegate-ready checkpoint memo",
+    "outputs": {
+      "files": {
+        "json": "artifacts/delegate-checkpoint-memo.json",
+        "markdown": "artifacts/delegate-checkpoint-memo.md",
+        "html": "artifacts/delegate-checkpoint-memo.html"
+      }
+    }
+  }
+}
