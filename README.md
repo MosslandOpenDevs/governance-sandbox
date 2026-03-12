@@ -127,6 +127,7 @@ If you need a compact reminder for scenario files that keep report subject, owne
 If you need the fastest scenario-file -> rendered-audience proof before wider report-bundle or web-demo work, open `docs/SCENARIO_REPORT_AUDIENCE_START.md`.
 If you need a compact reminder that scenario tags should stay visible in the generated report panel as well as the source fixture, open `docs/SCENARIO_REPORT_TAGS_NOTE.md`.
 If you need a compact handoff note for keeping scenario-file audience and owner metadata visible together in one generated report bundle, open `docs/SCENARIO_REPORT_OWNER_AUDIENCE_HANDOFF.md`.
+If you need the narrowest start for that same owner+audience replay lane, open `docs/SCENARIO_FILE_REPORT_OWNER_AUDIENCE_START.md`.
 If you need the shortest metadata-first replay before widening scenario bundles or the first web demo, open `docs/SCENARIO_REPORT_METADATA_START.md`.
 If you need the shortest scenario-file-first reminder before proving markdown/html export with preset-backed stakeholders, open `docs/SCENARIO_PRESET_REPORT_START.md`.
 If you need one scenario file to produce a title-ready report bundle for humans without reopening the JSON first, start with `examples/scenario-community-feedback.yaml`.
