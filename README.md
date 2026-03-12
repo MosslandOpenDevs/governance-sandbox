@@ -386,3 +386,5 @@ If you need a compact note for the more explicit `report.outputs.bundle_basename
 If you need a compact alias note for driving that same governance-sandbox report bundle from `report.output_slug` or `report.outputs.output_slug`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_SLUG_ALIAS_NOTE.md`.
 
 If you need the matching PM note for `scenario_archive` wrappers that should still replay one JSON/Markdown/HTML report stack, open `docs/SCENARIO_ARCHIVE_REPORT_STACK_NOTE.md`.
+
+If you need the short-form `json_report` / `markdown_report` / `html_report` names inside `report.outputs.files`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_FILES_SHORT_ALIASES_NOTE.md`.
