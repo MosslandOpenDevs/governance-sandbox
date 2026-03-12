@@ -403,3 +403,5 @@ If you need the matching PM note for `scenario_archive` wrappers that should sti
 If you need the short-form `json_report` / `markdown_report` / `html_report` names inside `report.outputs.files`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_FILES_SHORT_ALIASES_NOTE.md`.
 
 If you need a compact replay note for keeping one imported scenario file tied to one reviewable markdown/html/json bundle, open `docs/SCENARIO_FILE_REPORT_REVIEW_STACK_NOTE.md`.
+
+If you need a compact owner-facing note for keeping one scenario file tied to one markdown/html/json report bundle plus one generated-artifact summary line, open `docs/SCENARIO_FILE_REPORT_OWNER_SUMMARY_NOTE.md`.
