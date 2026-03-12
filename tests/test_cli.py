@@ -232,6 +232,48 @@ report:
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.html").exists())
             self.assertTrue((report_dir / "delegate-confidence-rehearsal.json").exists())
 
+    def test_run_accepts_nested_report_output_directory_aliases(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """proposal: |
+  Publish a treasury update memo.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+report:
+  outputs:
+    report_output_directory: nested-bundle
+    report_output_dir: ignored-because-long-form-wins
+    basename: delegate-memo
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            report_dir = scenario_path.parent / "nested-bundle"
+            self.assertEqual(payload["report"]["artifacts"]["directory"], str(report_dir.resolve()))
+            self.assertTrue((report_dir / "delegate-memo.json").exists())
+            self.assertTrue((report_dir / "delegate-memo.md").exists())
+            self.assertTrue((report_dir / "delegate-memo.html").exists())
+
     def test_run_resolves_relative_cli_report_paths_from_scenario_directory(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
