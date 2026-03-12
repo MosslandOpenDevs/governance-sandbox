@@ -420,6 +420,51 @@ report:
             self.assertIn("### DAO council (dao)", markdown_report)
             self.assertIn("### Delegate cohort (delegates)", markdown_report)
 
+    def test_run_supports_proposal_object_in_scenario_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            markdown_path = tmp / "report.md"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "name": "Proposal object rehearsal",
+                        "proposal": {
+                            "title": "Treasury checkpoint proposal",
+                            "summary": "Replay before the forum post.",
+                            "body": "Add milestone-based treasury checkpoints before execution."
+                        },
+                        "stakeholders": [
+                            {"name": "Delegate cohort", "preset": "delegates"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-markdown",
+                    str(markdown_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            expected = "Treasury checkpoint proposal\n\nReplay before the forum post.\n\nAdd milestone-based treasury checkpoints before execution."
+            self.assertEqual(payload["proposal"], expected)
+            self.assertIn(expected, markdown_path.read_text(encoding="utf-8"))
+
     def test_run_supports_json_scenario_file_and_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

@@ -130,6 +130,27 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
     return []
 
 
+def _normalize_proposal(value: Any) -> str | None:
+    if value is None:
+        return None
+    if isinstance(value, str):
+        normalized = value.strip()
+        return normalized or None
+    if isinstance(value, dict):
+        title = _pick(value, "title", "name", "label", "heading", "subject")
+        summary = _pick(value, "summary", "description", "brief", "overview")
+        body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "prompt", "message")
+        parts = [
+            str(item).strip()
+            for item in (title, summary, body)
+            if item is not None and str(item).strip()
+        ]
+        if parts:
+            return "\n\n".join(parts)
+    normalized = str(value).strip()
+    return normalized or None
+
+
 def _slugify_report_basename(raw: str | None) -> str:
     if not raw:
         return "report"
@@ -428,7 +449,7 @@ def main() -> None:
         scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
         inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
         scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
-        proposal = args.proposal or _pick(scenario, "proposal", "proposal_text", "prompt") or _pick(inputs, "proposal", "proposal_text", "prompt") or _pick(scenario_inputs, "proposal", "proposal_text", "prompt")
+        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "prompt"))
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
