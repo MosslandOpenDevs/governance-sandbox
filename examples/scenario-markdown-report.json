@@ -1,0 +1,15 @@
+{
+  "name": "Markdown bundle rehearsal",
+  "proposal": "Ship a staged treasury checkpoint update with a rollback trigger.",
+  "stakeholders": [
+    {"name": "DAO delegates", "preset": "delegates"},
+    {"name": "Core contributors", "preset": "contributors"},
+    {"name": "Community stewards", "preset": "community"}
+  ],
+  "report": {
+    "title": "Markdown bundle rehearsal memo",
+    "basename": "markdown-bundle-rehearsal",
+    "summary": "Verify that one JSON scenario file can generate a reusable markdown/html/json report bundle.",
+    "audience": "governance reviewers"
+  }
+}

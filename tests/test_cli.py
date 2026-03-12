@@ -95,6 +95,39 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertIn("## Outcome snapshot", (report_dir / f"{basename}.md").read_text(encoding="utf-8"))
             self.assertIn("Treasury confidence rehearsal memo", (report_dir / f"{basename}.html").read_text(encoding="utf-8"))
 
+    def test_markdown_report_bundle_supports_json_fixture_example(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report_dir = Path(tmpdir) / "bundle"
+            scenario_path = ROOT / "examples" / "scenario-markdown-report.json"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            basename = "markdown-bundle-rehearsal"
+            self.assertEqual(payload["scenario"]["name"], "Markdown bundle rehearsal")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], basename)
+            self.assertTrue((report_dir / f"{basename}.json").exists())
+            self.assertTrue((report_dir / f"{basename}.md").exists())
+            self.assertTrue((report_dir / f"{basename}.html").exists())
+            self.assertIn("Markdown bundle rehearsal memo", (report_dir / f"{basename}.md").read_text(encoding="utf-8"))
+            self.assertIn("governance reviewers", (report_dir / f"{basename}.md").read_text(encoding="utf-8"))
+
     def test_report_bundle_supports_json_fixture_example(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             report_dir = Path(tmpdir) / "bundle"
