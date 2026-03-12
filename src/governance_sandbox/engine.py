@@ -114,6 +114,8 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
             name = (
                 stakeholder.get("name")
                 or stakeholder.get("stakeholder")
+                or stakeholder.get("participant")
+                or stakeholder.get("actor")
                 or stakeholder.get("label")
                 or stakeholder.get("title")
                 or ""
