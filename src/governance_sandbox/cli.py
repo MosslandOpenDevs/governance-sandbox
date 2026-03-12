@@ -526,12 +526,12 @@ def main() -> None:
         report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
         inputs_report_outputs = inputs_report.get("outputs") if isinstance(inputs_report.get("outputs"), dict) else {}
         scenario_inputs_report_outputs = scenario_inputs_report.get("outputs") if isinstance(scenario_inputs_report.get("outputs"), dict) else {}
-        report_output_files = report_outputs.get("files") if isinstance(report_outputs.get("files"), dict) else {}
-        top_level_report_output_files = top_level_report_outputs.get("files") if isinstance(top_level_report_outputs.get("files"), dict) else {}
-        top_level_output_report_files = top_level_output_report.get("files") if isinstance(top_level_output_report.get("files"), dict) else {}
-        top_level_output_report_output_files = top_level_output_report_outputs.get("files") if isinstance(top_level_output_report_outputs.get("files"), dict) else {}
-        inputs_report_output_files = inputs_report_outputs.get("files") if isinstance(inputs_report_outputs.get("files"), dict) else {}
-        scenario_inputs_report_output_files = scenario_inputs_report_outputs.get("files") if isinstance(scenario_inputs_report_outputs.get("files"), dict) else {}
+        report_output_files = report_outputs.get("files") if isinstance(report_outputs.get("files"), dict) else (report_outputs.get("artifacts") if isinstance(report_outputs.get("artifacts"), dict) else {})
+        top_level_report_output_files = top_level_report_outputs.get("files") if isinstance(top_level_report_outputs.get("files"), dict) else (top_level_report_outputs.get("artifacts") if isinstance(top_level_report_outputs.get("artifacts"), dict) else {})
+        top_level_output_report_files = top_level_output_report.get("files") if isinstance(top_level_output_report.get("files"), dict) else (top_level_output_report.get("artifacts") if isinstance(top_level_output_report.get("artifacts"), dict) else {})
+        top_level_output_report_output_files = top_level_output_report_outputs.get("files") if isinstance(top_level_output_report_outputs.get("files"), dict) else (top_level_output_report_outputs.get("artifacts") if isinstance(top_level_output_report_outputs.get("artifacts"), dict) else {})
+        inputs_report_output_files = inputs_report_outputs.get("files") if isinstance(inputs_report_outputs.get("files"), dict) else (inputs_report_outputs.get("artifacts") if isinstance(inputs_report_outputs.get("artifacts"), dict) else {})
+        scenario_inputs_report_output_files = scenario_inputs_report_outputs.get("files") if isinstance(scenario_inputs_report_outputs.get("files"), dict) else (scenario_inputs_report_outputs.get("artifacts") if isinstance(scenario_inputs_report_outputs.get("artifacts"), dict) else {})
         direct_scenario_source_alias = _pick(
             scenario,
             "scenario_file",
