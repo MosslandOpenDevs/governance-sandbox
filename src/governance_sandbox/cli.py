@@ -130,6 +130,45 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
     return []
 
 
+def _proposal_parts_from_mapping(value: dict[str, Any]) -> list[str]:
+    title = _pick(value, "title", "name", "label", "heading", "subject", "proposal_title", "proposal_name")
+    summary = _pick(value, "summary", "description", "brief", "overview", "proposal_summary", "proposal_brief")
+    body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "prompt", "message", "proposal_body")
+    parts = [
+        str(item).strip()
+        for item in (title, summary, body)
+        if item is not None and str(item).strip()
+    ]
+    bullet_values = _pick(value, "bullets", "points", "checklist", "items", "proposal_points", "proposal_bullets")
+    bullet_lines = [f"- {item}" for item in _normalize_string_list(bullet_values)]
+    if bullet_lines:
+        parts.append("Key points:\n" + "\n".join(bullet_lines))
+    section_values = _pick(value, "sections", "steps", "phases", "proposal_sections")
+    if isinstance(section_values, list):
+        rendered_sections: list[str] = []
+        for section in section_values:
+            if isinstance(section, dict):
+                section_title = _pick(section, "title", "name", "label", "heading")
+                section_body = _pick(section, "body", "text", "content", "summary", "description")
+                section_points = [f"- {item}" for item in _normalize_string_list(_pick(section, "bullets", "points", "items", "checklist"))]
+                section_parts = [
+                    str(item).strip()
+                    for item in (section_title, section_body)
+                    if item is not None and str(item).strip()
+                ]
+                if section_points:
+                    section_parts.append("\n".join(section_points))
+                if section_parts:
+                    rendered_sections.append("\n".join(section_parts))
+            else:
+                rendered = str(section).strip()
+                if rendered:
+                    rendered_sections.append(rendered)
+        if rendered_sections:
+            parts.append("Sections:\n" + "\n\n".join(rendered_sections))
+    return parts
+
+
 def _normalize_proposal(value: Any) -> str | None:
     if value is None:
         return None
@@ -137,45 +176,20 @@ def _normalize_proposal(value: Any) -> str | None:
         normalized = value.strip()
         return normalized or None
     if isinstance(value, dict):
-        title = _pick(value, "title", "name", "label", "heading", "subject")
-        summary = _pick(value, "summary", "description", "brief", "overview")
-        body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "prompt", "message")
-        parts = [
-            str(item).strip()
-            for item in (title, summary, body)
-            if item is not None and str(item).strip()
-        ]
-        bullet_values = _pick(value, "bullets", "points", "checklist", "items")
-        bullet_lines = [f"- {item}" for item in _normalize_string_list(bullet_values)]
-        if bullet_lines:
-            parts.append("Key points:\n" + "\n".join(bullet_lines))
-        section_values = _pick(value, "sections", "steps", "phases")
-        if isinstance(section_values, list):
-            rendered_sections: list[str] = []
-            for section in section_values:
-                if isinstance(section, dict):
-                    section_title = _pick(section, "title", "name", "label", "heading")
-                    section_body = _pick(section, "body", "text", "content", "summary", "description")
-                    section_points = [f"- {item}" for item in _normalize_string_list(_pick(section, "bullets", "points", "items", "checklist"))]
-                    section_parts = [
-                        str(item).strip()
-                        for item in (section_title, section_body)
-                        if item is not None and str(item).strip()
-                    ]
-                    if section_points:
-                        section_parts.append("\n".join(section_points))
-                    if section_parts:
-                        rendered_sections.append("\n".join(section_parts))
-                else:
-                    rendered = str(section).strip()
-                    if rendered:
-                        rendered_sections.append(rendered)
-            if rendered_sections:
-                parts.append("Sections:\n" + "\n\n".join(rendered_sections))
+        parts = _proposal_parts_from_mapping(value)
         if parts:
             return "\n\n".join(parts)
     normalized = str(value).strip()
     return normalized or None
+
+
+def _normalize_proposal_from_mapping(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return None
+    parts = _proposal_parts_from_mapping(value)
+    if parts:
+        return "\n\n".join(parts)
+    return None
 
 
 def _slugify_report_basename(raw: str | None) -> str:
@@ -476,7 +490,7 @@ def main() -> None:
         scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
         inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
         scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
-        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "prompt"))
+        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "prompt")) or _normalize_proposal_from_mapping(scenario) or _normalize_proposal_from_mapping(inputs) or _normalize_proposal_from_mapping(scenario_inputs)
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
