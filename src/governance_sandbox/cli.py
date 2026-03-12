@@ -142,7 +142,7 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
 def _proposal_parts_from_mapping(value: dict[str, Any]) -> list[str]:
     title = _pick(value, "title", "name", "label", "heading", "subject", "proposal_title", "proposal_name")
     summary = _pick(value, "summary", "description", "brief", "overview", "proposal_summary", "proposal_brief", "proposal_blurb")
-    body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_description", "proposal_desc", "proposal_copy", "prompt", "message", "proposal_body")
+    body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_description", "proposal_desc", "proposal_copy", "proposal_copy_markdown", "prompt", "message", "proposal_body")
     parts = [
         str(item).strip()
         for item in (title, summary, body)
