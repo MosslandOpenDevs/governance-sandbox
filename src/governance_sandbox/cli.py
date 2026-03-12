@@ -209,6 +209,19 @@ def _slugify_report_basename(raw: str | None) -> str:
     return slug or "report"
 
 
+def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
+    if not scenario_file_arg:
+        return None
+    if scenario_file_arg == "-":
+        return "stdin"
+    suffix = Path(scenario_file_arg).suffix.lower()
+    if suffix == ".json":
+        return "json"
+    if suffix in {".yaml", ".yml"}:
+        return "yaml"
+    return suffix.lstrip(".") or "file"
+
+
 def _resolve_report_basename(*report_sections: dict[str, Any], scenario: dict[str, Any]) -> str:
     for report_meta in report_sections:
         report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
@@ -243,6 +256,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
             lines.append(f"- Generated at: {meta['generated_at']}")
         if meta.get("scenario_file"):
             lines.append(f"- Scenario file: {meta['scenario_file']}")
+        if meta.get("scenario_format"):
+            lines.append(f"- Scenario format: {meta['scenario_format']}")
         if artifacts.get("directory"):
             lines.append(f"- Report directory: {artifacts['directory']}")
         if artifacts.get("basename"):
@@ -274,6 +289,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Report priority", scenario["report_priority"], ""])
     if scenario.get("scenario_file"):
         lines.extend(["## Scenario source", scenario["scenario_file"], ""])
+    if scenario.get("scenario_format"):
+        lines.extend(["## Scenario format", scenario["scenario_format"], ""])
     if scenario.get("tags"):
         lines.extend(["## Scenario tags", ", ".join(scenario["tags"]), ""])
     if summary:
@@ -353,7 +370,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
         )
     risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
-    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_subtitle", "report_summary", "report_audience", "report_owner", "report_subject", "report_priority", "scenario_file", "tags")):
+    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_subtitle", "report_summary", "report_audience", "report_owner", "report_subject", "report_priority", "scenario_file", "scenario_format", "tags")):
         scenario_bits: list[str] = []
         if scenario.get("name"):
             scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
@@ -375,6 +392,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report priority:</strong> {escape(scenario["report_priority"])}</p>')
         if scenario.get("scenario_file"):
             scenario_bits.append(f'<p><strong>Scenario source:</strong> {escape(scenario["scenario_file"])}</p>')
+        if scenario.get("scenario_format"):
+            scenario_bits.append(f'<p><strong>Scenario format:</strong> {escape(scenario["scenario_format"])}</p>')
         if scenario.get("tags"):
             scenario_bits.append(f'<p><strong>Scenario tags:</strong> {escape(", ".join(scenario["tags"]))}</p>')
         scenario_panel = '<section class="panel">' + ''.join(scenario_bits) + '</section>'
@@ -386,6 +405,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             metadata_bits.append(f'<p><strong>Generated at:</strong> {escape(meta["generated_at"])}</p>')
         if meta.get("scenario_file"):
             metadata_bits.append(f'<p><strong>Scenario file:</strong> {escape(meta["scenario_file"])}</p>')
+        if meta.get("scenario_format"):
+            metadata_bits.append(f'<p><strong>Scenario format:</strong> {escape(meta["scenario_format"])}</p>')
         if artifacts.get("directory"):
             metadata_bits.append(f'<p><strong>Report directory:</strong> {escape(artifacts["directory"])}</p>')
         if artifacts.get("basename"):
@@ -599,6 +620,7 @@ def main() -> None:
                 )
             )
         )
+        scenario_format = _detect_scenario_format(args.scenario_file)
         result["scenario"] = {
             "name": _pick(scenario, "name", "title", "scenario_name", "scenario_title") or _pick(scenario_meta, "name", "title", "scenario_name", "scenario_title"),
             "context": _pick(scenario, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "scenario_context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "scenario_context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "scenario_context", "decision_context", "summary", "description"),
@@ -611,6 +633,7 @@ def main() -> None:
             "report_subject": ", ".join(_normalize_string_list(_pick(report_meta, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario_inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses") or _pick(scenario_meta, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses"))) or None,
             "report_priority": _pick(report_meta, "priority", "urgency", "importance", "priority_level", "priority_label", "priority_lane", "priority_band", "urgency_label", "report_priority", "report_urgency") or _pick(inputs_report, "priority", "urgency", "importance", "priority_level", "priority_label", "priority_lane", "priority_band", "urgency_label", "report_priority", "report_urgency") or _pick(scenario_inputs_report, "priority", "urgency", "importance", "priority_level", "priority_label", "priority_lane", "priority_band", "urgency_label", "report_priority", "report_urgency") or _pick(scenario, "report_priority", "report_urgency", "priority", "urgency", "importance", "priority_level", "priority_label", "priority_lane", "priority_band", "urgency_label") or _pick(scenario_meta, "report_priority", "report_urgency", "priority", "urgency", "importance", "priority_level", "priority_label", "priority_lane", "priority_band", "urgency_label"),
             "scenario_file": str(scenario_source) if scenario_source is not None else None,
+            "scenario_format": scenario_format,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
@@ -629,6 +652,7 @@ def main() -> None:
         result["report"] = {
             "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
             "scenario_file": str(scenario_source) if scenario_source is not None else None,
+            "scenario_format": scenario_format,
         }
         configured_report_dir = _pick(report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder", "root", "report_root") or _pick(top_level_output_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(top_level_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(inputs_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario_inputs_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(report_meta, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(top_level_output_report, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(inputs_report, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario_inputs_report, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "report_output_directory", "report_output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario, "report_dir", "reports_dir", "report_directory", "report_output_directory", "report_output_dir", "report_output_folder", "reports_folder", "report_bundle_dir", "report_bundle_directory", "bundle_dir", "report_folder")
         if args.report_dir:
