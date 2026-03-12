@@ -340,3 +340,5 @@ If you want a compact source-provenance reminder before handing off a generated 
 If you need a short alias reminder for keeping `scenario_source` / `source_path` metadata visible in stdin-generated markdown/html bundles, open `docs/SCENARIO_SOURCE_ALIAS_NOTE.md`.
 
 If you need a compact CLI reminder for the shorter `--report-md` / `--report-htm` scenario replay path, open `docs/SCENARIO_REPORT_SHORT_FLAG_NOTE.md`.
+
+If you need a compact reminder that governance-sandbox still ships in the order scenario file -> report bundle -> presets -> web demo -> demo GIF, open `docs/SCENARIO_REPORT_PRIORITY_LADDER_NOTE.md`.
