@@ -111,6 +111,7 @@ If you want the most compact catalog fixture for replaying dao/delegates/contrib
 If you want a compact snake_case basename fixture for scenario-file -> report-bundle replay, start with `examples/scenario-base-name-alias.yaml` or `examples/scenario-base-name-alias.json`.
 If you want the same scenario-file flow as a compact DAO-oriented JSON fixture, start with `examples/scenario-dao-report-bundle.json`.
 CLI-provided relative `--report-json`, `--report-markdown`, and `--report-html` paths now resolve from the scenario-file directory, so replayable fixtures can keep outputs beside the imported scenario without shell-specific path glue.
+If you need a compact replay note for that same relative-path report flow before widening the web demo, open `docs/SCENARIO_REPORT_RELATIVE_PATH_REPLAY.md`.
 If you need a machine-readable preset inventory for scenario generators or web-demo forms, run `PYTHONPATH=src python3 -m governance_sandbox.cli run --list-presets-json`.
 If you need the shortest UI handoff for turning that preset JSON into the first scenario form plus result card, open `docs/PRESET_JSON_FORM_CARD_START.md`.
 That preset-aware report flow now keeps a short preset summary beside each known preset in markdown/html stakeholder sections, so memo readers can see the trait meaning without reopening preset docs.
