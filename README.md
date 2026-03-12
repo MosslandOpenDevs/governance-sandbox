@@ -119,6 +119,7 @@ If you need the shortest UI handoff for turning that preset JSON into the first 
 That preset-aware report flow now keeps a short preset summary beside each known preset in markdown/html stakeholder sections, so memo readers can see the trait meaning without reopening preset docs.
 If you want a tiny scenario-file fixture that demonstrates top-level `report_targets` + `report_tags` aliases, start with `examples/scenario-report-targets-alias.yaml`.
 If you need a compact note for `priority_level` or `priority_label` aliases before widening scenario-import fixtures, open `docs/SCENARIO_REPORT_PRIORITY_LEVEL_ALIAS_NOTE.md`.
+If you need the same report-priority lane through `priority_lane` or `urgency_label` aliases, open `docs/SCENARIO_REPORT_PRIORITY_LANE_NOTE.md`.
 If you want one nested `inputs.report.outputs` fixture that keeps proposal input, stakeholder presets, and bundle basename together, start with `examples/scenario-inputs-report-outputs.yaml`.
 
 That JSON inventory now includes a label and a short summary for each preset so scenario builders and UI forms can explain the trait choice without hard-coding copy.
