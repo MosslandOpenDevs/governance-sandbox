@@ -149,6 +149,29 @@ def _normalize_proposal(value: Any) -> str | None:
         bullet_lines = [f"- {item}" for item in _normalize_string_list(bullet_values)]
         if bullet_lines:
             parts.append("Key points:\n" + "\n".join(bullet_lines))
+        section_values = _pick(value, "sections", "steps", "phases")
+        if isinstance(section_values, list):
+            rendered_sections: list[str] = []
+            for section in section_values:
+                if isinstance(section, dict):
+                    section_title = _pick(section, "title", "name", "label", "heading")
+                    section_body = _pick(section, "body", "text", "content", "summary", "description")
+                    section_points = [f"- {item}" for item in _normalize_string_list(_pick(section, "bullets", "points", "items", "checklist"))]
+                    section_parts = [
+                        str(item).strip()
+                        for item in (section_title, section_body)
+                        if item is not None and str(item).strip()
+                    ]
+                    if section_points:
+                        section_parts.append("\n".join(section_points))
+                    if section_parts:
+                        rendered_sections.append("\n".join(section_parts))
+                else:
+                    rendered = str(section).strip()
+                    if rendered:
+                        rendered_sections.append(rendered)
+            if rendered_sections:
+                parts.append("Sections:\n" + "\n\n".join(rendered_sections))
         if parts:
             return "\n\n".join(parts)
     normalized = str(value).strip()
