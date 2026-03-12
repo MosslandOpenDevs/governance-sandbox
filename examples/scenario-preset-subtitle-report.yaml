@@ -1,0 +1,21 @@
+name: Delegate-ready treasury subtitle rehearsal
+context: Evaluate whether a guarded treasury rebalance keeps delegate trust high enough for rollout.
+proposal:
+  title: Guardrailed treasury rebalance
+  summary: Shift 18% of the treasury from passive reserves into milestone-based ecosystem programs with rollback checkpoints.
+stakeholders:
+  - name: DAO treasury stewards
+    preset: dao
+  - name: Delegate circle
+    preset: delegates
+  - name: Core contributors
+    preset: contributors
+report:
+  title: Delegate-ready treasury rehearsal memo
+  subtitle: Scenario-file import plus preset-backed stakeholder coverage
+  owner: Governance design working group
+  audience:
+    - delegates
+    - treasury committee
+  basename: delegate-ready-subtitle-rehearsal
+  description: One YAML scenario keeps proposal input, preset-backed stakeholders, and the rendered markdown/html/json memo bundle aligned for reviewer handoff.
