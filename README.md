@@ -196,6 +196,8 @@ If you need a compact reminder for keeping those same output paths grouped under
 If you want a ready-made JSON fixture for that same `report.outputs.files` mapping, start with `examples/scenario-report-output-files.json`.
 If you need a one-line progress cue that names the imported scenario file plus generated review bundle status together, open `docs/SCENARIO_FILE_REPORT_STATUS_NOTE.md`.
 If you need a compact PM-facing reminder to keep one imported scenario file tied to the generated JSON/Markdown/HTML output paths in the same replay status line, open `docs/SCENARIO_FILE_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
+If you need a compact phase-one note for proving one imported scenario file plus one generated markdown/html/json report bundle before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_VALIDATE_BUNDLE_NOTE.md`.
+
 
 If you need a one-line check that the imported scenario already produced the full report stack, open `docs/SCENARIO_REPORT_STACK_CHECK.md`.
 If you need the narrowest scenario-file -> result card -> report-download start note before widening the first web demo, open `docs/SCENARIO_REPORT_RESULT_CARD_START.md`.
