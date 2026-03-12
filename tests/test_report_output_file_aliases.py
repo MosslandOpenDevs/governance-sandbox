@@ -10,33 +10,30 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
+CLI = [sys.executable, "-m", "governance_sandbox.cli", "run"]
 
 
 class ReportOutputFileAliasesTests(unittest.TestCase):
-    def test_run_supports_output_file_aliases_for_json_markdown_and_html(self) -> None:
+    def test_run_supports_direct_report_output_aliases_on_scenario_root(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
             scenario_path = tmp / "scenario.yaml"
             scenario_path.write_text(
-                """proposal: Publish a treasury policy update with a clear rollback clause.
+                """proposal: Publish a delegate-ready treasury checkpoint before the next vote.
 stakeholders:
   - name: DAO council
     preset: dao
-  - name: Active delegates
-    preset: delegates
-report:
-  title: Output file alias rehearsal
-  outputs:
-    output_name: alias-proof
-    output_json_file: exports/custom/alias-proof.json
-    output_markdown_file: exports/custom/alias-proof.md
-    output_html_file: exports/custom/alias-proof.html
+  - name: Builder guild
+    preset: contributors
+report_json_output: outputs/root-report.json
+report_md_output: outputs/root-report.md
+report_html_output: outputs/root-report.html
 """,
                 encoding="utf-8",
             )
 
             result = subprocess.run(
-                [sys.executable, "-m", "governance_sandbox.cli", "run", "--scenario-file", str(scenario_path)],
+                CLI + ["--scenario-file", str(scenario_path)],
                 cwd=ROOT,
                 env={**os.environ, "PYTHONPATH": str(SRC)},
                 capture_output=True,
@@ -46,14 +43,13 @@ report:
 
             payload = json.loads(result.stdout)
             artifacts = payload["report"]["artifacts"]
-            custom_dir = scenario_path.parent / "exports" / "custom"
-
-            self.assertEqual(Path(artifacts["json"]), (custom_dir / "alias-proof.json").resolve())
-            self.assertEqual(Path(artifacts["markdown"]), (custom_dir / "alias-proof.md").resolve())
-            self.assertEqual(Path(artifacts["html"]), (custom_dir / "alias-proof.html").resolve())
-            self.assertTrue((custom_dir / "alias-proof.json").exists())
-            self.assertTrue((custom_dir / "alias-proof.md").exists())
-            self.assertTrue((custom_dir / "alias-proof.html").exists())
+            outputs = scenario_path.parent / "outputs"
+            self.assertEqual(Path(artifacts["json"]), (outputs / "root-report.json").resolve())
+            self.assertEqual(Path(artifacts["markdown"]), (outputs / "root-report.md").resolve())
+            self.assertEqual(Path(artifacts["html"]), (outputs / "root-report.html").resolve())
+            self.assertTrue((outputs / "root-report.json").exists())
+            self.assertTrue((outputs / "root-report.md").exists())
+            self.assertTrue((outputs / "root-report.html").exists())
 
 
 if __name__ == "__main__":
