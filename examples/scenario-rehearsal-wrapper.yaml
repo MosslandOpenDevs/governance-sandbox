@@ -1,0 +1,15 @@
+rehearsal:
+  name: Rehearsal wrapper import
+  context: Verify wrapper-based scenario loading and markdown report generation.
+  proposal:
+    title: Publish a delegate-ready treasury checkpoint
+    summary: Keep one wrapper payload reusable across CLI and demo handoff paths.
+  stakeholders:
+    - name: Delegate council
+      preset: delegates
+    - name: Community stewards
+      preset: community
+  report:
+    title: Rehearsal wrapper memo
+    outputs:
+      basename: rehearsal-wrapper

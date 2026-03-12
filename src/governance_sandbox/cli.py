@@ -55,7 +55,7 @@ def _load_scenario(path: Path) -> dict[str, Any]:
         return {}
     scenario_keys = ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
     nested_scenario_keys = ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "inputs", "report")
-    for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_document", "scenario_spec", "scenario_input", "scenario_inputs", "scenario_config", "scenario_plan", "scenario_manifest"):
+    for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_document", "scenario_spec", "scenario_input", "scenario_inputs", "scenario_config", "scenario_plan", "scenario_manifest", "rehearsal", "rehearsal_bundle"):
         wrapped = loaded.get(wrapper_key)
         if isinstance(wrapped, dict) and any(key in wrapped for key in scenario_keys):
             nested_scenario = wrapped.get("scenario")
