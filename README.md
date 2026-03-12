@@ -381,6 +381,7 @@ If you need a compact reminder that governance-sandbox still ships in the order 
 If you need a compact note for scenario files that export the proposal under `proposal_body` while keeping the same report flow, open `docs/GOVERNANCE_SANDBOX_PROPOSAL_BODY_ALIAS_NOTE.md`.
 
 If you need a compact note for `report.watchers` or `report_watchers` while keeping the same markdown/html/json memo audience output, open `docs/SCENARIO_REPORT_WATCHERS_ALIAS_NOTE.md`.
+If you need a compact note for reusing one scenario-file handoff sentence as the generated report summary via `report_follow_up`, open `docs/SCENARIO_REPORT_FOLLOW_UP_ALIAS_NOTE.md`.
 If you need a compact note for the more explicit `report.outputs.bundle_basename` alias before widening scenario bundle naming rules, open `docs/SCENARIO_REPORT_BUNDLE_BASENAME_ALIAS_NOTE.md`.
 If you need a compact alias note for driving that same governance-sandbox report bundle from `report.output_slug` or `report.outputs.output_slug`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_SLUG_ALIAS_NOTE.md`.
 
