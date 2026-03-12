@@ -332,3 +332,5 @@ Scenario files may also use `report_author` or `report_authors` as report-owner 
 If you want a compact quickstart for one scenario file plus one shared JSON/Markdown/HTML bundle, open `docs/SCENARIO_REPORT_BUNDLE_QUICKSTART.md`.
 If you want a compact source-provenance reminder before handing off a generated scenario report bundle, open `docs/SCENARIO_REPORT_SOURCE_HANDOFF.md`.
 If you need a short alias reminder for keeping `scenario_source` / `source_path` metadata visible in stdin-generated markdown/html bundles, open `docs/SCENARIO_SOURCE_ALIAS_NOTE.md`.
+
+If you need a compact CLI reminder for the shorter `--report-md` / `--report-htm` scenario replay path, open `docs/SCENARIO_REPORT_SHORT_FLAG_NOTE.md`.
