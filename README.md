@@ -122,6 +122,7 @@ If you need a compact acceptance note for when that first result card plus repor
 If you need a one-line maintainer update once that first result-card proof is believable, open `docs/WEB_DEMO_RESULT_CARD_STATUS_LINE.md`.
 If you need a compact phase-one checklist that keeps scenario-file input and the report bundle ahead of presets, web demo work, and the demo GIF, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_CHECKLIST.md`.
 If you need a compact phase-one reminder to validate one scenario-file plus one regenerated markdown/html/json report bundle before push, open `docs/SCENARIO_FILE_REPORT_VALIDATE_SMALL_SLICE_NOTE.md`.
+If you need a compact phase-one reminder to keep report-path validation tied to the same scenario-file input before widening preset or demo scope, open `docs/SCENARIO_FILE_REPORT_PATH_LOCK_NOTE.md`.
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
 If you need a compact PM-facing rule for keeping scenario-file import, markdown/html/json report output, and the first web-demo checkpoint aligned, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_WEB_DEMO_BRIDGE.md`.
 If you need the matching Playwright-style stability note before widening that first form-to-result-card demo, open `docs/WEB_DEMO_PLAYWRIGHT_STABILITY_NOTE.md`.
