@@ -119,6 +119,7 @@ If you need a compact UI boundary note before widening that first form-to-card s
 If you need a compact acceptance note for when that first result card plus report path is actually reviewable, open `docs/WEB_DEMO_RESULT_CARD_ACCEPTANCE.md`.
 If you need a one-line maintainer update once that first result-card proof is believable, open `docs/WEB_DEMO_RESULT_CARD_STATUS_LINE.md`.
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
+If you need a compact PM-facing rule for keeping scenario-file import, markdown/html/json report output, and the first web-demo checkpoint aligned, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_WEB_DEMO_BRIDGE.md`.
 If you want a DAO-flavored treasury automation rehearsal with presets plus a named report bundle, start with `examples/dao-treasury-automation.yaml`.
 If you want a broader preset mix that highlights community-trust tradeoffs plus a named memo bundle, start with `examples/scenario-community-feedback.yaml`.
 If you want one reviewer-ready YAML fixture that keeps scenario import, named markdown/html/json outputs, audience, and owner metadata together, start with `examples/scenario-review-pack.yaml`.
