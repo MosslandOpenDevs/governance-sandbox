@@ -118,6 +118,7 @@ If you want one reviewer-ready YAML fixture that keeps scenario import, named ma
 If you want one reusable fixture that exercises all built-in stakeholder presets in a single report bundle, start with `examples/scenario-preset-roundtable.yaml`.
 If you want the most compact catalog fixture for replaying dao/delegates/contributors/investors/community together, start with `examples/scenario-stakeholder-preset-catalog.yaml`.
 If you want rehearsal-labeled exports to keep the same scenario-file import path, open `docs/SCENARIO_REHEARSAL_WRAPPER_NOTE.md`.
+If your workshop export nests the fixture under `scenario_manifest_bundle` or `scenario_packet_bundle`, the same scenario-file import path still resolves and can generate the report bundle without reshaping the file first.
 If you want a compact snake_case basename fixture for scenario-file -> report-bundle replay, start with `examples/scenario-base-name-alias.yaml` or `examples/scenario-base-name-alias.json`.
 If you want the same scenario-file flow as a compact DAO-oriented JSON fixture, start with `examples/scenario-dao-report-bundle.json`.
 CLI-provided relative `--report-json`, `--report-markdown`, and `--report-html` paths now resolve from the scenario-file directory, so replayable fixtures can keep outputs beside the imported scenario without shell-specific path glue.
