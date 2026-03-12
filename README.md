@@ -349,3 +349,5 @@ If you need a short alias reminder for keeping `scenario_source` / `source_path`
 If you need a compact CLI reminder for the shorter `--report-md` / `--report-htm` scenario replay path, open `docs/SCENARIO_REPORT_SHORT_FLAG_NOTE.md`.
 
 If you need a compact reminder that governance-sandbox still ships in the order scenario file -> report bundle -> presets -> web demo -> demo GIF, open `docs/SCENARIO_REPORT_PRIORITY_LADDER_NOTE.md`.
+
+If you need a compact note for scenario files that export the proposal under `proposal_body` while keeping the same report flow, open `docs/GOVERNANCE_SANDBOX_PROPOSAL_BODY_ALIAS_NOTE.md`.
