@@ -4,6 +4,8 @@ Agent-based governance scenario rehearsal engine for testing proposals, stakehol
 
 If you need a stdin-first replay note for piping one JSON or YAML scenario directly into report generation, open `docs/SCENARIO_STDIN_JSON_YAML_NOTE.md`.
 If you want a ready-to-run JSON scenario file that exercises proposal import plus report generation together, open `examples/delegate-ready-rehearsal.json`.
+If you want a ready-to-run JSON scenario file that proves one named markdown/html/json report bundle from scenario input, open `examples/dao-growth-report-bundle.json`.
+If you need the matching maintainer note for that scenario-file-plus-report-bundle example, open `docs/SCENARIO_FILE_REPORT_EXAMPLE_NOTE.md`.
 If you need a compact note for the `report.reviewers` alias while keeping the same markdown/html/json report audience output, open `docs/GOVERNANCE_SANDBOX_REPORT_REVIEWERS_ALIAS_NOTE.md`.
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
 If you want the smallest scenario-file-first workflow, open `docs/SCENARIO_FILE_REPORT_BUNDLE_START.md` to generate markdown/html/json outputs from one JSON or YAML input bundle.

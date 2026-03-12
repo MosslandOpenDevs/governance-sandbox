@@ -1,0 +1,27 @@
+{
+  "name": "DAO growth report bundle",
+  "context": "Treasury committee review before publishing a growth-program vote.",
+  "proposal": {
+    "title": "Fund a 90-day growth experiment from the treasury",
+    "summary": "Shift 12% of the quarterly treasury budget into a measured acquisition and education program.",
+    "body": "Run a 90-day experiment with weekly reporting, a hard spend cap, and a rollback vote if activation targets miss by more than 25%."
+  },
+  "stakeholders": {
+    "DAO council": "dao",
+    "Lead delegates": "delegates",
+    "Core contributors": "contributors",
+    "Treasury backers": "investors",
+    "Community stewards": "community"
+  },
+  "report": {
+    "title": "DAO Growth Experiment Decision Memo",
+    "summary": "Scenario-file input that generates a reusable markdown/html/json governance memo bundle.",
+    "owner": "Governance operations",
+    "audience": ["Delegates", "Treasury committee"],
+    "priority": "high",
+    "outputs": {
+      "dir": "artifacts/dao-growth-report",
+      "basename": "dao-growth-report"
+    }
+  }
+}
