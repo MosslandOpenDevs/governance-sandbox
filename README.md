@@ -146,6 +146,7 @@ If you need the shortest scenario-file -> markdown memo proof before widening JS
 If you need a compact PM-facing reminder to keep scenario input, report basename, and generated markdown/html/json output paths visible in one replay status line, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
 If you need a compact replay card for keeping one imported scenario tied to one generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_FILE_REPORT_REPLAY_CARD.md`.
 If you need a compact reviewer note for checking the same imported scenario against the generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_REPORT_OUTPUT_REVIEW_NOTE.md`.
+If you need a one-line progress cue that names the imported scenario file plus generated review bundle status together, open `docs/SCENARIO_FILE_REPORT_STATUS_NOTE.md`.
 
 If you need a one-line check that the imported scenario already produced the full report stack, open `docs/SCENARIO_REPORT_STACK_CHECK.md`.
 If you need the narrowest scenario-file -> result card -> report-download start note before widening the first web demo, open `docs/SCENARIO_REPORT_RESULT_CARD_START.md`.
