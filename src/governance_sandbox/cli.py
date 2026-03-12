@@ -31,6 +31,13 @@ except ImportError:  # pragma: no cover
     yaml = None
 
 
+
+
+def _strip_json_comments(text: str) -> str:
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+    return re.sub(r"(?m)^\s*//.*$", "", text)
+
+
 def _load_scenario(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
     if str(path) == "-":
@@ -38,13 +45,19 @@ def _load_scenario(path: Path) -> dict[str, Any]:
         try:
             loaded = json.loads(text)
         except json.JSONDecodeError:
-            if yaml is None:
-                raise SystemExit("Scenario stdin must be valid JSON unless PyYAML is installed for YAML support.")
-            loaded = yaml.safe_load(text)
+            try:
+                loaded = json.loads(_strip_json_comments(text))
+            except json.JSONDecodeError:
+                if yaml is None:
+                    raise SystemExit("Scenario stdin must be valid JSON unless PyYAML is installed for YAML support.")
+                loaded = yaml.safe_load(text)
     else:
         text = path.read_text(encoding="utf-8")
-        if suffix == ".json":
-            loaded = json.loads(text)
+        if suffix in {".json", ".jsonc"}:
+            try:
+                loaded = json.loads(text)
+            except json.JSONDecodeError:
+                loaded = json.loads(_strip_json_comments(text))
         elif suffix in {".yaml", ".yml"}:
             if yaml is None:
                 raise SystemExit("YAML support requires PyYAML to be installed.")
@@ -217,6 +230,8 @@ def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
     suffix = Path(scenario_file_arg).suffix.lower()
     if suffix == ".json":
         return "json"
+    if suffix == ".jsonc":
+        return "jsonc"
     if suffix in {".yaml", ".yml"}:
         return "yaml"
     return suffix.lstrip(".") or "file"
@@ -498,7 +513,7 @@ def main() -> None:
     run_cmd = sub.add_parser("run", help="Run a governance scenario rehearsal")
     run_cmd.add_argument("--proposal", help="Governance proposal text")
     run_cmd.add_argument("--stakeholders", help="Comma-separated stakeholder list")
-    run_cmd.add_argument("--scenario-file", help="Path to a JSON or YAML scenario file")
+    run_cmd.add_argument("--scenario-file", help="Path to a JSON/JSONC or YAML scenario file")
     run_cmd.add_argument("--report-markdown", "--report-md", dest="report_markdown", help="Write a markdown report to this path")
     run_cmd.add_argument("--report-html", "--report-htm", dest="report_html", help="Write an HTML report to this path")
     run_cmd.add_argument("--report-json", help="Write the JSON result to this path")
