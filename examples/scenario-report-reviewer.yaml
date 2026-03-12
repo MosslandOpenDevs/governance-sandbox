@@ -1,0 +1,13 @@
+name: Reviewer-ready treasury rehearsal
+proposal:
+  title: Stage treasury automation with an emergency pause checkpoint
+  summary: Add one reviewer-owned checkpoint before the full DAO rollout.
+stakeholders:
+  - name: Delegate council
+    preset: delegates
+  - name: Core contributor pod
+    preset: contributors
+report:
+  title: Reviewer-ready treasury rehearsal
+  reviewer: Delegate forum lead
+  output_slug: reviewer-ready-treasury-rehearsal

@@ -100,6 +100,7 @@ If you want a JSON-first fixture that proves one imported scenario can generate 
 If you need a compact note for keeping the markdown report paired with the matching JSON artifact, open `docs/SCENARIO_REPORT_MARKDOWN_BUNDLE_NOTE.md`.
 If you need the shortest reviewer-first cue for reopening one imported scenario with its shared JSON/Markdown/HTML outputs, open `docs/SCENARIO_REPORT_REVIEW_BUNDLE_START.md`.
 If you want the same bundle flow with a ready-made JSON fixture, start with `examples/scenario-report-bundle.json`.
+If you want a YAML fixture that keeps a singular `report.reviewer` alias tied to the generated markdown/html/json bundle, start with `examples/scenario-report-reviewer.yaml`.
 If you want the same flow from stdin for shell pipelines or browser-demo handoffs, pass `--scenario-file -` and pipe JSON/YAML into the CLI.
 Scenario files can also keep `stakeholders` as one comma-separated or newline-separated string when a fixture is easier to author that way.
 Scenario files can also use `proposal_outline`, `proposal_notes`, or `proposal_details` when workshop exports keep the proposal object under a named planning block.
