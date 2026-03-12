@@ -225,7 +225,7 @@ def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
 def _resolve_report_basename(*report_sections: dict[str, Any], scenario: dict[str, Any]) -> str:
     for report_meta in report_sections:
         report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
-        configured = _pick(report_outputs, "basename", "bundle_basename", "bundle_name", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "base", "slug", "name") or _pick(report_meta, "basename", "bundle_basename", "bundle_name", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "base", "slug", "name")
+        configured = _pick(report_outputs, "basename", "bundle_basename", "bundle_name", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "output_slug", "bundle_slug", "base", "slug", "name") or _pick(report_meta, "basename", "bundle_basename", "bundle_name", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "output_slug", "bundle_slug", "base", "slug", "name")
         if configured:
             return _slugify_report_basename(str(configured))
     configured = _pick(scenario, "report_basename", "report_file_stem", "report_stem", "report_name", "report_base")
