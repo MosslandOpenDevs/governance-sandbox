@@ -261,6 +261,8 @@ def _render_markdown_report(result: dict[str, Any]) -> str:
         lines.extend(["## Report owner", scenario["report_owner"], ""])
     if scenario.get("report_subject"):
         lines.extend(["## Report subject", scenario["report_subject"], ""])
+    if scenario.get("report_priority"):
+        lines.extend(["## Report priority", scenario["report_priority"], ""])
     if scenario.get("scenario_file"):
         lines.extend(["## Scenario source", scenario["scenario_file"], ""])
     if scenario.get("tags"):
@@ -342,7 +344,7 @@ def _render_html_report(result: dict[str, Any]) -> str:
         )
     risks = "".join(f"<li>{escape(risk)}</li>" for risk in result["major_risks"])
     scenario_panel = ""
-    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_subtitle", "report_summary", "report_audience", "report_owner", "report_subject", "scenario_file", "tags")):
+    if any(scenario.get(key) for key in ("name", "context", "report_title", "report_subtitle", "report_summary", "report_audience", "report_owner", "report_subject", "report_priority", "scenario_file", "tags")):
         scenario_bits: list[str] = []
         if scenario.get("name"):
             scenario_bits.append(f'<p><strong>Scenario:</strong> {escape(scenario["name"])}</p>')
@@ -360,6 +362,8 @@ def _render_html_report(result: dict[str, Any]) -> str:
             scenario_bits.append(f'<p><strong>Report owner:</strong> {escape(scenario["report_owner"])}</p>')
         if scenario.get("report_subject"):
             scenario_bits.append(f'<p><strong>Report subject:</strong> {escape(scenario["report_subject"])}</p>')
+        if scenario.get("report_priority"):
+            scenario_bits.append(f'<p><strong>Report priority:</strong> {escape(scenario["report_priority"])}</p>')
         if scenario.get("scenario_file"):
             scenario_bits.append(f'<p><strong>Scenario source:</strong> {escape(scenario["scenario_file"])}</p>')
         if scenario.get("tags"):
@@ -546,6 +550,7 @@ def main() -> None:
             "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario_inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
             "report_owner": ", ".join(_normalize_string_list(_pick(report_meta, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(scenario_inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(scenario, "report_owner", "report_owners", "report_author", "report_authors", "owner", "owners", "maintainer", "maintainers", "author", "authors") or _pick(scenario_meta, "report_owner", "report_owners", "report_author", "report_authors", "owner", "owners", "maintainer", "maintainers", "author", "authors"))) or None,
             "report_subject": ", ".join(_normalize_string_list(_pick(report_meta, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario_inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses") or _pick(scenario_meta, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses"))) or None,
+            "report_priority": _pick(report_meta, "priority", "urgency", "importance", "report_priority", "report_urgency") or _pick(inputs_report, "priority", "urgency", "importance", "report_priority", "report_urgency") or _pick(scenario_inputs_report, "priority", "urgency", "importance", "report_priority", "report_urgency") or _pick(scenario, "report_priority", "report_urgency", "priority", "urgency", "importance") or _pick(scenario_meta, "report_priority", "report_urgency", "priority", "urgency", "importance"),
             "scenario_file": str(scenario_source) if scenario_source is not None else None,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
