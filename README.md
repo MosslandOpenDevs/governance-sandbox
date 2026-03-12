@@ -101,6 +101,7 @@ If you need the shortest reviewer-first cue for reopening one imported scenario 
 If you want the same bundle flow with a ready-made JSON fixture, start with `examples/scenario-report-bundle.json`.
 If you want the same flow from stdin for shell pipelines or browser-demo handoffs, pass `--scenario-file -` and pipe JSON/YAML into the CLI.
 Scenario files can also keep `stakeholders` as one comma-separated or newline-separated string when a fixture is easier to author that way.
+Scenario files can also use `proposal_outline`, `proposal_notes`, or `proposal_details` when workshop exports keep the proposal object under a named planning block.
 Individual stakeholder entries can also use `participant` or `actor` as name aliases when scenario files come from demo-form or workshop exports.
 If you want one fixture to keep proposal/stakeholders under `inputs` and report metadata under `inputs.report`, open `docs/GOVERNANCE_SANDBOX_SCENARIO_INPUTS_REPORT_NOTE.md`.
 If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.

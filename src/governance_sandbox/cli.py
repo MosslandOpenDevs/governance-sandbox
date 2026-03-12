@@ -53,8 +53,8 @@ def _load_scenario(path: Path) -> dict[str, Any]:
             raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
     if not isinstance(loaded, dict):
         return {}
-    scenario_keys = ("proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt", "stakeholders", "stakeholder_roster", "stakeholder_profiles", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
-    nested_scenario_keys = ("proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt", "stakeholders", "stakeholder_roster", "stakeholder_profiles", "participants", "actors", "stakeholder_map", "stakeholder_presets", "inputs", "report")
+    scenario_keys = ("proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt", "stakeholders", "stakeholder_roster", "stakeholder_profiles", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
+    nested_scenario_keys = ("proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt", "stakeholders", "stakeholder_roster", "stakeholder_profiles", "participants", "actors", "stakeholder_map", "stakeholder_presets", "inputs", "report")
     for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_document", "scenario_spec", "scenario_input", "scenario_inputs", "scenario_packet", "scenario_config", "scenario_plan", "scenario_manifest", "scenario_outline", "scenario_brief", "scenario_blueprint", "rehearsal", "rehearsal_bundle"):
         wrapped = loaded.get(wrapper_key)
         if isinstance(wrapped, dict) and any(key in wrapped for key in scenario_keys):
@@ -142,7 +142,7 @@ def _normalize_stakeholders(value: Any) -> list[str] | list[dict[str, str]]:
 def _proposal_parts_from_mapping(value: dict[str, Any]) -> list[str]:
     title = _pick(value, "title", "name", "label", "heading", "subject", "proposal_title", "proposal_name")
     summary = _pick(value, "summary", "description", "brief", "overview", "proposal_summary", "proposal_brief")
-    body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt", "message", "proposal_body")
+    body = _pick(value, "body", "text", "content", "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt", "message", "proposal_body")
     parts = [
         str(item).strip()
         for item in (title, summary, body)
@@ -503,7 +503,7 @@ def main() -> None:
         scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
         inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
         scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
-        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "prompt")) or _normalize_proposal_from_mapping(scenario) or _normalize_proposal_from_mapping(inputs) or _normalize_proposal_from_mapping(scenario_inputs)
+        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "prompt")) or _normalize_proposal_from_mapping(scenario) or _normalize_proposal_from_mapping(inputs) or _normalize_proposal_from_mapping(scenario_inputs)
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
