@@ -61,6 +61,8 @@ A DAO plans to change treasury allocation from long-term ecosystem grants to sho
 
 ---
 
+If you need a compact replay note for one review-pack scenario that regenerates JSON, Markdown, and HTML artifacts under one basename, open `docs/SCENARIO_REVIEW_PACK_REPLAY_NOTE.md`.
+
 ## Quickstart
 
 ```bash
