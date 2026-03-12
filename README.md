@@ -161,6 +161,7 @@ If you need a wrapper-based scenario fixture that still drives markdown/html/jso
 If you need the matching note for a plain top-level `scenario` wrapper before widening fixture reuse, open `docs/SCENARIO_TOP_LEVEL_WRAPPER_NOTE.md`.
 If you need the matching note for `scenario_plan` wrappers before widening fixture reuse, open `docs/GOVERNANCE_SANDBOX_SCENARIO_PLAN_WRAPPER_NOTE.md`.
 If you need the matching wrapper note for `scenario_blueprint` before widening scenario reuse, open `docs/SCENARIO_BLUEPRINT_WRAPPER_NOTE.md`.
+If you need the matching wrapper note for `scenario_record` before widening scenario reuse, open `docs/SCENARIO_RECORD_WRAPPER_NOTE.md`.
 If you need a compact reviewer-share note once one imported scenario already generates the full markdown/html/json bundle, open `docs/SCENARIO_REPORT_REVIEWER_SHARE_NOTE.md`.
 If you need the shortest scenario-file -> markdown memo proof before widening JSON/HTML output work, open `docs/SCENARIO_FILE_MARKDOWN_REPORT_NOTE.md`.
 If you need a compact PM-facing reminder to keep scenario input, report basename, and generated markdown/html/json output paths visible in one replay status line, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
