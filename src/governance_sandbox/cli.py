@@ -53,12 +53,26 @@ def _load_scenario(path: Path) -> dict[str, Any]:
             raise SystemExit(f"Unsupported scenario file format: {path.suffix}")
     if not isinstance(loaded, dict):
         return {}
+    scenario_keys = ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
+    nested_scenario_keys = ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "inputs", "report")
     for wrapper_key in ("scenario_payload", "scenario_data", "scenario_bundle", "scenario_document", "scenario_spec", "scenario_input", "scenario_inputs", "scenario_config", "scenario_plan", "scenario_manifest"):
         wrapped = loaded.get(wrapper_key)
-        if isinstance(wrapped, dict) and any(
-            key in wrapped for key in ("proposal", "proposal_text", "prompt", "stakeholders", "participants", "actors", "stakeholder_map", "stakeholder_presets", "scenario", "inputs", "report")
-        ):
+        if isinstance(wrapped, dict) and any(key in wrapped for key in scenario_keys):
+            nested_scenario = wrapped.get("scenario")
+            if isinstance(nested_scenario, dict) and any(key in nested_scenario for key in nested_scenario_keys):
+                merged = dict(nested_scenario)
+                for key, value in wrapped.items():
+                    if key != "scenario" and key not in merged:
+                        merged[key] = value
+                return merged
             return wrapped
+    top_level_scenario = loaded.get("scenario")
+    if isinstance(top_level_scenario, dict) and any(key in top_level_scenario for key in nested_scenario_keys):
+        merged = dict(top_level_scenario)
+        for key, value in loaded.items():
+            if key != "scenario" and key not in merged:
+                merged[key] = value
+        return merged
     return loaded
 
 
