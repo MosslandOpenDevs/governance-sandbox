@@ -530,6 +530,22 @@ def main() -> None:
             "source_file",
             "scenario_path",
             "source_path",
+        ) or _pick(
+            inputs,
+            "scenario_file",
+            "scenario_source",
+            "source",
+            "source_file",
+            "scenario_path",
+            "source_path",
+        ) or _pick(
+            scenario_inputs,
+            "scenario_file",
+            "scenario_source",
+            "source",
+            "source_file",
+            "scenario_path",
+            "source_path",
         )
         scenario_source = (
             scenario_source_alias
