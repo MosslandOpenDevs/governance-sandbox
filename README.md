@@ -111,6 +111,8 @@ If you need a machine-readable preset inventory for scenario generators or web-d
 If you need the shortest UI handoff for turning that preset JSON into the first scenario form plus result card, open `docs/PRESET_JSON_FORM_CARD_START.md`.
 That preset-aware report flow now keeps a short preset summary beside each known preset in markdown/html stakeholder sections, so memo readers can see the trait meaning without reopening preset docs.
 If you want a tiny scenario-file fixture that demonstrates top-level `report_targets` + `report_tags` aliases, start with `examples/scenario-report-targets-alias.yaml`.
+If you want one nested `inputs.report.outputs` fixture that keeps proposal input, stakeholder presets, and bundle basename together, start with `examples/scenario-inputs-report-outputs.yaml`.
+
 That JSON inventory now includes a label and a short summary for each preset so scenario builders and UI forms can explain the trait choice without hard-coding copy.
 Scenario files can also carry `report.audience` / `report.audiences` (or top-level `report_audience`, `report_audiences`, `report_readers`, `report_targets`, `audience`, or `audiences`) so markdown/html outputs state who the memo is for without duplicating handoff copy outside the fixture.
 Scenario files can now also carry `report.owner` / `report.owners` (or top-level `report_owner`, `report_owners`, `owner`, or `owners`) so markdown/html outputs keep the maintainer handoff visible beside the audience metadata.

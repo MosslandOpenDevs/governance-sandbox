@@ -1,0 +1,16 @@
+scenario:
+  name: Delegate runway check
+inputs:
+  proposal: Add a two-phase treasury runway checkpoint before expanding liquidity mining.
+  stakeholders:
+    - name: Delegate circle
+      preset: delegates
+    - name: Contributor pod
+      preset: contributors
+  report:
+    title: Inputs report outputs memo
+    outputs:
+      basename: inputs-report-outputs-demo
+      json: artifacts/inputs-report-outputs-demo.json
+      markdown: artifacts/inputs-report-outputs-demo.md
+      html: artifacts/inputs-report-outputs-demo.html
