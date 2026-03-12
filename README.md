@@ -4,6 +4,7 @@ Agent-based governance scenario rehearsal engine for testing proposals, stakehol
 
 If you need a stdin-first replay note for piping one JSON or YAML scenario directly into report generation, open `docs/SCENARIO_STDIN_JSON_YAML_NOTE.md`.
 If you want a ready-to-run JSON scenario file that exercises proposal import plus report generation together, open `examples/delegate-ready-rehearsal.json`.
+If you need a compact note for the `report.reviewers` alias while keeping the same markdown/html/json report audience output, open `docs/GOVERNANCE_SANDBOX_REPORT_REVIEWERS_ALIAS_NOTE.md`.
 
 > Rehearse governance decisions in a simulated stakeholder environment before you ship them to reality.
 
