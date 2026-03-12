@@ -510,6 +510,32 @@ def main() -> None:
         report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
         inputs_report_outputs = inputs_report.get("outputs") if isinstance(inputs_report.get("outputs"), dict) else {}
         scenario_inputs_report_outputs = scenario_inputs_report.get("outputs") if isinstance(scenario_inputs_report.get("outputs"), dict) else {}
+        scenario_source_alias = _pick(
+            scenario,
+            "scenario_file",
+            "scenario_source",
+            "source",
+            "source_file",
+            "scenario_path",
+            "source_path",
+        ) or _pick(
+            scenario_meta,
+            "scenario_file",
+            "scenario_source",
+            "source",
+            "source_file",
+            "scenario_path",
+            "source_path",
+        )
+        scenario_source = (
+            scenario_source_alias
+            if args.scenario_file == "-" and scenario_source_alias
+            else (
+                "stdin"
+                if args.scenario_file == "-"
+                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else scenario_source_alias)
+            )
+        )
         result["scenario"] = {
             "name": _pick(scenario, "name", "title", "scenario_name", "scenario_title") or _pick(scenario_meta, "name", "title", "scenario_name", "scenario_title"),
             "context": _pick(scenario, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "scenario_context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "scenario_context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "scenario_context", "decision_context", "summary", "description"),
@@ -520,11 +546,7 @@ def main() -> None:
             "report_audience": ", ".join(_normalize_string_list(_pick(report_meta, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario_inputs_report, "audience", "audiences", "readers", "viewers", "targets", "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets") or _pick(scenario, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers") or _pick(scenario_meta, "report_audience", "report_audiences", "report_readers", "report_viewers", "report_targets", "audience", "audiences", "viewers"))) or None,
             "report_owner": ", ".join(_normalize_string_list(_pick(report_meta, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(scenario_inputs_report, "owner", "owners", "maintainer", "maintainers", "author", "authors", "report_owner", "report_owners", "report_author", "report_authors") or _pick(scenario, "report_owner", "report_owners", "report_author", "report_authors", "owner", "owners", "maintainer", "maintainers", "author", "authors") or _pick(scenario_meta, "report_owner", "report_owners", "report_author", "report_authors", "owner", "owners", "maintainer", "maintainers", "author", "authors"))) or None,
             "report_subject": ", ".join(_normalize_string_list(_pick(report_meta, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario_inputs_report, "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses", "report_subject", "report_subjects") or _pick(scenario, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses") or _pick(scenario_meta, "report_subject", "report_subjects", "subject", "subjects", "topic", "topics", "theme", "themes", "focus", "focuses"))) or None,
-            "scenario_file": (
-                "stdin"
-                if args.scenario_file == "-"
-                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
-            ),
+            "scenario_file": str(scenario_source) if scenario_source is not None else None,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
@@ -542,11 +564,7 @@ def main() -> None:
         }
         result["report"] = {
             "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-            "scenario_file": (
-                "stdin"
-                if args.scenario_file == "-"
-                else (str(Path(args.scenario_file).resolve()) if args.scenario_file else None)
-            ),
+            "scenario_file": str(scenario_source) if scenario_source is not None else None,
         }
         configured_report_dir = _pick(report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(top_level_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(inputs_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario_inputs_report_outputs, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(report_meta, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(inputs_report, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario_inputs_report, "dir", "bundle_dir", "report_dir", "reports_dir", "output_dir", "output_folder", "reports_folder", "directory", "output_directory", "folder", "bundle_folder") or _pick(scenario, "report_dir", "reports_dir", "report_directory", "report_output_dir", "report_output_directory", "report_output_folder", "reports_folder", "report_bundle_dir", "report_bundle_directory", "bundle_dir", "report_folder")
         if args.report_dir:
