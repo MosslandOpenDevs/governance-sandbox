@@ -326,4 +326,5 @@ Scenario files may also use `report.bundle_dir`, nested `report.report_dir`, or 
 
 Scenario files may also use `report_author` or `report_authors` as report-owner aliases when the generated markdown/html memo should show the owning working group without renaming existing fixture fields.
 
+If you want a compact quickstart for one scenario file plus one shared JSON/Markdown/HTML bundle, open `docs/SCENARIO_REPORT_BUNDLE_QUICKSTART.md`.
 If you want a compact source-provenance reminder before handing off a generated scenario report bundle, open `docs/SCENARIO_REPORT_SOURCE_HANDOFF.md`.
