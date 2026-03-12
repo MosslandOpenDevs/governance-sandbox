@@ -141,6 +141,7 @@ If you need one scenario file to produce a title-ready report bundle for humans 
 If you need a compact start note for keeping one scenario replay tied to one reusable JSON/Markdown/HTML artifact bundle, open `docs/SCENARIO_REPORT_ARTIFACT_BUNDLE_START.md`.
 If you need the shortest scenario-file -> generated report bundle replay before widening scope, open `docs/SCENARIO_FILE_REPORT_START.md`.
 If you need a compact reminder to keep JSON/YAML scenario import coupled to the generated report trio, open `docs/SCENARIO_FILE_JSON_YAML_REPORT_START.md`.
+If you need a compact reminder for carrying one scenario-file `report.description` into the generated markdown/html memo bundle, open `docs/SCENARIO_FILE_REPORT_DESCRIPTION_NOTE.md`.
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a compact rule for keeping scenario-file examples tied to a named report basename before widening web-demo scope, open `docs/SCENARIO_FILE_REPORT_BASENAME_RULE.md`.
 If you need a compact note for scenario fixtures wrapped under `scenario_plan` or `scenario_manifest`, open `docs/SCENARIO_MANIFEST_WRAPPER_NOTE.md`.
