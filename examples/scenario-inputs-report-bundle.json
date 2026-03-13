@@ -1,0 +1,21 @@
+{
+  "inputs": {
+    "proposal": {
+      "title": "Delegate Transparency Sprint",
+      "summary": "Publish a short monthly treasury and voting activity memo.",
+      "proposal_copy_markdown": "## Proposal\nShip a monthly governance memo that covers treasury changes, delegate votes, and unresolved risks."
+    },
+    "stakeholders": [
+      {"name": "DAO delegates", "preset": "delegates"},
+      {"name": "Core contributors", "preset": "contributors"},
+      {"name": "Community members", "preset": "community"}
+    ],
+    "report": {
+      "outputs": {
+        "reports_directory": "artifacts/inputs-bundle"
+      }
+    }
+  },
+  "scenario_label": "Delegate transparency rehearsal",
+  "scenario_source_file": "examples/scenario-inputs-report-bundle.json"
+}

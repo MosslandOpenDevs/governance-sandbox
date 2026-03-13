@@ -1,0 +1,69 @@
+{
+  "proposal": "Delegate Transparency Sprint\n\nPublish a short monthly treasury and voting activity memo.\n\n## Proposal\nShip a monthly governance memo that covers treasury changes, delegate votes, and unresolved risks.",
+  "scenario": {
+    "name": "Delegate transparency rehearsal",
+    "context": null,
+    "report_title": null,
+    "report_subtitle": null,
+    "report_summary": null,
+    "report_basename": null,
+    "report_audience": null,
+    "report_owner": null,
+    "report_reviewers": null,
+    "report_subject": null,
+    "report_priority": null,
+    "scenario_file": "examples/scenario-inputs-report-bundle.json",
+    "scenario_format": "json",
+    "tags": []
+  },
+  "responses": [
+    {
+      "name": "DAO delegates",
+      "stance": "cautious",
+      "concern": "Wants explicit success metrics, downside limits, and rollback triggers.",
+      "mitigation": "Add measurable milestones and a reversal path before the vote.",
+      "preset": "delegates"
+    },
+    {
+      "name": "Core contributors",
+      "stance": "mixed",
+      "concern": "Execution capacity may shift away from product and community commitments.",
+      "mitigation": "Protect delivery bandwidth and publish ownership boundaries for the new work.",
+      "preset": "contributors"
+    },
+    {
+      "name": "Community members",
+      "stance": "skeptical",
+      "concern": "May see the change as short-term optimization that weakens trust or inclusion.",
+      "mitigation": "Explain member benefit, keep feedback loops open, and publish follow-up updates.",
+      "preset": "community"
+    }
+  ],
+  "major_risks": [
+    "Stakeholder trust erosion if rationale is unclear.",
+    "Narrative backlash if growth spending appears opportunistic.",
+    "Execution drift if campaign success metrics are vague."
+  ],
+  "recommendation": "Proceed with revision",
+  "decision_memo": "The proposal is viable, but should be revised with clearer guardrails, success metrics, and stakeholder-facing mitigation language before launch.",
+  "summary": {
+    "stakeholder_count": 3,
+    "supportive": 0,
+    "cautious": 1,
+    "mixed": 1,
+    "skeptical": 1,
+    "recommendation_label": "Proceed with revision"
+  },
+  "report": {
+    "generated_at": "2026-03-13T23:24:00Z",
+    "scenario_file": "examples/scenario-inputs-report-bundle.json",
+    "scenario_format": "json",
+    "artifacts": {
+      "json": "/home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.json",
+      "markdown": "/home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.md",
+      "html": "/home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.html",
+      "directory": "/home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle",
+      "basename": "report"
+    }
+  }
+}

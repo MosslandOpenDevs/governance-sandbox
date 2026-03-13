@@ -152,6 +152,7 @@ Scenario files can also use `proposal_outline`, `proposal_notes`, or `proposal_d
 Individual stakeholder entries can also use `participant`, `actor`, or `faction` as name aliases when scenario files come from demo-form or workshop exports.
 Stakeholder preset maps can also use `bloc` as a compact alias for the built-in preset key when scenario fixtures are authored for governance workshops.
 If you want one fixture to keep proposal/stakeholders under `inputs` and report metadata under `inputs.report`, open `docs/GOVERNANCE_SANDBOX_SCENARIO_INPUTS_REPORT_NOTE.md`.
+If you want a ready-made JSON fixture for that same nested `inputs.report` path plus a generated markdown/html/json report directory, open `examples/scenario-inputs-report-bundle.json`.
 If you need a compact note for root-style report directory aliases in scenario bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_ROOT_ALIAS_NOTE.md`.
 If you need a compact note for the plural `reports_directory` alias before widening presets or web-demo scope, open `docs/SCENARIO_REPORTS_DIRECTORY_ALIAS_NOTE.md`.
 If you need the matching short status cue for that same `reports_directory` replay lane, open `docs/SCENARIO_REPORTS_DIRECTORY_STATUS_NOTE.md`.
