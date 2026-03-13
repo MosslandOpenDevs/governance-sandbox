@@ -274,7 +274,7 @@ def _resolve_proposal_candidate(mapping: dict[str, Any], *, scenario_file: str |
     resolved = _resolve_text_input(direct_value, scenario_file=scenario_file)
     if resolved:
         return resolved
-    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src")
+    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url")
     if proposal_file:
         return _resolve_text_input({"file": proposal_file}, scenario_file=scenario_file)
     return _normalize_proposal_from_mapping(mapping)
