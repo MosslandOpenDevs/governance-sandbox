@@ -659,6 +659,7 @@ def main() -> None:
             "source_uri",
             "source_link",
             "source_href",
+            "source_location",
             "scenario_path",
             "source_path",
         ) or _pick(
@@ -677,6 +678,7 @@ def main() -> None:
             "source_uri",
             "source_link",
             "source_href",
+            "source_location",
             "scenario_path",
             "source_path",
         )
@@ -696,6 +698,7 @@ def main() -> None:
             "source_uri",
             "source_link",
             "source_href",
+            "source_location",
             "scenario_path",
             "source_path",
         ) or _pick(
@@ -714,6 +717,7 @@ def main() -> None:
             "source_uri",
             "source_link",
             "source_href",
+            "source_location",
             "scenario_path",
             "source_path",
         )
