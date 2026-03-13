@@ -132,6 +132,8 @@ def simulate_governance(proposal: str, stakeholders: list[str] | list[dict[str, 
                 stakeholder.get("preset")
                 or stakeholder.get("preset_name")
                 or stakeholder.get("preset_key")
+                or stakeholder.get("preset_alias")
+                or stakeholder.get("trait_preset_name")
                 or stakeholder.get("profile")
                 or stakeholder.get("profile_name")
                 or stakeholder.get("persona_preset")
