@@ -129,6 +129,7 @@ If you need a compact phase-one reminder to validate one scenario-file plus one 
 If you need a compact phase-one recheck before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_RECHECK_NOTE.md` to replay one scenario file against the regenerated JSON/Markdown/HTML bundle.
 If you want a ready-made JSON scenario that keeps preset-backed stakeholders plus owner/audience report metadata in the same phase-one replay lane, open `examples/scenario-phase-one-owner-audience.json`.
 If you need a compact phase-one reminder to keep report-path validation tied to the same scenario-file input before widening preset or demo scope, open `docs/SCENARIO_FILE_REPORT_PATH_LOCK_NOTE.md`.
+If you need a compact replay note for one scenario file plus one named report directory handoff before widening presets or web demo scope, open `docs/SCENARIO_FILE_REPORT_DIR_HANDOFF_NOTE.md`.
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
 If you need a compact PM-facing rule for keeping scenario-file import, markdown/html/json report output, and the first web-demo checkpoint aligned, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_WEB_DEMO_BRIDGE.md`.
 If you need the matching Playwright-style stability note before widening that first form-to-result-card demo, open `docs/WEB_DEMO_PLAYWRIGHT_STABILITY_NOTE.md`.
