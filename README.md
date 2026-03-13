@@ -21,6 +21,7 @@ Top-level scenario fixtures can now also point straight at `report_json_file`, `
 If your scenario file prefers a shared basename alias like `report_bundle_slug`, the same report flow now reuses it for JSON, Markdown, and HTML artifact generation.
 If you prefer a clearer owner-facing basename field, `report_bundle_name` now feeds the same JSON, Markdown, and HTML report bundle.
 If you prefer a terse machine-facing basename field, `report_bundle_key` now drives the same JSON, Markdown, and HTML report bundle.
+If you prefer an ID-style basename field from scenario exports, `report_bundle_id` now drives the same JSON, Markdown, and HTML report bundle.
 
 > Rehearse governance decisions in a simulated stakeholder environment before you ship them to reality.
 
