@@ -242,7 +242,22 @@ def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
 
 def _resolve_text_input(value: Any, *, scenario_file: str | None = None) -> str | None:
     if isinstance(value, dict):
-        file_value = _pick(value, "file", "path", "src", "source", "href")
+        file_value = _pick(
+            value,
+            "file",
+            "path",
+            "src",
+            "source",
+            "href",
+            "text_file",
+            "markdown_file",
+            "md_file",
+            "proposal_file",
+            "proposal_markdown_file",
+            "proposal_md_file",
+            "proposal_text_file",
+            "body_file",
+        )
         if file_value:
             candidate = Path(str(file_value).strip())
             if not candidate.is_absolute() and scenario_file and scenario_file != "-":
@@ -282,7 +297,7 @@ def _resolve_proposal_candidate(mapping: dict[str, Any], *, scenario_file: str |
             if nested_resolved:
                 return nested_resolved
 
-    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url")
+    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url", "proposal_markdown_file", "proposal_md_file", "proposal_text_file", "proposal_body_file")
     if proposal_file:
         return _resolve_text_input({"file": proposal_file}, scenario_file=scenario_file)
     return _normalize_proposal_from_mapping(mapping)

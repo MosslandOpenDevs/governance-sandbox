@@ -1,0 +1,21 @@
+proposal_markdown_file: proposal-from-file.md
+stakeholders:
+  - name: DAO stewardship council
+    preset: dao
+  - name: Delegate guild
+    preset: delegates
+  - name: Core contributor pod
+    preset: contributors
+  - name: Treasury observers
+    preset: investors
+  - name: Community roundtable
+    preset: community
+report:
+  title: Proposal markdown file replay
+  subtitle: Scenario file loads proposal copy from an adjacent markdown document.
+  owner: Governance PM
+  audience:
+    - Delegate review circle
+  outputs:
+    dir: ../artifacts/proposal-markdown-file
+    basename: proposal-markdown-file
