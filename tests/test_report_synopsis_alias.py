@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 import subprocess
 import sys
 import tempfile
@@ -13,33 +12,25 @@ SRC = ROOT / "src"
 
 
 class ReportSynopsisAliasTests(unittest.TestCase):
-    def test_run_supports_report_synopsis_alias(self) -> None:
+    def test_report_synopsis_alias_populates_report_summary(self) -> None:
+        scenario = {
+            "proposal": "Stage the rollout.",
+            "stakeholders": ["delegates"],
+            "report": {"report_synopsis": "Keep the memo short and reviewer-ready."},
+        }
         with tempfile.TemporaryDirectory() as tmpdir:
-            tmp = Path(tmpdir)
-            scenario_path = tmp / "scenario.yaml"
-            scenario_path.write_text(
-                """name: Report synopsis rehearsal
-proposal: Add staged treasury checkpoints before execution.
-stakeholders:
-  - name: Delegate circle
-    preset: delegates
-report:
-  synopsis: Synopsis alias for markdown/html/json report bundles.
-""",
-                encoding="utf-8",
-            )
-
+            scenario_path = Path(tmpdir) / "scenario.json"
+            scenario_path.write_text(json.dumps(scenario), encoding="utf-8")
             result = subprocess.run(
                 [sys.executable, "-m", "governance_sandbox.cli", "run", "--scenario-file", str(scenario_path)],
                 cwd=ROOT,
-                env={**os.environ, "PYTHONPATH": str(SRC)},
+                env={**dict(__import__("os").environ), "PYTHONPATH": str(SRC)},
                 capture_output=True,
                 text=True,
                 check=True,
             )
-
-            payload = json.loads(result.stdout)
-            self.assertEqual(payload["scenario"]["report_summary"], "Synopsis alias for markdown/html/json report bundles.")
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["scenario"]["report_summary"], "Keep the memo short and reviewer-ready.")
 
 
 if __name__ == "__main__":
