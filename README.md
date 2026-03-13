@@ -447,3 +447,5 @@ If you need a compact owner-facing note for keeping one scenario file tied to on
 If you need a quick wording cue for `report.digest` in generated markdown/html/json bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_DIGEST_ALIAS_NOTE.md`.
 
 If you need a compact owner-facing note for keeping one stdin-capable scenario replay tied to one JSON/Markdown/HTML report bundle plus a visible source/output status line, open `docs/GOVERNANCE_SANDBOX_SCENARIO_STDIN_REPORT_OWNER_NOTE.md`.
+
+If you need a compact PM recheck for keeping one imported scenario file tied to one regenerated JSON/Markdown/HTML bundle before widening presets or demo work, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_PHASE_ONE_RECHECK.md`.
