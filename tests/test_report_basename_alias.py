@@ -63,6 +63,50 @@ class ReportBasenameAliasTests(unittest.TestCase):
             self.assertTrue((report_dir / "report.html").exists())
 
 
+class ReportOutputStemAliasTests(unittest.TestCase):
+    def test_report_output_stem_alias_drives_report_dir_bundle_names(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            report_dir = tmp / "exports"
+            scenario_path.write_text(
+                """
+proposal: Ship a contributor review dashboard.
+stakeholders:
+  - name: Contributors
+    preset: contributors
+report:
+  output_stem: contributor-lane
+""".strip(),
+                encoding="utf-8",
+            )
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                    "--report-dir",
+                    str(report_dir),
+                ],
+                cwd=ROOT,
+                check=False,
+                capture_output=True,
+                text=True,
+                env={**os.environ, "PYTHONPATH": str(ROOT / "src")},
+            )
+
+            self.assertEqual(completed.returncode, 0, msg=completed.stderr)
+            payload = json.loads(completed.stdout)
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "contributor-lane")
+            self.assertTrue((report_dir / "contributor-lane.json").exists())
+            self.assertTrue((report_dir / "contributor-lane.md").exists())
+            self.assertTrue((report_dir / "contributor-lane.html").exists())
+
+
 class ReportDirAliasTests(unittest.TestCase):
     def test_report_dir_supports_nested_output_dir_alias_from_scenario_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
