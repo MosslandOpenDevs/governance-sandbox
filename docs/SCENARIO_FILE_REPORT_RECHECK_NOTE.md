@@ -1,0 +1,1 @@
+If you need a compact phase-one recheck before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_RECHECK_NOTE.md` to replay one scenario file against the regenerated JSON/Markdown/HTML bundle.
