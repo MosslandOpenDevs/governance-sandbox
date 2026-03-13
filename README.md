@@ -208,6 +208,7 @@ If you need a wrapper-based scenario fixture that still drives markdown/html/jso
 If you need the matching note for a plain top-level `scenario` wrapper before widening fixture reuse, open `docs/SCENARIO_TOP_LEVEL_WRAPPER_NOTE.md`.
 If you need the matching note for `scenario_plan` wrappers before widening fixture reuse, open `docs/GOVERNANCE_SANDBOX_SCENARIO_PLAN_WRAPPER_NOTE.md`.
 If you need the matching wrapper note for `scenario_blueprint` before widening scenario reuse, open `docs/SCENARIO_BLUEPRINT_WRAPPER_NOTE.md`.
+If you need the matching wrapper note for `scenario_deck` before widening scenario-file/report reuse, open `docs/SCENARIO_DECK_WRAPPER_NOTE.md`.
 If you need the matching wrapper note for `scenario_record` before widening scenario reuse, open `docs/SCENARIO_RECORD_WRAPPER_NOTE.md`.
 If you need a compact reviewer-share note once one imported scenario already generates the full markdown/html/json bundle, open `docs/SCENARIO_REPORT_REVIEWER_SHARE_NOTE.md`.
 If you need a compact handoff that keeps one scenario-file import tied to one report bundle plus visible owner/reviewer routing, open `docs/SCENARIO_FILE_REPORT_OWNER_REVIEWERS_NOTE.md`.
@@ -310,7 +311,7 @@ Current CLI additions now include:
 - `--report-dir` for emitting a default report artifact bundle in one command
 - scenario-file `report.json_path` / `report.markdown_path` / `report.html_path` aliases for fixture-driven output paths without repeating CLI flags
 - top-level `report_json_path` / `report_markdown_path` / `report_html_path` aliases for scenario files that want output paths without nesting a `report` block
-- top-level `scenario_payload` / `scenario_data` / `scenario_bundle` / `scenario_document` / `scenario_spec` wrappers for exported JSON/YAML fixtures that keep the reusable scenario under one extra envelope
+- top-level `scenario_payload` / `scenario_data` / `scenario_bundle` / `scenario_document` / `scenario_spec` / `scenario_deck` wrappers for exported JSON/YAML fixtures that keep the reusable scenario under one extra envelope
 - `docs/README_SCENARIO_WRAPPER_ALIAS_NOTE.md` for the shortest wrapper-first authoring reminder before widening report or web-demo work
 - `docs/SCENARIO_INPUTS_WRAPPER_ALIAS_NOTE.md` for the matching plural-wrapper reminder when fixtures keep proposal, stakeholders, and report metadata under `scenario_inputs`
 - scenario `tags` / `labels` for reusable demo fixtures and richer markdown/html report context
