@@ -25,6 +25,7 @@ If you prefer a terse machine-facing basename field, `report_bundle_key` now dri
 If you prefer an ID-style basename field from scenario exports, `report_bundle_id` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a reference-style basename field from scenario exports, `report_bundle_ref` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a code-style basename field from scenario exports, `report_bundle_code` now drives the same JSON, Markdown, and HTML report bundle.
+If you prefer a tag-style basename field from scenario exports, `report_bundle_tag` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a plain basename field from scenario exports, `report_bundle_basename` now drives the same JSON, Markdown, and HTML report bundle.
 
 > Rehearse governance decisions in a simulated stakeholder environment before you ship them to reality.
