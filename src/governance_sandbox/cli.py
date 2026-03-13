@@ -255,9 +255,13 @@ def _resolve_text_input(value: Any, *, scenario_file: str | None = None) -> str 
             "proposal_file",
             "proposal_markdown_file",
             "proposal_md_file",
+            "proposal_markdown_path",
+            "proposal_md_path",
             "proposal_copy_file",
+            "proposal_copy_path",
             "proposal_text_file",
             "body_file",
+            "body_path",
         )
         if file_value:
             candidate = Path(str(file_value).strip())
@@ -298,7 +302,7 @@ def _resolve_proposal_candidate(mapping: dict[str, Any], *, scenario_file: str |
             if nested_resolved:
                 return nested_resolved
 
-    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url", "proposal_markdown_file", "proposal_md_file", "proposal_copy_file", "proposal_text_file", "proposal_body_file")
+    proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url", "proposal_markdown_file", "proposal_md_file", "proposal_markdown_path", "proposal_md_path", "proposal_copy_file", "proposal_copy_path", "proposal_text_file", "proposal_body_file", "body_path")
     if proposal_file:
         return _resolve_text_input({"file": proposal_file}, scenario_file=scenario_file)
     return _normalize_proposal_from_mapping(mapping)

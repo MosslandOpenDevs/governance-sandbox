@@ -12,6 +12,7 @@ Scenario files can also use `report_reviewer_list` or `report_reviewer_lists` wh
 If you need the matching short-alias note, open `docs/SCENARIO_REPORT_LEAD_ALIAS_NOTE.md`.
 If you need a compact note for carrying `report_synopsis` into the same markdown/html/json memo-summary lane, open `docs/SCENARIO_REPORT_SYNOPSIS_ALIAS_NOTE.md`.
 Scenario files can also use `proposal_copy_md` as a compact alias when proposal body text comes from markdown-oriented exports.
+Scenario files can also use `proposal_markdown_path`, `proposal_md_path`, or `proposal_copy_path` when proposal markdown should be loaded from a neighboring file without reshaping the JSON/YAML bundle.
 Scenario files can also use `proposal_copy_file` when the proposal body lives in a neighboring markdown file but the scenario bundle should stay JSON/YAML-first.
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
 If you want the smallest scenario-file-first workflow, open `docs/SCENARIO_FILE_REPORT_BUNDLE_START.md` to generate markdown/html/json outputs from one JSON or YAML input bundle.
