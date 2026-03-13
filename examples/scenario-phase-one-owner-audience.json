@@ -1,0 +1,24 @@
+{
+  "scenario_name": "DAO treasury phase-one memo bundle",
+  "proposal": {
+    "title": "Shift 20% of the community growth budget into a six-week delegate enablement program",
+    "summary": "Test whether a time-boxed delegate enablement sprint improves proposal quality without eroding trust in longer-term contributor grants.",
+    "proposal_copy_markdown": "## Change proposal\n\nMove 20% of the community growth budget into a six-week delegate enablement sprint with public checkpoints and a rollback review after week six."
+  },
+  "stakeholders": [
+    {"name": "DAO ops", "preset": "dao"},
+    {"name": "Lead delegates", "preset": "delegates"},
+    {"name": "Core contributors", "preset": "contributors"},
+    {"name": "Treasury observers", "preset": "investors"},
+    {"name": "Community members", "preset": "community"}
+  ],
+  "report": {
+    "title": "Delegate enablement rehearsal memo",
+    "owner": "Governance working group",
+    "audience": ["core contributors", "governance delegates"],
+    "description": "Phase-one scenario file that keeps owner and audience metadata visible across the markdown/html/json report bundle.",
+    "outputs": {
+      "basename": "delegate-enablement-phase-one"
+    }
+  }
+}
