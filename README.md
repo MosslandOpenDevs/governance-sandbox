@@ -204,6 +204,7 @@ If you need a compact reminder for carrying one scenario-file `report.descriptio
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a compact phase-one reminder to keep one imported scenario fixture tied to its regenerated markdown/html/json report trio and visible basename before widening presets or web-demo scope, open `docs/SCENARIO_FILE_REPORT_FIXTURE_TRIO_NOTE.md`.
 If you need a compact phase-one reminder to keep scenario-file + markdown/html report work ahead of presets and web-demo scope in the same delivery ladder, open `docs/SCENARIO_FILE_REPORT_DELIVERY_LADDER_NOTE.md`.
+If you need a compact recheck before widening beyond scenario-file/report work, open `docs/SCENARIO_FILE_REPORT_PRIORITY_RECHECK_NOTE.md`.
 If you need a one-line status cue for the current phase-one slice, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_STATUS.md`.
 
 If you want one reusable scenario fixture that keeps stakeholder presets and report subtitle metadata in the same scenario-file -> markdown/html/json proof lane, start with `examples/scenario-preset-subtitle-report.yaml`.
