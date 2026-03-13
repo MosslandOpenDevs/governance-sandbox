@@ -1,0 +1,10 @@
+proposal: Shift treasury budget toward contributor tooling with a 60-day checkpoint.
+stakeholders:
+  - dao
+  - delegates
+  - contributors
+scenario_source_file: fixtures/dao-growth-input.yaml
+report:
+  title: Scenario source_file demo
+  outputs:
+    basename: scenario-source-file-demo

@@ -11,6 +11,8 @@ If your scenario file uses `report_lead` or `report_leads`, the same markdown/ht
 Scenario files can also use `report_reviewer_list` or `report_reviewer_lists` when one workshop export keeps reviewer handoff under a list-shaped alias but should still render the same markdown/html/json report reviewers field.
 If you need the matching short-alias note, open `docs/SCENARIO_REPORT_LEAD_ALIAS_NOTE.md`.
 If you need a compact note for carrying `report_synopsis` into the same markdown/html/json memo-summary lane, open `docs/SCENARIO_REPORT_SYNOPSIS_ALIAS_NOTE.md`.
+Scenario files can also keep their replayable source pointer under `scenario_source_file` when one imported rehearsal should preserve a file-first source label without changing the same report bundle flow.
+If you need the matching alias note, open `docs/SCENARIO_SOURCE_FILE_ALIAS_NOTE.md`.
 Scenario files can also use `proposal_copy_md` as a compact alias when proposal body text comes from markdown-oriented exports.
 Scenario files can also use `proposal_markdown_path`, `proposal_md_path`, or `proposal_copy_path` when proposal markdown should be loaded from a neighboring file without reshaping the JSON/YAML bundle.
 Scenario files can also use `proposal_copy_file` when the proposal body lives in a neighboring markdown file but the scenario bundle should stay JSON/YAML-first.

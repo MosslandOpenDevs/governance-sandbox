@@ -686,6 +686,7 @@ def main() -> None:
             "source_location",
             "scenario_path",
             "scenario_source_path",
+            "scenario_source_file",
             "source_path",
         ) or _pick(
             scenario_meta,
@@ -706,6 +707,7 @@ def main() -> None:
             "source_location",
             "scenario_path",
             "scenario_source_path",
+            "scenario_source_file",
             "source_path",
         )
         nested_scenario_source_alias = _pick(
@@ -727,6 +729,7 @@ def main() -> None:
             "source_location",
             "scenario_path",
             "scenario_source_path",
+            "scenario_source_file",
             "source_path",
         ) or _pick(
             scenario_inputs,
@@ -747,6 +750,7 @@ def main() -> None:
             "source_location",
             "scenario_path",
             "scenario_source_path",
+            "scenario_source_file",
             "source_path",
         )
         scenario_source = (
