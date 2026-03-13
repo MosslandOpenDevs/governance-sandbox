@@ -125,6 +125,7 @@ If you need the shortest top-level alias for the report bundle directory, open `
 Plural directory aliases like `reports_dir` and `reports_folder` also work when a scenario fixture needs report-bundle wording that matches an export form or reviewer handoff.
 If you want a JSON-first fixture that proves one imported scenario can generate a named markdown/html/json report bundle, open `examples/scenario-markdown-report.json`.
 If you need a compact note for keeping the markdown report paired with the matching JSON artifact, open `docs/SCENARIO_REPORT_MARKDOWN_BUNDLE_NOTE.md`.
+If you need a compact replay note focused on regenerating Markdown and HTML from the same imported scenario file, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_HTML_REPLAY_NOTE.md`.
 If you need the shortest reviewer-first cue for reopening one imported scenario with its shared JSON/Markdown/HTML outputs, open `docs/SCENARIO_REPORT_REVIEW_BUNDLE_START.md`.
 If you want the same bundle flow with a ready-made JSON fixture, start with `examples/scenario-report-bundle.json`.
 If you want a YAML fixture that keeps a singular `report.reviewer` alias tied to the generated markdown/html/json bundle, start with `examples/scenario-report-reviewer.yaml`.
