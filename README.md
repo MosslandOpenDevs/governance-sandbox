@@ -12,6 +12,7 @@ If you need the singular form for one primary memo reader, `report.reviewer` and
 If you want the smallest scenario-file-first workflow, open `docs/SCENARIO_FILE_REPORT_BUNDLE_START.md` to generate markdown/html/json outputs from one JSON or YAML input bundle.
 If you need a compact phase-one reminder to keep scenario-file input and markdown/html/json report output paired as the minimum believable governance slice, open `docs/SCENARIO_PHASE_ONE_MINIMUM_PAIR_NOTE.md`.
 If your exported scenario bundle names artifact paths as `json_report_path`, `markdown_report_path`, or `html_report_path`, the same scenario-file report flow still resolves them without reshaping the file first.
+If your scenario file prefers a shared basename alias like `report_bundle_slug`, the same report flow now reuses it for JSON, Markdown, and HTML artifact generation.
 
 > Rehearse governance decisions in a simulated stakeholder environment before you ship them to reality.
 
