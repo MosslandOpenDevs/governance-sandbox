@@ -14,6 +14,7 @@ Scenario files can also use `proposal_copy_md` as a compact alias when proposal 
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
 If you want the smallest scenario-file-first workflow, open `docs/SCENARIO_FILE_REPORT_BUNDLE_START.md` to generate markdown/html/json outputs from one JSON or YAML input bundle.
 If you need a compact phase-one reminder to keep scenario-file input and markdown/html/json report output paired as the minimum believable governance slice, open `docs/SCENARIO_PHASE_ONE_MINIMUM_PAIR_NOTE.md`.
+If you need a compact phase-one cue that the first governance win is still scenario-file input plus generated report artifacts before presets or web-demo polish, open `docs/SCENARIO_REPORT_PHASE_ONE_PAIR_NOTE.md`.
 If your exported scenario bundle names artifact paths as `json_report_path`, `markdown_report_path`, or `html_report_path`, the same scenario-file report flow still resolves them without reshaping the file first.
 If your scenario file prefers a shared basename alias like `report_bundle_slug`, the same report flow now reuses it for JSON, Markdown, and HTML artifact generation.
 
