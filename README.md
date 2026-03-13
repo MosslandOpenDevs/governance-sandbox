@@ -250,6 +250,7 @@ If you want a ready-made JSON fixture for that same `report.outputs.files` mappi
 If you need a one-line progress cue that names the imported scenario file plus generated review bundle status together, open `docs/SCENARIO_FILE_REPORT_STATUS_NOTE.md`.
 If you need a compact PM-facing reminder to keep one imported scenario file tied to the generated JSON/Markdown/HTML output paths in the same replay status line, open `docs/SCENARIO_FILE_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
 If you need a compact phase-one note for proving one imported scenario file plus one generated markdown/html/json report bundle before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_VALIDATE_BUNDLE_NOTE.md`.
+If you need a compact reminder to keep one fresh scenario-file/report-bundle win visible in the same pass as repo 4, open `docs/SCENARIO_FILE_REPORT_PROGRESS_SYNC_NOTE.md`.
 
 
 If you need a one-line check that the imported scenario already produced the full report stack, open `docs/SCENARIO_REPORT_STACK_CHECK.md`.
