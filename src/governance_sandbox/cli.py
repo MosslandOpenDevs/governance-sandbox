@@ -274,6 +274,14 @@ def _resolve_proposal_candidate(mapping: dict[str, Any], *, scenario_file: str |
     resolved = _resolve_text_input(direct_value, scenario_file=scenario_file)
     if resolved:
         return resolved
+
+    for nested_key in ("inputs", "scenario_inputs"):
+        nested_mapping = mapping.get(nested_key)
+        if isinstance(nested_mapping, dict):
+            nested_resolved = _resolve_proposal_candidate(nested_mapping, scenario_file=scenario_file)
+            if nested_resolved:
+                return nested_resolved
+
     proposal_file = _pick(mapping, "proposal_file", "proposal_path", "proposal_src", "proposal_source", "proposal_href", "proposal_link", "proposal_uri", "proposal_url")
     if proposal_file:
         return _resolve_text_input({"file": proposal_file}, scenario_file=scenario_file)
