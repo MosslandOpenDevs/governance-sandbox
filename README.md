@@ -127,6 +127,7 @@ If you need a compact UI boundary note before widening that first form-to-card s
 If you need a compact acceptance note for when that first result card plus report path is actually reviewable, open `docs/WEB_DEMO_RESULT_CARD_ACCEPTANCE.md`.
 If you need a one-line maintainer update once that first result-card proof is believable, open `docs/WEB_DEMO_RESULT_CARD_STATUS_LINE.md`.
 If you need a compact phase-one checklist that keeps scenario-file input and the report bundle ahead of presets, web demo work, and the demo GIF, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_CHECKLIST.md`.
+If you need a compact phase-one reminder to keep scenario-file import and markdown/html/json report output as the release gate before presets or web demo work, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_GATE_NOTE.md`.
 If you need a compact phase-one reminder to keep one scenario-file replay tied to one validated JSON/Markdown/HTML report bundle, open `docs/SCENARIO_FILE_REPORT_VALIDATE_GATE.md`.
 If you need a compact stage gate for keeping one scenario-file replay tied to one regenerated JSON/Markdown/HTML report bundle before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_STAGE_GATE.md`.
 
