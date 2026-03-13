@@ -199,6 +199,7 @@ If you need a compact PM-facing reminder to keep scenario input, report basename
 If you need a compact replay card for keeping one imported scenario tied to one generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_FILE_REPORT_REPLAY_CARD.md`.
 If you need a compact reviewer note for checking the same imported scenario against the generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_REPORT_OUTPUT_REVIEW_NOTE.md`.
 If you need a compact reminder for keeping those same output paths grouped under one `report.outputs.files` mapping, open `docs/SCENARIO_REPORT_OUTPUT_FILES_NOTE.md`.
+If you want a download-oriented alias for that same web-demo-friendly report bundle mapping, open `docs/SCENARIO_REPORT_DOWNLOADS_ALIAS_NOTE.md`.
 If you want a ready-made JSON fixture for that same `report.outputs.files` mapping, start with `examples/scenario-report-output-files.json`.
 If you need a one-line progress cue that names the imported scenario file plus generated review bundle status together, open `docs/SCENARIO_FILE_REPORT_STATUS_NOTE.md`.
 If you need a compact PM-facing reminder to keep one imported scenario file tied to the generated JSON/Markdown/HTML output paths in the same replay status line, open `docs/SCENARIO_FILE_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
