@@ -196,6 +196,7 @@ If you need one scenario file to produce a title-ready report bundle for humans 
 If you need a compact start note for keeping one scenario replay tied to one reusable JSON/Markdown/HTML artifact bundle, open `docs/SCENARIO_REPORT_ARTIFACT_BUNDLE_START.md`.
 If you need the shortest scenario-file -> generated report bundle replay before widening scope, open `docs/SCENARIO_FILE_REPORT_START.md`.
 If you need a compact reminder to keep JSON/YAML scenario import coupled to the generated report trio, open `docs/SCENARIO_FILE_JSON_YAML_REPORT_START.md`.
+If you need the matching replay reminder for `.yml` fixtures that should produce the same JSON/Markdown/HTML report bundle as `.yaml`, open `docs/SCENARIO_FILE_YML_REPORT_REPLAY_NOTE.md`.
 If you need a compact stack note for keeping one imported scenario tied to JSON, Markdown, and HTML outputs together, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_HTML_STACK.md`.
 If you need a compact reminder that relative report paths inside a scenario file resolve from that scenario file's directory, open `docs/SCENARIO_FILE_RELATIVE_REPORT_PATHS_NOTE.md`.
 If you need a compact reminder that top-level `report_markdown_output` can point straight at the generated memo file, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_OUTPUT_ALIAS_NOTE.md`.
