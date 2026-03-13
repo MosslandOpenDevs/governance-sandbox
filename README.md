@@ -98,6 +98,7 @@ If your workshop export nests the same payload under `scenario_storyboard_bundle
 If your workshop export nests the same payload under `scenario_workshop` or `scenario_workshop_bundle`, the scenario-file import path still resolves and can generate the same report bundle without reshaping the file first.
 If you need a compact note for staged scenario-file wrappers before widening preset or demo scope, open `docs/SCENARIO_STAGE_WRAPPER_NOTE.md`.
 If your workbench export nests the same payload under `scenario_workbench` or `scenario_workbench_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
+If your workflow export nests the same payload under `scenario_workflow` or `scenario_workflow_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 If your design-studio export nests the same payload under `scenario_studio` or `scenario_studio_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 
 ## Quickstart
