@@ -1,0 +1,20 @@
+scenario:
+  name: Treasury Growth Guardrails Review
+  decision_context: Validate a phase-one scenario-file and report-bundle workflow.
+  proposal:
+    title: Shift 20% of treasury budget from passive reserves to ecosystem growth experiments
+    summary: Test the smallest believable scenario-file -> markdown/html/json report flow.
+  stakeholders:
+    - name: DAO ops council
+      preset: dao
+    - name: Delegate cohort
+      preset: delegates
+    - name: Core contributor pod
+      preset: contributors
+  report:
+    owner: Governance working group
+    audience:
+      - DAO stewards
+      - Delegate reviewers
+    outputs:
+      output_slug: treasury-growth-guardrails

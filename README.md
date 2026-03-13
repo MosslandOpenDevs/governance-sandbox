@@ -200,6 +200,7 @@ If you need a compact phase-one reminder to keep scenario-file + markdown/html r
 If you need a one-line status cue for the current phase-one slice, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_STATUS.md`.
 
 If you want one reusable scenario fixture that keeps stakeholder presets and report subtitle metadata in the same scenario-file -> markdown/html/json proof lane, start with `examples/scenario-preset-subtitle-report.yaml`.
+If you want a compact phase-one fixture for scenario-file input plus markdown/html/json report output, start with `examples/scenario-phase-one-report-stack.yaml`.
 
 If you need a compact rule for keeping scenario-file examples tied to a named report basename before widening web-demo scope, open `docs/SCENARIO_FILE_REPORT_BASENAME_RULE.md`.
 If you need a compact note for scenario fixtures wrapped under `scenario_plan` or `scenario_manifest`, open `docs/SCENARIO_MANIFEST_WRAPPER_NOTE.md`.
