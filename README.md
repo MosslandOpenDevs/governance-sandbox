@@ -123,6 +123,7 @@ Individual stakeholder entries can also use `participant`, `actor`, or `faction`
 Stakeholder preset maps can also use `bloc` as a compact alias for the built-in preset key when scenario fixtures are authored for governance workshops.
 If you want one fixture to keep proposal/stakeholders under `inputs` and report metadata under `inputs.report`, open `docs/GOVERNANCE_SANDBOX_SCENARIO_INPUTS_REPORT_NOTE.md`.
 If you need a compact note for root-style report directory aliases in scenario bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_ROOT_ALIAS_NOTE.md`.
+If you need a compact note for the `report_directory` alias before widening report-bundle wiring, open `docs/GOVERNANCE_SANDBOX_REPORT_DIRECTORY_ALIAS_NOTE.md`.
 If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.
 If you need a compact UI boundary note before widening that first form-to-card slice, open `docs/WEB_DEMO_FORM_TO_CARD_SCOPE.md`.
 If you need a compact acceptance note for when that first result card plus report path is actually reviewable, open `docs/WEB_DEMO_RESULT_CARD_ACCEPTANCE.md`.
