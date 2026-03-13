@@ -207,6 +207,7 @@ If you need a compact reminder that top-level `report_markdown_output` can point
 If you need a compact reminder that `report.output_file_stem` and top-level `report_output_file_stem` can drive the same generated markdown/html/json bundle basename, open `docs/SCENARIO_REPORT_OUTPUT_FILE_STEM_ALIAS_NOTE.md`.
 If you need a compact reminder for carrying one scenario-file `report.description` into the generated markdown/html memo bundle, open `docs/SCENARIO_FILE_REPORT_DESCRIPTION_NOTE.md`.
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
+If you need a one-screen reminder that JSON/YAML scenario-file input plus regenerated JSON/Markdown/HTML reports is still the current minimum believable slice, open `docs/SCENARIO_FILE_REPORT_JSON_YAML_PRIORITY_NOTE.md`.
 If you need a compact phase-one reminder to keep one imported scenario fixture tied to its regenerated markdown/html/json report trio and visible basename before widening presets or web-demo scope, open `docs/SCENARIO_FILE_REPORT_FIXTURE_TRIO_NOTE.md`.
 If you need a compact phase-one reminder to keep scenario-file + markdown/html report work ahead of presets and web-demo scope in the same delivery ladder, open `docs/SCENARIO_FILE_REPORT_DELIVERY_LADDER_NOTE.md`.
 If you need a compact recheck before widening beyond scenario-file/report work, open `docs/SCENARIO_FILE_REPORT_PRIORITY_RECHECK_NOTE.md`.
