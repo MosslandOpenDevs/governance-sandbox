@@ -513,11 +513,11 @@ def main() -> None:
     run_cmd = sub.add_parser("run", help="Run a governance scenario rehearsal")
     run_cmd.add_argument("--proposal", help="Governance proposal text")
     run_cmd.add_argument("--stakeholders", help="Comma-separated stakeholder list")
-    run_cmd.add_argument("--scenario-file", help="Path to a JSON/JSONC or YAML scenario file")
+    run_cmd.add_argument("--scenario-file", "--scenario", dest="scenario_file", help="Path to a JSON/JSONC or YAML scenario file")
     run_cmd.add_argument("--report-markdown", "--report-md", dest="report_markdown", help="Write a markdown report to this path")
     run_cmd.add_argument("--report-html", "--report-htm", dest="report_html", help="Write an HTML report to this path")
     run_cmd.add_argument("--report-json", help="Write the JSON result to this path")
-    run_cmd.add_argument("--report-dir", "--reports-dir", dest="report_dir", help="Write report.json, report.md, and report.html into this directory")
+    run_cmd.add_argument("--report-dir", "--reports-dir", "--report-bundle-dir", dest="report_dir", help="Write report.json, report.md, and report.html into this directory")
     run_cmd.add_argument("--list-presets", action="store_true", help="List built-in stakeholder presets")
     run_cmd.add_argument("--list-presets-json", action="store_true", help="Print built-in stakeholder presets as JSON")
 
