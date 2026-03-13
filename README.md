@@ -434,3 +434,5 @@ If you need a compact replay note for keeping one imported scenario file tied to
 If you need a compact owner-facing note for keeping one scenario file tied to one markdown/html/json report bundle plus one generated-artifact summary line, open `docs/SCENARIO_FILE_REPORT_OWNER_SUMMARY_NOTE.md`.
 
 If you need a quick wording cue for `report.digest` in generated markdown/html/json bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_DIGEST_ALIAS_NOTE.md`.
+
+If you need a compact owner-facing note for keeping one stdin-capable scenario replay tied to one JSON/Markdown/HTML report bundle plus a visible source/output status line, open `docs/GOVERNANCE_SANDBOX_SCENARIO_STDIN_REPORT_OWNER_NOTE.md`.
