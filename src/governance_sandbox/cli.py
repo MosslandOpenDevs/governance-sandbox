@@ -240,6 +240,21 @@ def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
     return suffix.lstrip(".") or "file"
 
 
+def _resolve_text_input(value: Any, *, scenario_file: str | None = None) -> str | None:
+    if isinstance(value, dict):
+        file_value = _pick(value, "file", "path", "src", "source", "href")
+        if file_value:
+            candidate = Path(str(file_value).strip())
+            if not candidate.is_absolute() and scenario_file and scenario_file != "-":
+                candidate = Path(scenario_file).resolve().parent / candidate
+            if not candidate.exists():
+                raise SystemExit(f"Referenced text file does not exist: {candidate}")
+            text = candidate.read_text(encoding="utf-8")
+            normalized = text.strip()
+            return normalized or None
+    return _normalize_proposal(value)
+
+
 def _resolve_report_basename(*report_sections: dict[str, Any], scenario: dict[str, Any]) -> str:
     for report_meta in report_sections:
         report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
@@ -554,7 +569,7 @@ def main() -> None:
         scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
         inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
         scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
-        proposal = _normalize_proposal(args.proposal) or _normalize_proposal(_pick(scenario, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt")) or _normalize_proposal(_pick(inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt")) or _normalize_proposal(_pick(scenario_inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt")) or _normalize_proposal_from_mapping(scenario) or _normalize_proposal_from_mapping(inputs) or _normalize_proposal_from_mapping(scenario_inputs)
+        proposal = _normalize_proposal(args.proposal) or _resolve_text_input(_pick(scenario, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt"), scenario_file=args.scenario_file) or _resolve_text_input(_pick(inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt"), scenario_file=args.scenario_file) or _resolve_text_input(_pick(scenario_inputs, "proposal", "proposal_text", "proposal_markdown", "proposal_body", "proposal_body_markdown", "proposal_outline", "proposal_notes", "proposal_details", "proposal_copy", "proposal_copy_markdown", "proposal_copy_md", "prompt"), scenario_file=args.scenario_file) or _normalize_proposal_from_mapping(scenario) or _normalize_proposal_from_mapping(inputs) or _normalize_proposal_from_mapping(scenario_inputs)
         stakeholder_input = args.stakeholders
         if stakeholder_input:
             stakeholders: list[str] | list[dict[str, str]] = [item.strip() for item in stakeholder_input.split(",") if item.strip()]
