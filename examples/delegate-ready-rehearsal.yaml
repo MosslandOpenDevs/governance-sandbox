@@ -1,0 +1,18 @@
+proposal:
+  title: Delegate communication sprint
+  summary: Fund a short delegate support sprint before the next governance cycle.
+  body: |
+    Allocate a time-boxed budget for delegate communication, office hours, and vote summaries.
+stakeholders:
+  - name: Core delegates
+    preset: delegates
+  - name: Builder guild
+    preset: contributors
+  - name: Token holders
+    preset: community
+report:
+  basename: delegate-ready-rehearsal
+  owner: Governance ops
+  reviewers:
+    - Treasury council
+    - Community stewards

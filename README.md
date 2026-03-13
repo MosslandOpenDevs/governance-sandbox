@@ -94,6 +94,7 @@ If your export keeps the same value under `source_location`, the CLI resolves it
 If you need the matching short note, open `docs/SCENARIO_SOURCE_LOCATION_ALIAS_NOTE.md`.
 If you need the matching short-alias note, open `docs/SCENARIO_SOURCE_SHORT_ALIASES_NOTE.md`.
 If you want one source-first note that keeps the imported scenario file tied to its shared report bundle, open `docs/GOVERNANCE_SANDBOX_SCENARIO_SOURCE_BUNDLE_NOTE.md`.
+If you want a YAML-first rehearsal fixture that proves the same scenario-file import path plus markdown/html/json outputs, open `examples/delegate-ready-rehearsal.yaml`.
 If you need the matching wrapper note for workshop exports that arrive as `scenario_storyboard`, open `docs/SCENARIO_STORYBOARD_NOTE.md`.
 If your workshop export nests the same payload under `scenario_storyboard_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the file first.
 If your workshop export nests the same payload under `scenario_workshop` or `scenario_workshop_bundle`, the scenario-file import path still resolves and can generate the same report bundle without reshaping the file first.
