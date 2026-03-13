@@ -132,6 +132,7 @@ If you need a compact phase-one reminder to keep one scenario-file replay tied t
 If you need a compact stage gate for keeping one scenario-file replay tied to one regenerated JSON/Markdown/HTML report bundle before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_STAGE_GATE.md`.
 
 If you need a compact phase-one reminder to validate one scenario-file plus one regenerated markdown/html/json report bundle before push, open `docs/SCENARIO_FILE_REPORT_VALIDATE_SMALL_SLICE_NOTE.md`.
+If you need a compact repo-4/repo-5 status reminder for that same five-repo loop, open `docs/SCENARIO_FILE_REPORT_REPO45_STATUS_NOTE.md`.
 If you need a compact phase-one recheck before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_RECHECK_NOTE.md` to replay one scenario file against the regenerated JSON/Markdown/HTML bundle.
 If you want a ready-made JSON scenario that keeps preset-backed stakeholders plus owner/audience report metadata in the same phase-one replay lane, open `examples/scenario-phase-one-owner-audience.json`.
 If you need a compact phase-one reminder to keep report-path validation tied to the same scenario-file input before widening preset or demo scope, open `docs/SCENARIO_FILE_REPORT_PATH_LOCK_NOTE.md`.
