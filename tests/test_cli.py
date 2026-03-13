@@ -168,6 +168,40 @@ report:
             payload = json.loads(result.stdout)
             self.assertEqual(payload["report"]["artifacts"]["basename"], "review-pack")
 
+    def test_run_accepts_top_level_report_bundle_name_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.json"
+            scenario_path.write_text(
+                json.dumps(
+                    {
+                        "proposal": "Ship an investor-facing governance digest.",
+                        "stakeholders": [{"name": "Investor group", "preset": "investors"}],
+                        "report_bundle_name": "investor-digest-name",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "investor-digest-name")
+
     def test_run_accepts_top_level_report_bundle_label_alias(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
