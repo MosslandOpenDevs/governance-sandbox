@@ -212,7 +212,9 @@ If you need the matching wrapper note for `scenario_blueprint` before widening s
 If you need the matching wrapper note for `scenario_deck` before widening scenario-file/report reuse, open `docs/SCENARIO_DECK_WRAPPER_NOTE.md`.
 If you need the matching wrapper note for `scenario_record` before widening scenario reuse, open `docs/SCENARIO_RECORD_WRAPPER_NOTE.md`.
 If you need a compact reviewer-share note once one imported scenario already generates the full markdown/html/json bundle, open `docs/SCENARIO_REPORT_REVIEWER_SHARE_NOTE.md`.
-If you need a compact handoff that keeps one scenario-file import tied to one report bundle plus visible owner/reviewer routing, open `docs/SCENARIO_FILE_REPORT_OWNER_REVIEWERS_NOTE.md`.
+If you need a compact handoff that keeps one scenario-file import tied to one report bundle plus visible owner/reviewer routing, open `docs/SCENARIO_FILE_REPORT_OWNER_REVIEWERS_NOTE.md
+If you need the narrowest owner+review route for one scenario-file report bundle, open `docs/SCENARIO_FILE_REPORT_OWNER_REVIEW_ROUTE_NOTE.md`.
+`.
 If you need the shortest scenario-file -> markdown memo proof before widening JSON/HTML output work, open `docs/SCENARIO_FILE_MARKDOWN_REPORT_NOTE.md`.
 If you need a compact PM-facing reminder to keep scenario input, report basename, and generated markdown/html/json output paths visible in one replay status line, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_OUTPUT_PATH_STATUS_NOTE.md`.
 If you need a compact replay card for keeping one imported scenario tied to one generated JSON/Markdown/HTML bundle, open `docs/SCENARIO_FILE_REPORT_REPLAY_CARD.md`.
