@@ -156,6 +156,7 @@ If you want a ready-made JSON fixture for that same nested `inputs.report` path 
 If you need a compact note for root-style report directory aliases in scenario bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_ROOT_ALIAS_NOTE.md`.
 If you need a compact note for the plural `reports_directory` alias before widening presets or web-demo scope, open `docs/SCENARIO_REPORTS_DIRECTORY_ALIAS_NOTE.md`.
 If you need the matching short status cue for that same `reports_directory` replay lane, open `docs/SCENARIO_REPORTS_DIRECTORY_STATUS_NOTE.md`.
+If you need a compact phase-one reminder that one imported scenario file should surface one `reports_directory` path plus one validation rerun before any wider web-demo claim, open `docs/GOVERNANCE_SANDBOX_REPORTS_DIRECTORY_VALIDATE_NOTE.md`.
 If your scenario file already describes the shared report bundle as an artifacts directory, the same report flow now accepts `artifact_dir`, `artifacts_dir`, or `artifacts_directory` under `report.outputs`; see `docs/REPORT_ARTIFACTS_DIRECTORY_ALIAS_NOTE.md`.
 Scenario files can also use top-level `report_downloads` when one imported rehearsal should regenerate download-oriented JSON/Markdown/HTML report files without reshaping the fixture first.
 If you need a compact note for that download-oriented alias, open `docs/REPORT_DOWNLOADS_ALIAS_NOTE.md`.
