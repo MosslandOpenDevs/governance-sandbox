@@ -1,0 +1,20 @@
+scenario:
+  name: Delegate review bundle
+  context: Treasury steering committee wants one reviewer-focused report bundle.
+proposal:
+  title: Shift treasury mix toward growth experiments
+  summary: Move part of the treasury from grants to measurable growth experiments.
+  bullets:
+    - keep monthly reporting
+    - publish rollback triggers
+stakeholders:
+  - name: Operations delegate
+    preset: delegates
+  - name: Core contributor lead
+    preset: contributors
+report:
+  title: Delegate-ready governance review
+  reviewer: Governance council
+outputs:
+  report:
+    basename: delegate-review-bundle
