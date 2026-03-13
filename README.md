@@ -70,6 +70,7 @@ The system outputs a structured memo with risks, tensions, recommended mitigatio
 ---
 
 Preset aliases now also accept `daos`, `delegation`, `contributors-core`, `investor-relations`, and `community-members` inside scenario files so JSON/YAML rehearsal packs can stay closer to real stakeholder labels without losing deterministic trait presets.
+If you need a compact note for the next preset lane after scenario/report basics, open `docs/SCENARIO_TRAIT_PRESET_PHASE_QUEUE_NOTE.md`.
 
 ## Sample scenario
 
