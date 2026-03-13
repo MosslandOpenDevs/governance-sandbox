@@ -19,16 +19,12 @@ class ReportBasenameFallsBackToReportTitleTests(unittest.TestCase):
             scenario_path = tmp / 'scenario.yaml'
             report_dir = tmp / 'reports'
             scenario_path.write_text(
-                'proposal: Ship staged delegate education updates.
-'
-                'stakeholders:
-'
-                '  - name: Delegates
-'
-                '    stance: cautious
-'
-                'report_title: Delegate Education Review
-',
+                """proposal: Ship staged delegate education updates.
+stakeholders:
+  - name: Delegates
+    stance: cautious
+report_title: Delegate Education Review
+""",
                 encoding='utf-8',
             )
 
