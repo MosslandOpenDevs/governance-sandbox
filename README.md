@@ -129,7 +129,7 @@ For the shortest replayable scenario-file -> report-bundle workflow, open `docs/
 If you want a one-screen start note for the same scenario-file + report-dir bundle, open `docs/SCENARIO_REPORT_START.md`.
 If you need a compact path check for one imported scenario file plus one generated report bundle, open `docs/SCENARIO_REPORT_PATHS_NOTE.md`.
 If you need the shortest top-level alias for the report bundle directory, open `docs/REPORT_FOLDER_ALIAS_NOTE.md`.
-Plural directory aliases like `reports_dir` and `reports_folder` also work when a scenario fixture needs report-bundle wording that matches an export form or reviewer handoff.
+Plural directory aliases like `reports_dir`, `reports_directory`, and `reports_folder` also work when a scenario fixture needs report-bundle wording that matches an export form or reviewer handoff.
 If you want a JSON-first fixture that proves one imported scenario can generate a named markdown/html/json report bundle, open `examples/scenario-markdown-report.json`.
 If you need a compact note for keeping the markdown report paired with the matching JSON artifact, open `docs/SCENARIO_REPORT_MARKDOWN_BUNDLE_NOTE.md`.
 If you need a compact replay note focused on regenerating Markdown and HTML from the same imported scenario file, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_HTML_REPLAY_NOTE.md`.
@@ -144,6 +144,7 @@ Individual stakeholder entries can also use `participant`, `actor`, or `faction`
 Stakeholder preset maps can also use `bloc` as a compact alias for the built-in preset key when scenario fixtures are authored for governance workshops.
 If you want one fixture to keep proposal/stakeholders under `inputs` and report metadata under `inputs.report`, open `docs/GOVERNANCE_SANDBOX_SCENARIO_INPUTS_REPORT_NOTE.md`.
 If you need a compact note for root-style report directory aliases in scenario bundles, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_ROOT_ALIAS_NOTE.md`.
+If you need a compact note for the plural `reports_directory` alias before widening presets or web-demo scope, open `docs/SCENARIO_REPORTS_DIRECTORY_ALIAS_NOTE.md`.
 If your scenario file already describes the shared report bundle as an artifacts directory, the same report flow now accepts `artifact_dir`, `artifacts_dir`, or `artifacts_directory` under `report.outputs`; see `docs/REPORT_ARTIFACTS_DIRECTORY_ALIAS_NOTE.md`.
 If you need a compact note for the `report_directory` alias before widening report-bundle wiring, open `docs/GOVERNANCE_SANDBOX_REPORT_DIRECTORY_ALIAS_NOTE.md`.
 If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.
