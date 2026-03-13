@@ -53,6 +53,45 @@ class GovernanceSandboxCliTests(unittest.TestCase):
             self.assertEqual(payload["responses"][0]["preset"], "delegates")
             self.assertEqual(payload["report"]["artifacts"]["basename"], "demo-bundle")
 
+    def test_run_accepts_scenario_showcase_bundle_wrapper(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            scenario_path = tmp / "scenario.yaml"
+            scenario_path.write_text(
+                """scenario_showcase_bundle:
+  proposal: |
+    Publish a reviewer-ready treasury rehearsal.
+  stakeholders:
+    - name: Community delegates
+      preset: delegates
+  report:
+    outputs:
+      output_slug: showcase-bundle
+""",
+                encoding="utf-8",
+            )
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "governance_sandbox.cli",
+                    "run",
+                    "--scenario-file",
+                    str(scenario_path),
+                ],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": str(SRC)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["proposal"], "Publish a reviewer-ready treasury rehearsal.")
+            self.assertEqual(payload["responses"][0]["preset"], "delegates")
+            self.assertEqual(payload["report"]["artifacts"]["basename"], "showcase-bundle")
+
     def test_run_accepts_proposal_markdown_and_stakeholder_roster_aliases(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
