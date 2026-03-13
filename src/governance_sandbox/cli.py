@@ -53,7 +53,7 @@ def _load_scenario(path: Path) -> dict[str, Any]:
                 loaded = yaml.safe_load(text)
     else:
         text = path.read_text(encoding="utf-8")
-        if suffix in {".json", ".jsonc"}:
+        if suffix in {".json", ".jsonc", ".json5"}:
             try:
                 loaded = json.loads(text)
             except json.JSONDecodeError:
@@ -232,6 +232,8 @@ def _detect_scenario_format(scenario_file_arg: str | None) -> str | None:
         return "json"
     if suffix == ".jsonc":
         return "jsonc"
+    if suffix == ".json5":
+        return "json5"
     if suffix in {".yaml", ".yml"}:
         return "yaml"
     return suffix.lstrip(".") or "file"
