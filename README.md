@@ -141,6 +141,7 @@ If you need a compact replay note for one scenario file plus one named report di
 If you want the shortest UI/UX handoff note before widening the first web demo, open `docs/GOVERNANCE_SANDBOX_UI_UX_PRO_MAX_BRIDGE.md`.
 If you need a compact PM-facing rule for keeping scenario-file import, markdown/html/json report output, and the first web-demo checkpoint aligned, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_WEB_DEMO_BRIDGE.md`.
 If you need the matching Playwright-style stability note before widening that first form-to-result-card demo, open `docs/WEB_DEMO_PLAYWRIGHT_STABILITY_NOTE.md`.
+If you need a compact phase-one gate that keeps scenario-file report generation ahead of demo polish while preserving UI/UX and Playwright-style replay discipline, open `docs/SCENARIO_FILE_REPORT_UI_PLAYWRIGHT_GATE.md`.
 If you want a DAO-flavored treasury automation rehearsal with presets plus a named report bundle, start with `examples/dao-treasury-automation.yaml`.
 If you want a broader preset mix that highlights community-trust tradeoffs plus a named memo bundle, start with `examples/scenario-community-feedback.yaml`.
 If you want one reviewer-ready YAML fixture that keeps scenario import, named markdown/html/json outputs, audience, and owner metadata together, start with `examples/scenario-review-pack.yaml`.
