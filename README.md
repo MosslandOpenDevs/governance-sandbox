@@ -474,3 +474,4 @@ If you need a compact PM recheck for keeping one imported scenario file tied to 
 If you need the shortest owner-facing status note for keeping one imported scenario file tied to one generated markdown/html/json report bundle, open `docs/SCENARIO_FILE_REPORT_OWNER_STATUS_NOTE.md`.
 
 If you need a compact note for the top-level `report_markdown_target` / `report_html_target` aliases before widening scenario-file fixtures, open `docs/SCENARIO_REPORT_TARGET_ALIAS_NOTE.md`.
+If you need a compact phase-one recheck note for keeping one imported scenario file tied to one regenerated JSON/Markdown/HTML report bundle before wider preset or web-demo work, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_PHASE_ONE_RECHECK_NOTE.md`.
