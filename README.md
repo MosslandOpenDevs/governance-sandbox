@@ -59,7 +59,7 @@ Preset aliases now also accept `daos`, `delegation`, `contributors-core`, `inves
 ## Sample scenario
 
 Scenario files can also include an optional scenario name and decision context that appear in markdown/html reports.
-
+If you need the matching alias note for `scenario_label` or `scenario_heading`, open `docs/SCENARIO_LABEL_ALIAS_NOTE.md`.
 
 **Scenario:**
 A DAO plans to change treasury allocation from long-term ecosystem grants to short-term growth campaigns. Stakeholders include core contributors, token holders, external builders, and governance delegates.
