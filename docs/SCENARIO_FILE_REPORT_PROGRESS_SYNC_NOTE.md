@@ -1,7 +1,8 @@
-# Scenario-file/report progress sync note
+# Scenario File Report Progress Sync Note
 
-Keep one fresh governance-sandbox phase-one win visible whenever the paired repo-4 slice also moves.
+Keep the first governance-sandbox growth loop centered on scenario-file inputs plus report artifacts.
 
-- Prefer a single scenario-file import or report-output improvement that is easy to replay.
-- Regenerate or revalidate the matching markdown/html/json bundle before claiming progress.
-- Use the short five-line report only after the repo-4 and repo-5 validation states are both current.
+- Accept JSON/YAML scenario files as the primary reusable input surface.
+- Generate JSON output together with markdown/html report artifacts from the same run.
+- Keep the upcoming web demo scoped to one form, one primary action, and one result card that exposes the generated report files.
+- Keep browser-proof planning reproducible by validating the smallest scenario -> report bundle before widening flows.
