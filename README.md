@@ -200,6 +200,7 @@ If you need the matching replay reminder for `.yml` fixtures that should produce
 If you need a compact stack note for keeping one imported scenario tied to JSON, Markdown, and HTML outputs together, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_HTML_STACK.md`.
 If you need a compact reminder that relative report paths inside a scenario file resolve from that scenario file's directory, open `docs/SCENARIO_FILE_RELATIVE_REPORT_PATHS_NOTE.md`.
 If you need a compact reminder that top-level `report_markdown_output` can point straight at the generated memo file, open `docs/SCENARIO_FILE_REPORT_MARKDOWN_OUTPUT_ALIAS_NOTE.md`.
+If you need a compact reminder that `report.output_file_stem` and top-level `report_output_file_stem` can drive the same generated markdown/html/json bundle basename, open `docs/SCENARIO_REPORT_OUTPUT_FILE_STEM_ALIAS_NOTE.md`.
 If you need a compact reminder for carrying one scenario-file `report.description` into the generated markdown/html memo bundle, open `docs/SCENARIO_FILE_REPORT_DESCRIPTION_NOTE.md`.
 If you need a compact reminder that scenario-file support and markdown/html report generation stay first in the build order, open `docs/SCENARIO_FILE_REPORT_PRIORITY.md`.
 If you need a compact phase-one reminder to keep one imported scenario fixture tied to its regenerated markdown/html/json report trio and visible basename before widening presets or web-demo scope, open `docs/SCENARIO_FILE_REPORT_FIXTURE_TRIO_NOTE.md`.
