@@ -7,6 +7,8 @@ If you want a ready-to-run JSON scenario file that exercises proposal import plu
 If you want a ready-to-run JSON scenario file that proves one named markdown/html/json report bundle from scenario input, open `examples/dao-growth-report-bundle.json`.
 If you need the matching maintainer note for that scenario-file-plus-report-bundle example, open `docs/SCENARIO_FILE_REPORT_EXAMPLE_NOTE.md`.
 If you need a compact note for the `report.reviewers` alias while keeping the same markdown/html/json report audience output, open `docs/GOVERNANCE_SANDBOX_REPORT_REVIEWERS_ALIAS_NOTE.md`.
+If your scenario file uses `report_lead` or `report_leads`, the same markdown/html/json report flow now resolves those aliases into the rendered report owner field.
+If you need the matching short-alias note, open `docs/SCENARIO_REPORT_LEAD_ALIAS_NOTE.md`.
 If you need a compact note for carrying `report_synopsis` into the same markdown/html/json memo-summary lane, open `docs/SCENARIO_REPORT_SYNOPSIS_ALIAS_NOTE.md`.
 Scenario files can also use `proposal_copy_md` as a compact alias when proposal body text comes from markdown-oriented exports.
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
