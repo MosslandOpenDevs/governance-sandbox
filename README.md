@@ -127,6 +127,8 @@ If you need a compact acceptance note for when that first result card plus repor
 If you need a one-line maintainer update once that first result-card proof is believable, open `docs/WEB_DEMO_RESULT_CARD_STATUS_LINE.md`.
 If you need a compact phase-one checklist that keeps scenario-file input and the report bundle ahead of presets, web demo work, and the demo GIF, open `docs/SCENARIO_FILE_REPORT_PHASE_ONE_CHECKLIST.md`.
 If you need a compact phase-one reminder to keep one scenario-file replay tied to one validated JSON/Markdown/HTML report bundle, open `docs/SCENARIO_FILE_REPORT_VALIDATE_GATE.md`.
+If you need a compact stage gate for keeping one scenario-file replay tied to one regenerated JSON/Markdown/HTML report bundle before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_STAGE_GATE.md`.
+
 If you need a compact phase-one reminder to validate one scenario-file plus one regenerated markdown/html/json report bundle before push, open `docs/SCENARIO_FILE_REPORT_VALIDATE_SMALL_SLICE_NOTE.md`.
 If you need a compact phase-one recheck before widening presets or demo scope, open `docs/SCENARIO_FILE_REPORT_RECHECK_NOTE.md` to replay one scenario file against the regenerated JSON/Markdown/HTML bundle.
 If you want a ready-made JSON scenario that keeps preset-backed stakeholders plus owner/audience report metadata in the same phase-one replay lane, open `examples/scenario-phase-one-owner-audience.json`.
