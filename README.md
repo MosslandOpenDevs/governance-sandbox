@@ -8,6 +8,7 @@ If you want a ready-to-run JSON scenario file that proves one named markdown/htm
 If you need the matching maintainer note for that scenario-file-plus-report-bundle example, open `docs/SCENARIO_FILE_REPORT_EXAMPLE_NOTE.md`.
 If you need a compact note for the `report.reviewers` alias while keeping the same markdown/html/json report audience output, open `docs/GOVERNANCE_SANDBOX_REPORT_REVIEWERS_ALIAS_NOTE.md`.
 If your scenario file uses `report_lead` or `report_leads`, the same markdown/html/json report flow now resolves those aliases into the rendered report owner field.
+Scenario files can also use `report_reviewer_list` or `report_reviewer_lists` when one workshop export keeps reviewer handoff under a list-shaped alias but should still render the same markdown/html/json report reviewers field.
 If you need the matching short-alias note, open `docs/SCENARIO_REPORT_LEAD_ALIAS_NOTE.md`.
 If you need a compact note for carrying `report_synopsis` into the same markdown/html/json memo-summary lane, open `docs/SCENARIO_REPORT_SYNOPSIS_ALIAS_NOTE.md`.
 Scenario files can also use `proposal_copy_md` as a compact alias when proposal body text comes from markdown-oriented exports.
