@@ -108,6 +108,7 @@ If you need a compact note for staged scenario-file wrappers before widening pre
 If your review export nests the same payload under `scenario_report_bundle` or `scenario_report_bundle_pack`, the scenario-file import path still resolves and can regenerate the same report bundle without reshaping the JSON/YAML first.
 If your workbench export nests the same payload under `scenario_workbench` or `scenario_workbench_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 If your journal export nests the same payload under `scenario_journal` or `scenario_journal_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
+If you need the matching journal-wrapper replay note, open `docs/SCENARIO_JOURNAL_WRAPPER_NOTE.md`.
 If your workflow export nests the same payload under `scenario_workflow` or `scenario_workflow_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 If your design-studio export nests the same payload under `scenario_studio` or `scenario_studio_bundle`, the same scenario-file import path still resolves and can generate the same report bundle without reshaping the JSON/YAML first.
 
