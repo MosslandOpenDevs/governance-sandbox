@@ -97,6 +97,7 @@ If your review export nests the same payload under `scenario_review_pack` or `sc
 If you need a compact audience note that keeps one imported scenario tied to the reviewers who should open the generated bundle first, open `docs/SCENARIO_REPORT_REVIEWER_AUDIENCE_NOTE.md`.
 If your imported bundle already exposes the source as `scenario_src` or `source_href`, the same scenario-file report flow still carries that scenario source path or URL into the generated report bundle metadata.
 If your export keeps the same value under `source_location`, the CLI resolves it into the same report metadata without reshaping the scenario file first.
+Scenario files can also use `source_pointer` when one workshop or UI export wants a neutral replay pointer that still flows into the same report metadata.
 If you need the matching short note, open `docs/SCENARIO_SOURCE_LOCATION_ALIAS_NOTE.md`.
 If you need the matching short-alias note, open `docs/SCENARIO_SOURCE_SHORT_ALIASES_NOTE.md`.
 If you want one source-first note that keeps the imported scenario file tied to its shared report bundle, open `docs/GOVERNANCE_SANDBOX_SCENARIO_SOURCE_BUNDLE_NOTE.md`.
