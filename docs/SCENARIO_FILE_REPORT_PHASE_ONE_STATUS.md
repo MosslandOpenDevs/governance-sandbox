@@ -1,3 +1,10 @@
-# Scenario File Report Phase-One Status
+# SCENARIO_FILE_REPORT_PHASE_ONE_STATUS
 
-Phase one stays narrow: import one JSON/YAML scenario file, generate the markdown/html/json report bundle, verify the artifacts, then report status before widening preset or web-demo scope.
+Phase one still means one imported JSON/YAML scenario file regenerates one reviewable JSON/Markdown/HTML report bundle before trait-preset expansion or web-demo polish.
+
+Short status check:
+
+- scenario file imported
+- report bundle regenerated
+- validation rerun completed
+- wider preset/demo work still queued behind this proof
