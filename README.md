@@ -482,6 +482,7 @@ If you need a compact note for the more explicit `report.outputs.bundle_basename
 If you need a compact alias note for driving that same governance-sandbox report bundle from `report.output_slug` or `report.outputs.output_slug`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_SLUG_ALIAS_NOTE.md`.
 If you need a compact phase-one reminder that scenario-file replay should keep the same visible output slug across JSON, Markdown, and HTML artifacts, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_OUTPUT_SLUG_NOTE.md`.
 If you need the matching alias note for reviewer-facing `report.output_label` bundle naming, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_LABEL_ALIAS_NOTE.md`.
+If you need a compact reminder that top-level `report_output_ref` can drive the same report basename, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_REF_ALIAS_NOTE.md`.
 
 If you need the matching PM note for `scenario_archive` wrappers that should still replay one JSON/Markdown/HTML report stack, open `docs/SCENARIO_ARCHIVE_REPORT_STACK_NOTE.md`.
 
