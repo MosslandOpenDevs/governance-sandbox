@@ -504,3 +504,5 @@ If you need a compact note for the top-level `report_markdown_target` / `report_
 If you need a compact phase-one recheck note for keeping one imported scenario file tied to one regenerated JSON/Markdown/HTML report bundle before wider preset or web-demo work, open `docs/GOVERNANCE_SANDBOX_SCENARIO_REPORT_PHASE_ONE_RECHECK_NOTE.md`.
 
 If you need a compact phase-one reminder that one scenario-file replay should still regenerate a validator-clean JSON/Markdown/HTML report bundle before push, open `docs/GOVERNANCE_SANDBOX_SCENARIO_FILE_REPORT_VALIDATE_MICRO_NOTE.md`.
+
+If you need a compact phase-one reminder that one scenario-file replay should still regenerate a validator-clean JSON/Markdown/HTML report bundle before push, open `docs/GOVERNANCE_SANDBOX_SCENARIO_FILE_REPORT_VALIDATE_MICRO_NOTE.md`.
