@@ -39,6 +39,7 @@ If you prefer a code-style basename field from scenario exports, `report_bundle_
 If you prefer a stem-style basename field from scenario exports, `report_bundle_stem` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a title-style basename field from scenario exports, `report_bundle_title` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a title-style output field from scenario exports, `report_output_title` now drives the same JSON, Markdown, and HTML report bundle.
+If you prefer a key-style output field from scenario exports, `report_output_key` now drives the same JSON, Markdown, and HTML report bundle.
 If you need the matching alias note, open `docs/GOVERNANCE_SANDBOX_REPORT_BUNDLE_STEM_ALIAS_NOTE.md`.
 If you prefer a tag-style basename field from scenario exports, `report_bundle_tag` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a plain basename field from scenario exports, `report_bundle_basename` now drives the same JSON, Markdown, and HTML report bundle.
@@ -496,6 +497,7 @@ If you need the matching alias note for reviewer-facing `report.output_label` bu
 If you need a compact reminder that top-level `report_output_ref` can drive the same report basename, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_REF_ALIAS_NOTE.md`.
 
 If you need the matching PM note for `scenario_archive` wrappers that should still replay one JSON/Markdown/HTML report stack, open `docs/SCENARIO_ARCHIVE_REPORT_STACK_NOTE.md`.
+If you need a compact reminder that top-level `report_output_key` can drive the same report basename, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_KEY_ALIAS_NOTE.md`.
 
 If you need the short-form `json_report` / `markdown_report` / `html_report` names inside `report.outputs.files`, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_FILES_SHORT_ALIASES_NOTE.md`.
 
