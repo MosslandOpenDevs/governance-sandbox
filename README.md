@@ -94,6 +94,8 @@ If you need a compact note for the next preset lane after scenario/report basics
 Scenario files can also include an optional scenario name and decision context that appear in markdown/html reports.
 If you need the matching alias note for `scenario_label` or `scenario_heading`, open `docs/SCENARIO_LABEL_ALIAS_NOTE.md`.
 Scenario wrappers can also use `scenario_stage_pack` or `scenario_stage_pack_bundle` when the same JSON/YAML rehearsal bundle should stay stage-oriented while still loading proposal, stakeholder, and report fields.
+Scenario wrapper exports can now also keep stakeholder preset maps under `stakeholder_types` without flattening the same JSON/YAML bundle first.
+If you need the matching wrapper note, open `docs/SCENARIO_STAKEHOLDER_TYPES_WRAPPER_NOTE.md`.
 
 **Scenario:**
 A DAO plans to change treasury allocation from long-term ecosystem grants to short-term growth campaigns. Stakeholders include core contributors, token holders, external builders, and governance delegates.
