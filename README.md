@@ -17,6 +17,7 @@ Scenario files can also keep their replayable source pointer under `scenario_sou
 If you need the matching alias note, open `docs/SCENARIO_SOURCE_FILE_ALIAS_NOTE.md`.
 Scenario files can also use `proposal_copy_md` as a compact alias when proposal body text comes from markdown-oriented exports.
 Scenario files can also use `proposal_input_markdown_file` or `proposal_input_md_file` when proposal body text should load from a neighboring markdown file without reshaping the JSON/YAML bundle.
+The same replay also accepts `proposal_input_markdown_path` or `proposal_input_md_path` when a scenario bundle prefers explicit path-style naming for that neighboring markdown source.
 Scenario files can also use `proposal_markdown_path`, `proposal_md_path`, or `proposal_copy_path` when proposal markdown should be loaded from a neighboring file without reshaping the JSON/YAML bundle.
 Scenario files can also use `proposal_copy_file` when the proposal body lives in a neighboring markdown file but the scenario bundle should stay JSON/YAML-first.
 If you need the singular form for one primary memo reader, `report.reviewer` and top-level `report_reviewer` resolve to the same rendered report audience field.
