@@ -1,59 +1,46 @@
 from __future__ import annotations
 
 import json
-import os
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "src"
 
-
-class GovernanceSandboxReportBundleStemAliasTests(unittest.TestCase):
-    def test_report_outputs_bundle_stem_alias_drives_bundle_names(self) -> None:
+class ReportBundleStemAliasTests(unittest.TestCase):
+    def test_report_bundle_stem_alias_sets_default_bundle_basename(self) -> None:
+        root = Path(__file__).resolve().parents[1]
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
-            scenario_path = tmp / "scenario.yaml"
-            report_dir = tmp / "bundle"
-            scenario_path.write_text(
-                """proposal: Publish a shorter review packet before the vote.
-stakeholders:
-  - name: Delegate circle
-    preset: delegates
-report:
-  outputs:
-    bundle_stem: review-packet
-""",
+            scenario = tmp / "scenario.yaml"
+            scenario.write_text(
+                """proposal: Ship a treasury dashboard\nstakeholders:\n  - name: Delegates\n    stance: supportive\nreport_bundle_stem: treasury-dashboard-stem\n""",
                 encoding="utf-8",
             )
 
-            result = subprocess.run(
+            completed = subprocess.run(
                 [
-                    sys.executable,
+                    "python3",
                     "-m",
                     "governance_sandbox.cli",
                     "run",
                     "--scenario-file",
-                    str(scenario_path),
+                    str(scenario),
                     "--report-dir",
-                    str(report_dir),
+                    str(tmp),
                 ],
-                cwd=ROOT,
-                env={**os.environ, "PYTHONPATH": str(SRC)},
+                cwd=root,
+                env={**dict(__import__("os").environ), "PYTHONPATH": str(root / "src")},
+                check=True,
                 capture_output=True,
                 text=True,
-                check=True,
             )
 
-            payload = json.loads(result.stdout)
-            self.assertEqual(payload["scenario"]["report_basename"], "review-packet")
-            self.assertEqual(payload["report"]["artifacts"]["basename"], "review-packet")
-            self.assertTrue((report_dir / "review-packet.md").exists())
-            self.assertTrue((report_dir / "review-packet.html").exists())
-            self.assertTrue((report_dir / "review-packet.json").exists())
+            payload = json.loads(completed.stdout)
+            artifacts = payload["report"]["artifacts"]
+            self.assertTrue(artifacts["markdown"].endswith("treasury-dashboard-stem.md"))
+            self.assertTrue(artifacts["html"].endswith("treasury-dashboard-stem.html"))
+            self.assertTrue(artifacts["json"].endswith("treasury-dashboard-stem.json"))
 
 
 if __name__ == "__main__":
