@@ -38,6 +38,7 @@ If you prefer a tag-style top-level basename field from scenario exports, `repor
 If you prefer a code-style basename field from scenario exports, `report_bundle_code` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a stem-style basename field from scenario exports, `report_bundle_stem` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a title-style basename field from scenario exports, `report_bundle_title` now drives the same JSON, Markdown, and HTML report bundle.
+If you prefer a title-style output field from scenario exports, `report_output_title` now drives the same JSON, Markdown, and HTML report bundle.
 If you need the matching alias note, open `docs/GOVERNANCE_SANDBOX_REPORT_BUNDLE_STEM_ALIAS_NOTE.md`.
 If you prefer a tag-style basename field from scenario exports, `report_bundle_tag` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a plain basename field from scenario exports, `report_bundle_basename` now drives the same JSON, Markdown, and HTML report bundle.
