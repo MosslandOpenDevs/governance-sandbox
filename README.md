@@ -31,6 +31,7 @@ If you prefer a terse machine-facing basename field, `report_bundle_key` now dri
 If you prefer an ID-style basename field from scenario exports, `report_bundle_id` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a handle-style basename field from scenario exports, `report_bundle_handle` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a reference-style basename field from scenario exports, `report_bundle_ref` now drives the same JSON, Markdown, and HTML report bundle.
+If you prefer a tag-style top-level basename field from scenario exports, `report_output_tag` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a code-style basename field from scenario exports, `report_bundle_code` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a stem-style basename field from scenario exports, `report_bundle_stem` now drives the same JSON, Markdown, and HTML report bundle.
 If you prefer a title-style basename field from scenario exports, `report_bundle_title` now drives the same JSON, Markdown, and HTML report bundle.
@@ -170,6 +171,7 @@ If you need a compact phase-one reminder that one imported scenario file should 
 If your scenario file already describes the shared report bundle as an artifacts directory, the same report flow now accepts `artifact_dir`, `artifacts_dir`, or `artifacts_directory` under `report.outputs`; see `docs/REPORT_ARTIFACTS_DIRECTORY_ALIAS_NOTE.md`.
 Scenario files can also use top-level `report_downloads` when one imported rehearsal should regenerate download-oriented JSON/Markdown/HTML report files without reshaping the fixture first.
 If you need a compact note for that download-oriented alias, open `docs/REPORT_DOWNLOADS_ALIAS_NOTE.md`.
+If you need a compact note for the top-level `report_output_tag` basename alias, open `docs/REPORT_OUTPUT_TAG_ALIAS_NOTE.md`.
 If you need a compact note for the `report_directory` alias before widening report-bundle wiring, open `docs/GOVERNANCE_SANDBOX_REPORT_DIRECTORY_ALIAS_NOTE.md`.
 If you want a demo-oriented fixture for the first web form plus report-card flow, start with `examples/scenario-web-demo.yaml`.
 If you need a compact UI boundary note before widening that first form-to-card slice, open `docs/WEB_DEMO_FORM_TO_CARD_SCOPE.md`.
