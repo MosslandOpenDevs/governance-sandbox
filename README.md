@@ -1,5 +1,7 @@
 # governance-sandbox
 
+Phase-one priority stays explicit: scenario file input (JSON/YAML) plus regenerated markdown/html/json report bundles come before preset expansion and web demo polish.
+
 Agent-based governance scenario rehearsal engine for testing proposals, stakeholder reactions, and decision risks before real-world execution.
 
 If you need a stdin-first replay note for piping one JSON or YAML scenario directly into report generation, open `docs/SCENARIO_STDIN_JSON_YAML_NOTE.md`.
