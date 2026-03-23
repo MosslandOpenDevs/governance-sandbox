@@ -523,3 +523,6 @@ If you need a compact phase-one recheck note for keeping one imported scenario f
 If you need a compact phase-one reminder that one scenario-file replay should still regenerate a validator-clean JSON/Markdown/HTML report bundle before push, open `docs/GOVERNANCE_SANDBOX_SCENARIO_FILE_REPORT_VALIDATE_MICRO_NOTE.md`.
 
 If you need a compact phase-one reminder that one scenario-file replay should still regenerate a validator-clean JSON/Markdown/HTML report bundle before push, open `docs/GOVERNANCE_SANDBOX_SCENARIO_FILE_REPORT_VALIDATE_MICRO_NOTE.md`.
+
+If you need a compact note for keeping JSON/Markdown/HTML paths grouped under one `report.outputs.files` block, open `docs/GOVERNANCE_SANDBOX_REPORT_OUTPUT_FILES_NOTE.md`.
+If you need a compact note for carrying one human-readable `report.summary_title` from a scenario file into the generated markdown and html reports, open `docs/GOVERNANCE_SANDBOX_REPORT_SUMMARY_TITLE_NOTE.md`.
