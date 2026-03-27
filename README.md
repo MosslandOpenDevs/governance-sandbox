@@ -422,6 +422,47 @@ governance-sandbox/
 
 ---
 
+
+## Governance Sandbox v2 Direction
+
+The next major evolution is to move from a one-shot simulation tool toward a **logic engine for governance reasoning**.
+
+### Core idea
+Instead of asking an LLM to answer governance questions from scratch every time, the system should gradually accumulate reusable reasoning structure:
+
+- which variables matter,
+- which stakeholder tensions repeat,
+- which mitigation patterns work,
+- which proposal conditions trigger resistance,
+- and which decision paths tend to reduce risk.
+
+### What changes in v2
+
+Current version:
+- proposal in
+- stakeholder simulation
+- decision memo out
+
+Target v2:
+- proposal in
+- simulation + reasoning extraction
+- reusable logic graph updated
+- future proposals evaluated against an evolving governance knowledge structure
+
+### Why this matters
+
+This makes `governance-sandbox` more than a simulation demo.
+It becomes a cumulative governance reasoning asset for Mossland-like systems.
+
+### Planned v2 components
+
+- variable extraction from proposals
+- stakeholder-response pattern memory
+- logic graph / DAG representation of governance reasoning
+- replayable scenario comparison
+- deterministic report generation from stored reasoning structures
+
+
 ## Roadmap
 
 ### Phase 1
