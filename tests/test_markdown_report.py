@@ -108,7 +108,6 @@ class MarkdownReportTests(unittest.TestCase):
         self.assertIn("## Scenario source\nstdin", report)
 
 
-from governance_sandbox.cli import _render_html_report
 
 
 class HtmlReportTests(unittest.TestCase):

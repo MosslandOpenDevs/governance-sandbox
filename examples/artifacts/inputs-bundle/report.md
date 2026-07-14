@@ -4,11 +4,11 @@
 - Generated at: 2026-03-13T23:24:00Z
 - Scenario file: examples/scenario-inputs-report-bundle.json
 - Scenario format: json
-- Report directory: /home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle
+- Report directory: examples/artifacts/inputs-bundle
 - Report basename: report
-- JSON artifact: /home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.json
-- Markdown artifact: /home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.md
-- HTML artifact: /home/wooramson/.openclaw/workspace/governance-sandbox/examples/artifacts/inputs-bundle/report.html
+- JSON artifact: examples/artifacts/inputs-bundle/report.json
+- Markdown artifact: examples/artifacts/inputs-bundle/report.md
+- HTML artifact: examples/artifacts/inputs-bundle/report.html
 
 ## Scenario
 Delegate transparency rehearsal

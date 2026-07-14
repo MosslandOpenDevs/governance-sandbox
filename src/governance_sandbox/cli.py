@@ -4,10 +4,17 @@ import argparse
 import json
 import sys
 from html import escape
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import re
 from typing import Any
+
+from .engine import PRESET_SUMMARIES, TRAIT_PRESETS, simulate_governance
+
+try:
+    import yaml  # type: ignore[import-untyped]
+except ImportError:  # pragma: no cover
+    yaml = None
 
 
 def _preset_mix_summary(responses: list[dict[str, Any]]) -> list[str]:
@@ -21,16 +28,6 @@ def _preset_mix_summary(responses: list[dict[str, Any]]) -> list[str]:
             continue
         counts[key] = counts.get(key, 0) + 1
     return [f"{preset}: {counts[preset]}" for preset in sorted(counts)]
-
-
-from .engine import PRESET_SUMMARIES, TRAIT_PRESETS, simulate_governance
-
-try:
-    import yaml
-except ImportError:  # pragma: no cover
-    yaml = None
-
-
 
 
 def _strip_json_comments(text: str) -> str:
@@ -96,6 +93,15 @@ def _pick(mapping: dict[str, Any], *keys: str) -> Any:
         if value is not None:
             return value
     return None
+
+
+def _as_dict(value: Any) -> dict[str, Any]:
+    """Return value when it is a mapping, else an empty dict.
+
+    Keeps the many `x.get(...) if isinstance(x.get(...), dict) else {}` call
+    sites narrow to ``dict[str, Any]`` without changing runtime behavior.
+    """
+    return value if isinstance(value, dict) else {}
 
 
 def _normalize_string_list(value: Any) -> list[str]:
@@ -318,7 +324,7 @@ def _resolve_proposal_candidate(mapping: dict[str, Any], *, scenario_file: str |
 
 def _resolve_report_basename(*report_sections: dict[str, Any], scenario: dict[str, Any]) -> str:
     for report_meta in report_sections:
-        report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
+        report_outputs = _as_dict(report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {})
         configured = _pick(report_outputs, "basename", "bundle_basename", "bundle_name", "bundle_stem", "bundle_id", "bundle_key", "bundle_label", "bundle_handle", "bundle_ref", "bundle_title", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "output_title", "output_slug", "output_label", "output_id", "output_key", "output_handle", "output_ref", "output_code", "output_stem", "output_file_stem", "label", "bundle_slug", "report_slug", "report_name_slug", "base", "slug", "name") or _pick(report_meta, "basename", "bundle_basename", "bundle_name", "bundle_stem", "bundle_id", "bundle_key", "bundle_label", "bundle_handle", "bundle_ref", "bundle_title", "base_name", "file_basename", "file_stem", "stem", "output_basename", "output_name", "output_title", "output_slug", "output_label", "output_id", "output_key", "output_handle", "output_ref", "output_code", "output_stem", "output_file_stem", "label", "bundle_slug", "report_slug", "report_name_slug", "base", "slug", "name")
         if configured:
             return _slugify_report_basename(str(configured))
@@ -625,11 +631,11 @@ def main() -> None:
         scenario: dict[str, Any] = {}
         if args.scenario_file:
             scenario = _load_scenario(Path(args.scenario_file))
-        scenario_meta = scenario.get("scenario") if isinstance(scenario.get("scenario"), dict) else {}
-        inputs = scenario.get("inputs") if isinstance(scenario.get("inputs"), dict) else {}
-        scenario_inputs = scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {}
-        inputs_report = inputs.get("report") if isinstance(inputs.get("report"), dict) else {}
-        scenario_inputs_report = scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {}
+        scenario_meta = _as_dict(scenario.get("scenario") if isinstance(scenario.get("scenario"), dict) else {})
+        inputs = _as_dict(scenario.get("inputs") if isinstance(scenario.get("inputs"), dict) else {})
+        scenario_inputs = _as_dict(scenario_meta.get("inputs") if isinstance(scenario_meta.get("inputs"), dict) else {})
+        inputs_report = _as_dict(inputs.get("report") if isinstance(inputs.get("report"), dict) else {})
+        scenario_inputs_report = _as_dict(scenario_inputs.get("report") if isinstance(scenario_inputs.get("report"), dict) else {})
         proposal = _normalize_proposal(args.proposal) or _resolve_proposal_candidate(scenario, scenario_file=args.scenario_file) or _resolve_proposal_candidate(inputs, scenario_file=args.scenario_file) or _resolve_proposal_candidate(scenario_inputs, scenario_file=args.scenario_file)
         stakeholder_input = args.stakeholders
         if stakeholder_input:
@@ -645,36 +651,36 @@ def main() -> None:
         if not stakeholders:
             raise SystemExit("Stakeholders are required via --stakeholders or --scenario-file")
         result = simulate_governance(proposal, stakeholders)
-        report_meta = scenario.get("report") if isinstance(scenario.get("report"), dict) else {}
-        top_level_outputs = scenario.get("outputs") if isinstance(scenario.get("outputs"), dict) else {}
-        top_level_output_report = top_level_outputs.get("report") if isinstance(top_level_outputs.get("report"), dict) else {}
-        top_level_report_outputs = scenario.get("report_outputs") if isinstance(scenario.get("report_outputs"), dict) else {}
-        top_level_report_downloads = scenario.get("report_downloads") if isinstance(scenario.get("report_downloads"), dict) else {}
-        top_level_output_report_outputs = top_level_output_report.get("outputs") if isinstance(top_level_output_report.get("outputs"), dict) else {}
-        report_outputs = report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {}
-        inputs_report_outputs = inputs_report.get("outputs") if isinstance(inputs_report.get("outputs"), dict) else {}
-        scenario_inputs_report_outputs = scenario_inputs_report.get("outputs") if isinstance(scenario_inputs_report.get("outputs"), dict) else {}
-        report_output_files = report_outputs.get("files") if isinstance(report_outputs.get("files"), dict) else (report_outputs.get("artifacts") if isinstance(report_outputs.get("artifacts"), dict) else {})
-        report_path_files = report_outputs.get("paths") if isinstance(report_outputs.get("paths"), dict) else {}
-        report_download_files = report_outputs.get("downloads") if isinstance(report_outputs.get("downloads"), dict) else {}
-        top_level_report_output_files = top_level_report_outputs.get("files") if isinstance(top_level_report_outputs.get("files"), dict) else (top_level_report_outputs.get("artifacts") if isinstance(top_level_report_outputs.get("artifacts"), dict) else {})
-        top_level_report_path_files = top_level_report_outputs.get("paths") if isinstance(top_level_report_outputs.get("paths"), dict) else {}
-        top_level_report_download_files = top_level_report_outputs.get("downloads") if isinstance(top_level_report_outputs.get("downloads"), dict) else {}
-        top_level_direct_report_download_files = top_level_report_downloads.get("files") if isinstance(top_level_report_downloads.get("files"), dict) else (top_level_report_downloads.get("artifacts") if isinstance(top_level_report_downloads.get("artifacts"), dict) else top_level_report_downloads)
-        top_level_direct_report_download_path_files = top_level_report_downloads.get("paths") if isinstance(top_level_report_downloads.get("paths"), dict) else {}
-        top_level_direct_report_download_download_files = top_level_report_downloads.get("downloads") if isinstance(top_level_report_downloads.get("downloads"), dict) else {}
-        top_level_output_report_files = top_level_output_report.get("files") if isinstance(top_level_output_report.get("files"), dict) else (top_level_output_report.get("artifacts") if isinstance(top_level_output_report.get("artifacts"), dict) else {})
-        top_level_output_report_path_files = top_level_output_report.get("paths") if isinstance(top_level_output_report.get("paths"), dict) else {}
-        top_level_output_report_download_files = top_level_output_report.get("downloads") if isinstance(top_level_output_report.get("downloads"), dict) else {}
-        top_level_output_report_output_files = top_level_output_report_outputs.get("files") if isinstance(top_level_output_report_outputs.get("files"), dict) else (top_level_output_report_outputs.get("artifacts") if isinstance(top_level_output_report_outputs.get("artifacts"), dict) else {})
-        top_level_output_report_path_output_files = top_level_output_report_outputs.get("paths") if isinstance(top_level_output_report_outputs.get("paths"), dict) else {}
-        top_level_output_report_download_output_files = top_level_output_report_outputs.get("downloads") if isinstance(top_level_output_report_outputs.get("downloads"), dict) else {}
-        inputs_report_output_files = inputs_report_outputs.get("files") if isinstance(inputs_report_outputs.get("files"), dict) else (inputs_report_outputs.get("artifacts") if isinstance(inputs_report_outputs.get("artifacts"), dict) else {})
-        inputs_report_path_files = inputs_report_outputs.get("paths") if isinstance(inputs_report_outputs.get("paths"), dict) else {}
-        inputs_report_download_files = inputs_report_outputs.get("downloads") if isinstance(inputs_report_outputs.get("downloads"), dict) else {}
-        scenario_inputs_report_output_files = scenario_inputs_report_outputs.get("files") if isinstance(scenario_inputs_report_outputs.get("files"), dict) else (scenario_inputs_report_outputs.get("artifacts") if isinstance(scenario_inputs_report_outputs.get("artifacts"), dict) else {})
-        scenario_inputs_report_path_files = scenario_inputs_report_outputs.get("paths") if isinstance(scenario_inputs_report_outputs.get("paths"), dict) else {}
-        scenario_inputs_report_download_files = scenario_inputs_report_outputs.get("downloads") if isinstance(scenario_inputs_report_outputs.get("downloads"), dict) else {}
+        report_meta = _as_dict(scenario.get("report") if isinstance(scenario.get("report"), dict) else {})
+        top_level_outputs = _as_dict(scenario.get("outputs") if isinstance(scenario.get("outputs"), dict) else {})
+        top_level_output_report = _as_dict(top_level_outputs.get("report") if isinstance(top_level_outputs.get("report"), dict) else {})
+        top_level_report_outputs = _as_dict(scenario.get("report_outputs") if isinstance(scenario.get("report_outputs"), dict) else {})
+        top_level_report_downloads = _as_dict(scenario.get("report_downloads") if isinstance(scenario.get("report_downloads"), dict) else {})
+        top_level_output_report_outputs = _as_dict(top_level_output_report.get("outputs") if isinstance(top_level_output_report.get("outputs"), dict) else {})
+        report_outputs = _as_dict(report_meta.get("outputs") if isinstance(report_meta.get("outputs"), dict) else {})
+        inputs_report_outputs = _as_dict(inputs_report.get("outputs") if isinstance(inputs_report.get("outputs"), dict) else {})
+        scenario_inputs_report_outputs = _as_dict(scenario_inputs_report.get("outputs") if isinstance(scenario_inputs_report.get("outputs"), dict) else {})
+        report_output_files = _as_dict(report_outputs.get("files") if isinstance(report_outputs.get("files"), dict) else (report_outputs.get("artifacts") if isinstance(report_outputs.get("artifacts"), dict) else {}))
+        report_path_files = _as_dict(report_outputs.get("paths") if isinstance(report_outputs.get("paths"), dict) else {})
+        report_download_files = _as_dict(report_outputs.get("downloads") if isinstance(report_outputs.get("downloads"), dict) else {})
+        top_level_report_output_files = _as_dict(top_level_report_outputs.get("files") if isinstance(top_level_report_outputs.get("files"), dict) else (top_level_report_outputs.get("artifacts") if isinstance(top_level_report_outputs.get("artifacts"), dict) else {}))
+        top_level_report_path_files = _as_dict(top_level_report_outputs.get("paths") if isinstance(top_level_report_outputs.get("paths"), dict) else {})
+        top_level_report_download_files = _as_dict(top_level_report_outputs.get("downloads") if isinstance(top_level_report_outputs.get("downloads"), dict) else {})
+        top_level_direct_report_download_files = _as_dict(top_level_report_downloads.get("files") if isinstance(top_level_report_downloads.get("files"), dict) else (top_level_report_downloads.get("artifacts") if isinstance(top_level_report_downloads.get("artifacts"), dict) else top_level_report_downloads))
+        top_level_direct_report_download_path_files = _as_dict(top_level_report_downloads.get("paths") if isinstance(top_level_report_downloads.get("paths"), dict) else {})
+        top_level_direct_report_download_download_files = _as_dict(top_level_report_downloads.get("downloads") if isinstance(top_level_report_downloads.get("downloads"), dict) else {})
+        top_level_output_report_files = _as_dict(top_level_output_report.get("files") if isinstance(top_level_output_report.get("files"), dict) else (top_level_output_report.get("artifacts") if isinstance(top_level_output_report.get("artifacts"), dict) else {}))
+        top_level_output_report_path_files = _as_dict(top_level_output_report.get("paths") if isinstance(top_level_output_report.get("paths"), dict) else {})
+        top_level_output_report_download_files = _as_dict(top_level_output_report.get("downloads") if isinstance(top_level_output_report.get("downloads"), dict) else {})
+        top_level_output_report_output_files = _as_dict(top_level_output_report_outputs.get("files") if isinstance(top_level_output_report_outputs.get("files"), dict) else (top_level_output_report_outputs.get("artifacts") if isinstance(top_level_output_report_outputs.get("artifacts"), dict) else {}))
+        top_level_output_report_path_output_files = _as_dict(top_level_output_report_outputs.get("paths") if isinstance(top_level_output_report_outputs.get("paths"), dict) else {})
+        top_level_output_report_download_output_files = _as_dict(top_level_output_report_outputs.get("downloads") if isinstance(top_level_output_report_outputs.get("downloads"), dict) else {})
+        inputs_report_output_files = _as_dict(inputs_report_outputs.get("files") if isinstance(inputs_report_outputs.get("files"), dict) else (inputs_report_outputs.get("artifacts") if isinstance(inputs_report_outputs.get("artifacts"), dict) else {}))
+        inputs_report_path_files = _as_dict(inputs_report_outputs.get("paths") if isinstance(inputs_report_outputs.get("paths"), dict) else {})
+        inputs_report_download_files = _as_dict(inputs_report_outputs.get("downloads") if isinstance(inputs_report_outputs.get("downloads"), dict) else {})
+        scenario_inputs_report_output_files = _as_dict(scenario_inputs_report_outputs.get("files") if isinstance(scenario_inputs_report_outputs.get("files"), dict) else (scenario_inputs_report_outputs.get("artifacts") if isinstance(scenario_inputs_report_outputs.get("artifacts"), dict) else {}))
+        scenario_inputs_report_path_files = _as_dict(scenario_inputs_report_outputs.get("paths") if isinstance(scenario_inputs_report_outputs.get("paths"), dict) else {})
+        scenario_inputs_report_download_files = _as_dict(scenario_inputs_report_outputs.get("downloads") if isinstance(scenario_inputs_report_outputs.get("downloads"), dict) else {})
         direct_scenario_source_alias = _pick(
             scenario,
             "scenario_file",
@@ -783,6 +789,7 @@ def main() -> None:
         )
         scenario_format = _detect_scenario_format(args.scenario_file)
         result["scenario"] = {
+            "proposal": proposal,
             "name": _pick(scenario, "name", "title", "label", "heading", "scenario_name", "scenario_title", "scenario_label", "scenario_heading") or _pick(scenario_meta, "name", "title", "label", "heading", "scenario_name", "scenario_title", "scenario_label", "scenario_heading"),
             "context": _pick(scenario, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(scenario_meta, "context", "scenario_context", "decision_context", "decision", "summary", "description") or _pick(report_meta, "context", "scenario_context", "decision_context", "summary", "description") or _pick(inputs_report, "context", "scenario_context", "decision_context", "summary", "description") or _pick(scenario_inputs_report, "context", "scenario_context", "decision_context", "summary", "description"),
             "report_title": _pick(scenario, "report_title", "report_heading", "report_headline") or _pick(scenario_meta, "report_title", "report_heading", "report_headline") or _pick(report_meta, "title", "heading", "headline") or _pick(top_level_output_report, "title", "heading", "headline") or _pick(inputs_report, "title", "heading", "headline") or _pick(scenario_inputs_report, "title", "heading", "headline"),
@@ -798,6 +805,7 @@ def main() -> None:
             "scenario_format": scenario_format,
             "tags": _normalize_string_list(_pick(scenario, "tags", "labels", "report_tags") or _pick(scenario_meta, "tags", "labels", "report_tags") or _pick(report_meta, "tags", "labels") or _pick(inputs_report, "tags", "labels") or _pick(scenario_inputs_report, "tags", "labels")),
         }
+        result["scenario_file"] = str(scenario_source) if scenario_source is not None else None
         counts = {stance: 0 for stance in ("supportive", "cautious", "mixed", "skeptical")}
         for response in result["responses"]:
             stance = response.get("stance")
@@ -812,7 +820,7 @@ def main() -> None:
             "recommendation_label": result["recommendation"],
         }
         result["report"] = {
-            "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+            "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
             "scenario_file": str(scenario_source) if scenario_source is not None else None,
             "scenario_format": scenario_format,
         }
@@ -855,6 +863,11 @@ def main() -> None:
             "html": str(html_path.resolve()) if html_path else None,
             "directory": str(report_dir.resolve()) if report_dir else None,
             "basename": report_basename,
+        }
+        result["report_paths"] = {
+            "json": result["report"]["artifacts"]["json"],
+            "markdown": result["report"]["artifacts"]["markdown"],
+            "html": result["report"]["artifacts"]["html"],
         }
         markdown_report = _render_markdown_report(result)
         html_report = _render_html_report(result)

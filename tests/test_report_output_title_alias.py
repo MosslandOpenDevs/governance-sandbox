@@ -40,7 +40,10 @@ report_output_title: Delegate Office Hours Memo
     )
 
     payload = json.loads(completed.stdout)
-    assert payload["scenario"]["report_basename"] == "delegate-office-hours-memo"
+    # Convention: scenario.report_basename keeps the raw configured value; the
+    # generated artifacts (and their filenames) use the sanitized slug.
+    assert payload["scenario"]["report_basename"] == "Delegate Office Hours Memo"
+    assert payload["report"]["artifacts"]["basename"] == "delegate-office-hours-memo"
     assert (report_dir / "delegate-office-hours-memo.json").exists()
     assert (report_dir / "delegate-office-hours-memo.md").exists()
     assert (report_dir / "delegate-office-hours-memo.html").exists()

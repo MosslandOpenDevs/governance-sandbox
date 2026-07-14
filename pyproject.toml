@@ -5,12 +5,15 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "governance-sandbox"
 version = "0.1.0"
-description = "Agent-based governance scenario rehearsal engine"
+description = "Deterministic governance proposal pre-mortem CLI (Labs / experimental)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "MosslandOpenDevs" }]
 dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10", "build>=1.2"]
 
 [project.scripts]
 gov-sandbox = "governance_sandbox.cli:main"
@@ -20,3 +23,17 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 200
+
+[tool.ruff.lint.per-file-ignores]
+# Test modules adjust sys.path before importing the package under test.
+"tests/**" = ["E402"]
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src"]
+warn_unused_ignores = false
+ignore_missing_imports = true

@@ -1,0 +1,7 @@
+# Code owners for governance-sandbox.
+# Every PR requests a review from the owners below.
+#
+# TODO: replace the org placeholder with real primary and backup maintainer
+# GitHub usernames (the repo should have a named backup owner — see docs/ROADMAP.md).
+
+* @MosslandOpenDevs

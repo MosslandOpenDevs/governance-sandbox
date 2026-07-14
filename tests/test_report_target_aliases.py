@@ -36,8 +36,10 @@ class ReportTargetAliasesTests(unittest.TestCase):
             payload = json.loads(result.stdout)
             markdown_path = output_dir / "delegate-review.md"
             html_path = output_dir / "delegate-review.html"
-            self.assertEqual(payload["report"]["artifacts"]["markdown"], str(markdown_path))
-            self.assertEqual(payload["report"]["artifacts"]["html"], str(html_path))
+            # Artifacts record the fully resolved path (e.g. macOS maps /var -> /private/var),
+            # so compare against the resolved form to stay platform-independent.
+            self.assertEqual(payload["report"]["artifacts"]["markdown"], str(markdown_path.resolve()))
+            self.assertEqual(payload["report"]["artifacts"]["html"], str(html_path.resolve()))
             self.assertTrue(markdown_path.exists())
             self.assertTrue(html_path.exists())
 
