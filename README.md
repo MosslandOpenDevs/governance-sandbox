@@ -1,5 +1,11 @@
 # governance-sandbox
 
+<!-- opendevs-badges:start -->
+[![Lifecycle: Lab](https://img.shields.io/badge/Lifecycle-Lab-eab308?style=flat)](README.md)
+[![CI](https://github.com/MosslandOpenDevs/governance-sandbox/actions/workflows/ci.yml/badge.svg)](https://github.com/MosslandOpenDevs/governance-sandbox/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-64748b?style=flat)](LICENSE)
+<!-- opendevs-badges:end -->
+
 > A deterministic pre-mortem for governance proposals — it surfaces the questions to ask *before* a vote. It is not a prediction of how the vote will go.
 
 **Status: Labs / Experimental.** Maintainer: MosslandOpenDevs. Next review: **2026-10-12** — the repo is graduated, kept in Labs, or archived based on real usage by then. See [docs/ROADMAP.md](docs/ROADMAP.md) for the validation gate.
